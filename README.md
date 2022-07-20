@@ -3,6 +3,8 @@ Android application for tracking Space X data using [Space X REST API](https://g
 
 **This application is not affiliated with, funded or in any other way associated with SpaceX company.**
 
+Now in development state. Screenshots and other visual content will be provided later
+
 ## App is using:
 * [Kotlin](https://kotlinlang.org/)
 * [Jetpack Compose](https://developer.android.com/jetpack/compose)
