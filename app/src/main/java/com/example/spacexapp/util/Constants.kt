@@ -6,5 +6,5 @@ object Constants {
         const val BASE_URL = "https://api.spacexdata.com"
     }
 
-    const val PAGE_SIZE = 1
+    const val PAGE_SIZE = 10
 }

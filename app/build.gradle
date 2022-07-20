@@ -62,6 +62,9 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
 
+    //accompanist
+    implementation "com.google.accompanist:accompanist-systemuicontroller:0.24.13-rc"
+
     implementation "androidx.paging:paging-compose:1.0.0-alpha15"
 
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"

@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
@@ -31,7 +32,14 @@ fun HistoryEventsScreen() {
     val viewModel: HistoryEventsViewModel = getViewModel()
     val historyEvents = viewModel.historyEvents.collectAsLazyPagingItems()
 
-    LazyHistoryEventsColumn(historyEvents)
+    Box(
+        modifier = Modifier
+            .background(Color.White, RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
+            .padding(top = 40.dp),
+    ) {
+        LazyHistoryEventsColumn(historyEvents)
+    }
+
 }
 
 @Composable
