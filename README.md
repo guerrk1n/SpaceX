@@ -9,6 +9,7 @@ Now in development state. Screenshots and other visual content will be provided 
 * [Kotlin](https://kotlinlang.org/)
 * [Jetpack Compose](https://developer.android.com/jetpack/compose)
 * [Space X REST API](https://github.com/r-spacex/SpaceX-API)
+* [Kotlin Coroutines](https://kotlinlang.org/docs/coroutines-overview.html)
 * [KOIN](https://insert-koin.io)
 * [Retrofit](https://square.github.io/retrofit/)
 * [OkHttp](https://square.github.io/okhttp/)
