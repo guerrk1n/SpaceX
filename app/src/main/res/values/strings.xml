@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Space X App</string>
+    <string name="spacex_app_history_events_overline">History Event</string>
+</resources>
