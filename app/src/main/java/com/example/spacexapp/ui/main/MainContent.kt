@@ -1,6 +1,8 @@
 package com.example.spacexapp.ui.main
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -11,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.spacexapp.R
 import com.example.spacexapp.ui.historyevents.HistoryEventsScreen
@@ -25,7 +28,9 @@ fun MainContent() {
     Scaffold(
         topBar = { Toolbar() },
         backgroundColor = Color.Black,
-        content = { HistoryEventsScreen() }
+        content = {
+            Box(modifier = Modifier.padding(top = 50.dp)) { HistoryEventsScreen() }
+        }
     )
 }
 

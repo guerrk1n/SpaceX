@@ -35,7 +35,7 @@ fun HistoryEventsScreen() {
     Box(
         modifier = Modifier
             .background(Color.White, RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
-            .padding(top = 40.dp),
+            .padding(top = 15.dp),
     ) {
         LazyHistoryEventsColumn(historyEvents)
     }
