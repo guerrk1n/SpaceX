@@ -16,31 +16,52 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.paging.LoadState
+import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.example.spacexapp.R
+import com.example.spacexapp.ui.common.error.ErrorColumn
+import com.example.spacexapp.ui.common.loading.LoadingColumn
 import com.example.spacexapp.ui.historyevents.historyevent.HistoryEvent
 import com.example.spacexapp.ui.historyevents.historyevent.HistoryEventCard
+import kotlinx.coroutines.flow.flowOf
 import org.koin.androidx.compose.getViewModel
+import java.util.Date.from
 
 @Composable
 fun HistoryEventsScreen() {
     val viewModel: HistoryEventsViewModel = getViewModel()
     val historyEvents = viewModel.historyEvents.collectAsLazyPagingItems()
 
+    HistoryEventContent(historyEvents)
+}
+
+@Composable
+fun HistoryEventContent(historyEvents: LazyPagingItems<HistoryEvent>) {
     Box(
         modifier = Modifier
             .background(Color.White, RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
             .padding(top = 15.dp),
     ) {
-        LazyHistoryEventsColumn(historyEvents)
-    }
+        when (historyEvents.loadState.refresh) {
+            is LoadState.Loading ->
+                LoadingColumn()
 
+            is LoadState.Error ->
+                ErrorColumn()
+
+            else ->
+                LazyHistoryEventsColumn(historyEvents)
+
+        }
+    }
 }
+
 
 @Composable
 fun LazyHistoryEventsColumn(historyEvents: LazyPagingItems<HistoryEvent>) {
@@ -119,4 +140,21 @@ fun ErrorItem(message: String) {
             )
         }
     }
+}
+
+@Preview
+@Composable
+fun PreviewHistoryEventContent(){
+    val historyEvents = mutableListOf<HistoryEvent>()
+    repeat(10){
+        historyEvents.add(
+            HistoryEvent("http://www.spacex.com/news/2013/02/11/flight-4-launch-update-0",
+            "Falcon reaches Earth orbit",
+            1222643700,
+            "Falcon 1 becomes the first privately developed liquid-fuel rocket to reach Earth orbit.")
+        )
+    }
+    val lazyPagingHistoryEvents = flowOf(PagingData.from(historyEvents)).collectAsLazyPagingItems()
+
+    HistoryEventContent(lazyPagingHistoryEvents)
 }

@@ -1,14 +1,16 @@
-package com.example.spacexapp.ui.util.text
+package com.example.spacexapp.ui.common.text
 
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.Key.Companion.I
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 
 @Composable
@@ -65,5 +67,15 @@ fun HyperlinkText(
                     uriHandler.openUri(stringAnnotation.item)
                 }
         }
+    )
+}
+
+@Preview(showSystemUi = true)
+@Composable
+fun PreviewHyperLinkText(){
+    HyperlinkText(
+        fullText = "Preview HyperLink Google Text",
+        linkText = listOf("Preview","Google"),
+        hyperlinks = listOf("https://www.google.com/","https://www.google.com/")
     )
 }
