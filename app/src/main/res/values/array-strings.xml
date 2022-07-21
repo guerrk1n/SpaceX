@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="title_tab_main">
+        <item>@string/spacex_app_feature_history_event</item>
+        <item>@string/spacex_app_feature_capsules</item>
+        <item>@string/spacex_app_feature_cores</item>
+        <item>@string/spacex_app_feature_crew</item>
+        <item>@string/spacex_app_feature_dragons</item>
+        <item>@string/spacex_app_feature_landpads</item>
+    </string-array>
+</resources>
