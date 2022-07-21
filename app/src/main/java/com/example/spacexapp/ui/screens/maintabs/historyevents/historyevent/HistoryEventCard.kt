@@ -1,4 +1,4 @@
-package com.example.spacexapp.ui.historyevents.historyevent
+package com.example.spacexapp.ui.screens.maintabs.historyevents.historyevent
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -33,7 +33,7 @@ fun HistoryEventCard(historyEvent: HistoryEvent) {
 }
 
 @Composable
-fun HistoryEventHeader(historyEvent: HistoryEvent) {
+private fun HistoryEventHeader(historyEvent: HistoryEvent) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
@@ -50,7 +50,7 @@ fun HistoryEventHeader(historyEvent: HistoryEvent) {
 }
 
 @Composable
-fun HistoryEventTitle(historyEvent: HistoryEvent) {
+private fun HistoryEventTitle(historyEvent: HistoryEvent) {
     Text(
         modifier = Modifier
             .fillMaxWidth()
@@ -59,7 +59,7 @@ fun HistoryEventTitle(historyEvent: HistoryEvent) {
 }
 
 @Composable
-fun HistoryEventDetails(historyEvent: HistoryEvent) {
+private fun HistoryEventDetails(historyEvent: HistoryEvent) {
     Text(
         modifier = Modifier
             .fillMaxWidth()
@@ -70,7 +70,7 @@ fun HistoryEventDetails(historyEvent: HistoryEvent) {
 }
 
 @Composable
-fun HistoryEventSourceLink(historyEvent: HistoryEvent) {
+private fun HistoryEventSourceLink(historyEvent: HistoryEvent) {
     historyEvent.link?.let {
         HyperlinkText(
             fullText = "Source",
@@ -81,7 +81,7 @@ fun HistoryEventSourceLink(historyEvent: HistoryEvent) {
 
 @Preview
 @Composable
-fun Preview() {
+private fun Preview() {
     HistoryEventCard(HistoryEvent("http://www.spacex.com/news/2013/02/11/flight-4-launch-update-0",
         "Falcon reaches Earth orbit",
         1222643700,

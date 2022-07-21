@@ -63,7 +63,9 @@ dependencies {
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
 
     //accompanist
-    implementation "com.google.accompanist:accompanist-systemuicontroller:0.24.13-rc"
+    implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"
+    implementation "com.google.accompanist:accompanist-pager:$accompanist_version"
+    implementation "com.google.accompanist:accompanist-pager-indicators:$accompanist_version"
 
     implementation "androidx.paging:paging-compose:1.0.0-alpha15"
 

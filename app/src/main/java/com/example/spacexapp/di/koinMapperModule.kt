@@ -1,6 +1,6 @@
 package com.example.spacexapp.di
 
-import com.example.spacexapp.ui.historyevents.historyevent.HistoryEventMapper
+import com.example.spacexapp.ui.screens.maintabs.historyevents.historyevent.HistoryEventMapper
 import org.koin.dsl.module
 
 val koinMapperModule = module {

@@ -17,9 +17,6 @@ class MainActivity : ComponentActivity() {
     private fun renderUi() = setContent {
         val systemTheme = isSystemInDarkTheme()
         val isDarkTheme = remember { mutableStateOf(systemTheme) }
-        SpaceXTheme(isDarkTheme = isDarkTheme.value) {
-            MainContent()
-        }
-
+        SpaceXTheme(isDarkTheme = isDarkTheme.value) { MainScreen() }
     }
 }

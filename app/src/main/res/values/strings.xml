@@ -3,4 +3,12 @@
     <string name="spacex_app_history_events_overline">History Event</string>
     <string name="spacex_app_loading">Getting data</string>
     <string name="spacex_app_error">Something goes wrong</string>
+    <string name="spacex_app_retry">Retry</string>
+    <string name="spacex_app_feature_history_event">History Events</string>
+    <string name="spacex_app_feature_capsules">Capsules</string>
+    <string name="spacex_app_feature_cores">Cores</string>
+    <string name="spacex_app_feature_crew">Crew</string>
+    <string name="spacex_app_feature_dragons">Dragons</string>
+    <string name="spacex_app_feature_landpads">Landpads</string>
+    <string name="spacex_app_content_description_error">Error</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.example.spacexapp.ui.historyevents
+package com.example.spacexapp.ui.screens.maintabs.historyevents
 
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.PagingSource
@@ -6,9 +6,10 @@ import androidx.paging.PagingState
 import com.example.spacexapp.api.HistoryEventsService
 import com.example.spacexapp.data.Options
 import com.example.spacexapp.data.QueryBody
-import com.example.spacexapp.ui.historyevents.historyevent.HistoryEvent
-import com.example.spacexapp.ui.historyevents.historyevent.HistoryEventMapper
+import com.example.spacexapp.ui.screens.maintabs.historyevents.historyevent.HistoryEvent
+import com.example.spacexapp.ui.screens.maintabs.historyevents.historyevent.HistoryEventMapper
 import com.example.spacexapp.util.Constants
+import kotlinx.coroutines.delay
 
 class HistoryEventsPagingSource(
     private val historyEventsService: HistoryEventsService,

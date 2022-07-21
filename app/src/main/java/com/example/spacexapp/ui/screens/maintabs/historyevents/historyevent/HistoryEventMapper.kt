@@ -1,4 +1,4 @@
-package com.example.spacexapp.ui.historyevents.historyevent
+package com.example.spacexapp.ui.screens.maintabs.historyevents.historyevent
 
 import com.example.spacexapp.data.historyEvents.HistoryEventResponse
 import com.example.spacexapp.util.Mapper

@@ -1,4 +1,4 @@
-package com.example.spacexapp.ui.historyevents
+package com.example.spacexapp.ui.screens.maintabs.historyevents
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,8 +7,8 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.spacexapp.api.HistoryEventsService
-import com.example.spacexapp.ui.historyevents.historyevent.HistoryEvent
-import com.example.spacexapp.ui.historyevents.historyevent.HistoryEventMapper
+import com.example.spacexapp.ui.screens.maintabs.historyevents.historyevent.HistoryEvent
+import com.example.spacexapp.ui.screens.maintabs.historyevents.historyevent.HistoryEventMapper
 import com.example.spacexapp.util.Constants
 import kotlinx.coroutines.flow.Flow
 
