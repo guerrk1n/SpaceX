@@ -1,6 +1,6 @@
 object Dependencies {
 
-    const val ktlint = "com.pinterest:ktlint:0.45.2"
+    const val ktlint = "com.pinterest:ktlint:0.46.1"
     const val coil = "io.coil-kt:coil-compose:2.1.0"
     const val gson = "com.google.code.gson:gson:2.9.0"
     const val timber = "com.jakewharton.timber:timber:5.0.1"
