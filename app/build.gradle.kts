@@ -51,6 +51,7 @@ dependencies {
     implementation(Dependencies.Compose.paging)
     implementation(Dependencies.Compose.activity)
     implementation(Dependencies.Compose.viewModel)
+    implementation(Dependencies.Compose.runtime)
 
     // Accompanist
     implementation(Dependencies.Compose.Accompanist.pager)

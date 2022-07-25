@@ -19,12 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.spacexapp.R
 import com.example.spacexapp.ui.navigation.Screens
-import com.example.spacexapp.ui.screens.maintabs.capsules.CapsulesTab
-import com.example.spacexapp.ui.screens.maintabs.cores.CoresTab
 import com.example.spacexapp.ui.screens.maintabs.crew.CrewTab
-import com.example.spacexapp.ui.screens.maintabs.dragons.DragonsTab
 import com.example.spacexapp.ui.screens.maintabs.historyevents.HistoryEventsTab
-import com.example.spacexapp.ui.screens.maintabs.landpads.LandpadsTab
 import com.example.spacexapp.ui.theme.colorRed
 import com.example.spacexapp.ui.theme.googleSansFamily
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -118,14 +114,13 @@ fun MainHorizontalPager(pagerState: PagerState, size: Int) {
         count = size,
         state = pagerState,
         verticalAlignment = Alignment.Top,
+        itemSpacing = 1.dp
     ) { pageIndex ->
         when (Screens.values()[pageIndex]) {
             Screens.HISTORY_EVENTS -> HistoryEventsTab()
-            Screens.CAPSULES -> CapsulesTab()
-            Screens.CORES -> CoresTab()
             Screens.CREW -> CrewTab()
-            Screens.DRAGONS -> DragonsTab()
-            Screens.LANDPADS -> LandpadsTab()
+//            Screens.DRAGONS -> DragonsTab()
+//            Screens.LANDPADS -> LandpadsTab()
         }
     }
 }
