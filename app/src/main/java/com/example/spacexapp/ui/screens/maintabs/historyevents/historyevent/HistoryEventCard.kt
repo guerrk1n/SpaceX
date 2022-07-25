@@ -72,9 +72,10 @@ private fun HistoryEventDetails(historyEvent: HistoryEvent) {
 @Composable
 private fun HistoryEventSourceLink(historyEvent: HistoryEvent) {
     historyEvent.link?.let {
+        val text = stringResource(id = R.string.spacex_app_source)
         HyperlinkText(
-            fullText = "Source",
-            linkText = listOf("Source"),
+            fullText = text,
+            linkText = listOf(text),
             hyperlinks = listOf(it))
     }
 }

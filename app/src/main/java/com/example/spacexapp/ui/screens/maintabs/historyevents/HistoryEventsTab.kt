@@ -45,7 +45,7 @@ private fun LazyHistoryEventsColumn(historyEvents: LazyPagingItems<HistoryEvent>
         when (historyEvents.loadState.append) {
             is LoadState.NotLoading -> Unit
             LoadState.Loading -> item { LoadingItem() }
-            is LoadState.Error -> item { ErrorItem() { historyEvents.retry() } }
+            is LoadState.Error -> item { ErrorItem { historyEvents.retry() } }
         }
     }
 }
