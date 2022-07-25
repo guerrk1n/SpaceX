@@ -52,7 +52,7 @@ val LightTypography = Typography(
     overline = Default.overline.copy(
         fontFamily = googleSansFamily,
         fontWeight = FontWeight.Medium,
-        color = colorRed,
+        color = Color.Black,
         fontSize = 12.sp
     ),
     caption = Default.caption.copy(
@@ -109,7 +109,7 @@ val DarkTypography = Typography(
     overline = Default.overline.copy(
         fontFamily = googleSansFamily,
         fontWeight = FontWeight.Medium,
-        color = colorRed,
+        color = Color.Black,
         fontSize = 12.sp
     ),
     caption = Default.caption.copy(

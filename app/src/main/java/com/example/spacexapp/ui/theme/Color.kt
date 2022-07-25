@@ -35,3 +35,4 @@ val DarkThemeColors = darkColors(
 )
 
 val colorRed = Color(0xFFFF003D)
+val colorGreen = Color(0xFF00D215)

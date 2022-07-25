@@ -37,7 +37,7 @@ object Dependencies {
     }
 
     object Compose {
-        const val version = "1.2.0-rc01"
+        const val version = "1.2.0-rc03"
         const val compiler = "1.2.0"
         const val ui = "androidx.compose.ui:ui:$version"
         const val material = "androidx.compose.material:material:$version"
@@ -46,6 +46,7 @@ object Dependencies {
         const val paging = "androidx.paging:paging-compose:1.0.0-alpha15"
         const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.0-rc02"
         const val activity = "androidx.activity:activity-compose:1.5.0"
+        const val runtime = "androidx.compose.runtime:runtime:$version"
 
         object Accompanist {
             private const val version = "0.24.13-rc"
