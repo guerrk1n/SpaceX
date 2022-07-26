@@ -13,4 +13,9 @@
     <string name="spacex_app_crew_overline">Crew</string>
     <string name="spacex_app_wikipedia">Wikipedia</string>
     <string name="spacex_app_source">Source</string>
+    <string name="spacex_app_content_description_photo_rocket">Photo of %s</string>
+    <string name="spacex_app_rocket_overline">Rocket</string>
+    <string name="spacex_app_active">Active</string>
+    <string name="spacex_app_inactive">Inactive</string>
+    <string name="spacex_app_feature_rockets">Rockets</string>
 </resources>

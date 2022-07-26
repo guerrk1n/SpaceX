@@ -21,6 +21,7 @@ import com.example.spacexapp.R
 import com.example.spacexapp.ui.navigation.Screens
 import com.example.spacexapp.ui.screens.maintabs.crew.CrewTab
 import com.example.spacexapp.ui.screens.maintabs.historyevents.HistoryEventsTab
+import com.example.spacexapp.ui.screens.maintabs.rockets.RocketsTab
 import com.example.spacexapp.ui.theme.colorRed
 import com.example.spacexapp.ui.theme.googleSansFamily
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -119,6 +120,7 @@ fun MainHorizontalPager(pagerState: PagerState, size: Int) {
         when (Screens.values()[pageIndex]) {
             Screens.HISTORY_EVENTS -> HistoryEventsTab()
             Screens.CREW -> CrewTab()
+            Screens.ROCKETS -> RocketsTab()
 //            Screens.DRAGONS -> DragonsTab()
 //            Screens.LANDPADS -> LandpadsTab()
         }
