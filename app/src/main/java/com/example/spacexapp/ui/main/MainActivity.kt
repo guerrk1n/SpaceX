@@ -6,6 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.navigation.compose.rememberNavController
+import com.example.spacexapp.ui.navigation.AppNavigation
 import com.example.spacexapp.ui.theme.SpaceXTheme
 
 class MainActivity : ComponentActivity() {
@@ -17,6 +19,9 @@ class MainActivity : ComponentActivity() {
     private fun renderUi() = setContent {
         val systemTheme = isSystemInDarkTheme()
         val isDarkTheme = remember { mutableStateOf(systemTheme) }
-        SpaceXTheme(isDarkTheme = isDarkTheme.value) { MainScreen() }
+        SpaceXTheme(isDarkTheme = isDarkTheme.value) {
+            val navController = rememberNavController()
+            AppNavigation(navController)
+        }
     }
 }

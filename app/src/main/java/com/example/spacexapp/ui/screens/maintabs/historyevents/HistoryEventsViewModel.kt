@@ -25,7 +25,7 @@ class HistoryEventsViewModel(
 
     val historyEvents: Flow<PagingData<HistoryEvent>> = pager.flow.cachedIn(viewModelScope)
 
-    private fun initPagingSource() = BasePagingSource() {
+    private fun initPagingSource() = BasePagingSource {
         viewModelScope.async {
             val response = spaceXService.getHistoryEvents(it)
             val historyEvents = response.historyEvents.map(mapper::map)

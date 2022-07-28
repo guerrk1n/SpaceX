@@ -6,5 +6,10 @@ object Constants {
         const val BASE_URL = "https://api.spacexdata.com"
     }
 
+    object MimeTypes {
+        const val TEXT_PLAIN = "text/plain"
+    }
+
     const val PAGE_SIZE = 10
+
 }

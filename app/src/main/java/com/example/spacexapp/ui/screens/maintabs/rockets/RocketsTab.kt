@@ -18,27 +18,32 @@ import kotlinx.coroutines.flow.flowOf
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun RocketsTab() {
-    val viewmodel: RocketsViewModel = getViewModel()
+fun RocketsTab(
+    openRocketDetail: (String) -> Unit,
+    viewmodel: RocketsViewModel = getViewModel()
+) {
     val rockets = viewmodel.rockets.collectAsLazyPagingItems()
 
-    RocketsContent(rockets)
+    RocketsContent(rockets, openRocketDetail)
 }
 
 @Composable
-private fun RocketsContent(rockets: LazyPagingItems<Rocket>) {
+private fun RocketsContent(rockets: LazyPagingItems<Rocket>, openRocketDetail: (String) -> Unit) {
     when (rockets.loadState.refresh) {
         is LoadState.Loading -> LoadingColumn()
-        is LoadState.Error -> ErrorColumn()
-        else -> LazyRocketsColumn(rockets)
+        is LoadState.Error -> ErrorColumn(onClick = { rockets.refresh() })
+        else -> LazyRocketsColumn(rockets, openRocketDetail)
     }
 }
 
 @Composable
-private fun LazyRocketsColumn(rockets: LazyPagingItems<Rocket>) {
+private fun LazyRocketsColumn(
+    rockets: LazyPagingItems<Rocket>,
+    openRocketDetail: (String) -> Unit,
+) {
     LazyColumn(content = {
         items(rockets) { rocket ->
-            rocket?.let { RocketCard(it) }
+            rocket?.let { RocketCard(it, openRocketDetail) }
         }
         when (rockets.loadState.append) {
             is LoadState.NotLoading -> Unit
@@ -62,5 +67,5 @@ private fun PreviewRocketsTab() {
             ))
     }
     val lazyPagingRockets = flowOf(PagingData.from(rockets)).collectAsLazyPagingItems()
-    RocketsContent(lazyPagingRockets)
+    RocketsContent(lazyPagingRockets) { }
 }

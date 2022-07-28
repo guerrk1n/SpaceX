@@ -19,8 +19,7 @@ import kotlinx.coroutines.flow.flowOf
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun CrewTab() {
-    val viewmodel: CrewMembersViewModel = getViewModel()
+fun CrewTab(viewmodel: CrewMembersViewModel = getViewModel()) {
     val crewMembers = viewmodel.crew.collectAsLazyPagingItems()
 
     CrewMembersContent(crewMembers)
@@ -31,7 +30,7 @@ fun CrewTab() {
 private fun CrewMembersContent(crewMembers: LazyPagingItems<CrewMember>) {
     when (crewMembers.loadState.refresh) {
         is LoadState.Loading -> LoadingColumn()
-        is LoadState.Error -> ErrorColumn()
+        is LoadState.Error -> ErrorColumn(onClick = { crewMembers.refresh() })
         else -> LazyCrewMembersColumn(crewMembers)
     }
 }

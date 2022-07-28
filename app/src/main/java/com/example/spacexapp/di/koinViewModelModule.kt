@@ -1,5 +1,6 @@
 package com.example.spacexapp.di
 
+import com.example.spacexapp.ui.screens.details.rocket.RocketDetailViewModel
 import com.example.spacexapp.ui.screens.maintabs.crew.CrewMembersViewModel
 import com.example.spacexapp.ui.screens.maintabs.historyevents.HistoryEventsViewModel
 import com.example.spacexapp.ui.screens.maintabs.rockets.RocketsViewModel
@@ -10,4 +11,5 @@ val koinViewModelModule = module {
     viewModel { HistoryEventsViewModel(get(), get()) }
     viewModel { CrewMembersViewModel(get(), get()) }
     viewModel { RocketsViewModel(get(), get()) }
+    viewModel { (rocketId: String) -> RocketDetailViewModel(get(), get(), rocketId) }
 }
