@@ -9,7 +9,8 @@ import com.pluto.plugins.exceptions.PlutoExceptionsPlugin
 import com.pluto.plugins.network.PlutoNetworkPlugin
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
-import timber.log.Timber.*
+import timber.log.Timber
+import timber.log.Timber.DebugTree
 import timber.log.Timber.Forest.plant
 
 
@@ -42,14 +43,14 @@ class SpaceXApplication : Application() {
             plant(DebugTree())
     }
 
-    private fun initPluto(){
+    private fun initPluto() {
         Pluto.Installer(this)
             .addPlugin(PlutoNetworkPlugin("network"))
             .addPlugin(PlutoExceptionsPlugin("exceptions"))
             .install()
 
         PlutoExceptions.setExceptionHandler { thread, throwable ->
-            Forest.d("Exception", "uncaught exception handled on thread: " + thread.name, throwable)
+            Timber.d("Exception", "uncaught exception handled on thread: " + thread.name, throwable)
         }
     }
 }

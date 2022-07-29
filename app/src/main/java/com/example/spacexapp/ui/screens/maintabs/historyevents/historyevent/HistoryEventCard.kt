@@ -11,6 +11,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.spacexapp.R
+import com.example.spacexapp.ui.common.card.SpaceXCardDetails
+import com.example.spacexapp.ui.common.card.SpaceXCardHeader
+import com.example.spacexapp.ui.common.card.SpaceXCardTitle
 import com.example.spacexapp.ui.common.text.HyperlinkText
 import com.example.spacexapp.util.TimeUtils
 
@@ -25,8 +28,8 @@ fun HistoryEventCard(historyEvent: HistoryEvent) {
     ) {
         Column(modifier = Modifier.padding(horizontal = 15.dp, vertical = 20.dp)) {
             HistoryEventHeader(historyEvent)
-            HistoryEventTitle(historyEvent)
-            HistoryEventDetails(historyEvent)
+            SpaceXCardTitle(title = historyEvent.title)
+            SpaceXCardDetails(details = historyEvent.details)
             HistoryEventSourceLink(historyEvent)
         }
     }
@@ -38,35 +41,9 @@ private fun HistoryEventHeader(historyEvent: HistoryEvent) {
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(
-            text = stringResource(id = R.string.spacex_app_history_events_overline),
-            style = MaterialTheme.typography.overline,
-        )
-        Text(
-            text = TimeUtils.formatDate(historyEvent.date),
-            style = MaterialTheme.typography.caption,
-        )
+        SpaceXCardHeader(header = stringResource(R.string.spacex_app_history_events_overline))
+        SpaceXCardHeader(header = TimeUtils.formatDate(historyEvent.date))
     }
-}
-
-@Composable
-private fun HistoryEventTitle(historyEvent: HistoryEvent) {
-    Text(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 20.dp),
-        text = historyEvent.title, style = MaterialTheme.typography.h3)
-}
-
-@Composable
-private fun HistoryEventDetails(historyEvent: HistoryEvent) {
-    Text(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 20.dp),
-        text = historyEvent.details,
-        style = MaterialTheme.typography.body2,
-    )
 }
 
 @Composable

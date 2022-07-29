@@ -19,8 +19,7 @@ import kotlinx.coroutines.flow.flowOf
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun HistoryEventsTab() {
-    val viewModel: HistoryEventsViewModel = getViewModel()
+fun HistoryEventsTab(viewModel: HistoryEventsViewModel = getViewModel()) {
     val historyEvents = viewModel.historyEvents.collectAsLazyPagingItems()
 
     HistoryEventContent(historyEvents)
@@ -30,7 +29,7 @@ fun HistoryEventsTab() {
 private fun HistoryEventContent(historyEvents: LazyPagingItems<HistoryEvent>) {
     when (historyEvents.loadState.refresh) {
         is LoadState.Loading -> LoadingColumn()
-        is LoadState.Error -> ErrorColumn()
+        is LoadState.Error -> ErrorColumn(onClick = { historyEvents.refresh() })
         else -> LazyHistoryEventsColumn(historyEvents)
     }
 }

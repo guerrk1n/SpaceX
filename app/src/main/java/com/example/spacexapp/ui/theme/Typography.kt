@@ -55,12 +55,6 @@ val LightTypography = Typography(
         color = Color.Black,
         fontSize = 12.sp
     ),
-    caption = Default.caption.copy(
-        fontFamily = googleSansFamily,
-        fontWeight = FontWeight.Medium,
-        color = Color.DarkGray,
-        fontSize = 12.sp
-    ),
 )
 
 val DarkTypography = Typography(
@@ -110,12 +104,6 @@ val DarkTypography = Typography(
         fontFamily = googleSansFamily,
         fontWeight = FontWeight.Medium,
         color = Color.Black,
-        fontSize = 12.sp
-    ),
-    caption = Default.caption.copy(
-        fontFamily = googleSansFamily,
-        fontWeight = FontWeight.Medium,
-        color = Color.DarkGray,
         fontSize = 12.sp
     ),
 )
