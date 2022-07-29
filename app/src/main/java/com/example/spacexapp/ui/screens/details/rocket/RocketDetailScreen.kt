@@ -183,7 +183,7 @@ private fun PhotoInfo(images: List<String>) {
             AsyncImage(
                 model = images[pageIndex],
                 contentScale = ContentScale.Crop,
-                contentDescription = stringResource(R.string.spacex_app_content_description_photo_rocket),
+                contentDescription = stringResource(R.string.spacex_app_content_description_photo),
             )
         }
     }

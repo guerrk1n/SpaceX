@@ -4,22 +4,18 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
 import com.example.spacexapp.R
+import com.example.spacexapp.ui.common.card.SpaceXCardHeader
+import com.example.spacexapp.ui.common.card.SpaceXCardPhoto
+import com.example.spacexapp.ui.common.card.SpaceXCardStatus
+import com.example.spacexapp.ui.common.card.SpaceXCardTitle
 import com.example.spacexapp.ui.theme.colorGreen
-import com.example.spacexapp.ui.theme.googleSansFamily
 
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -40,81 +36,42 @@ fun RocketCard(
             modifier = Modifier.padding(20.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            RocketPhoto(rocket)
+            SpaceXCardPhoto(
+                modifier = Modifier
+                    .height(85.dp),
+                rocket.images.first(),
+                rocket.name,
+                R.drawable.ic_rocket_photo_placeholder
+            )
             RocketInfo(rocket)
         }
     }
 }
 
 @Composable
-private fun RocketPhoto(rocket: Rocket) {
-    val contentDescription = stringResource(
-        R.string.spacex_app_content_description_photo_rocket,
-        rocket.name
-    )
-    AsyncImage(
-        modifier = Modifier
-            .height(85.dp),
-        model = rocket.images.first(),
-        contentDescription = contentDescription,
-        placeholder = painterResource(id = R.drawable.ic_rocket_photo_placeholder)
-    )
-}
-
-@Composable
 private fun RocketInfo(rocket: Rocket) {
     Column(modifier = Modifier.padding(start = 50.dp)) {
-        RocketHeader()
-        RocketTitle(rocket)
+        SpaceXCardHeader(header = stringResource(R.string.spacex_app_rocket_overline))
+        SpaceXCardTitle(title = rocket.name)
         RocketStatus(rocket)
     }
 }
 
 @Composable
-private fun RocketHeader() {
-    Text(
-        text = stringResource(id = R.string.spacex_app_rocket_overline),
-        style = MaterialTheme.typography.overline,
-    )
-}
-
-@Composable
-private fun RocketTitle(rocket: Rocket) {
-    Text(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 20.dp),
-        text = rocket.name, style = MaterialTheme.typography.h3)
-}
-
-@Composable
 private fun RocketStatus(rocket: Rocket) {
-    val text: String
+    val stringRes: Int
     val backgroundColor = if (rocket.active) {
-        text = stringResource(id = R.string.spacex_app_active)
+        stringRes = R.string.spacex_app_active
         colorGreen
     } else {
-        text = stringResource(id = R.string.spacex_app_inactive)
+        stringRes = R.string.spacex_app_inactive
         Color.Red
     }
-
-    Card(
+    SpaceXCardStatus(
         modifier = Modifier.padding(top = 20.dp),
-        shape = RoundedCornerShape(6.dp),
-        backgroundColor = backgroundColor,
-    ) {
-        Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 5.dp),
-            text = text,
-            textAlign = TextAlign.Center,
-            color = Color.White,
-            fontSize = 12.sp,
-            fontWeight = FontWeight.Medium,
-            fontFamily = googleSansFamily
-        )
-    }
+        status = stringResource(stringRes),
+        backgroundColor = backgroundColor
+    )
 }
 
 @Preview

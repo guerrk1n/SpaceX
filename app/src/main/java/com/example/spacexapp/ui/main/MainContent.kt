@@ -118,9 +118,9 @@ fun MainHorizontalPager(pagerState: PagerState, size: Int, openRocketDetail: (St
         itemSpacing = 1.dp
     ) { pageIndex ->
         when (TABS.values()[pageIndex]) {
-            TABS.HISTORY_EVENTS -> HistoryEventsTab()
-            TABS.CREW -> CrewTab()
             TABS.ROCKETS -> RocketsTab(openRocketDetail)
+            TABS.CREW -> CrewTab()
+            TABS.HISTORY_EVENTS -> HistoryEventsTab()
         }
     }
 }
