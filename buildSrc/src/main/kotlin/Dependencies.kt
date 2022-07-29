@@ -37,7 +37,7 @@ object Dependencies {
     }
 
     object Compose {
-        const val version = "1.2.0-rc03"
+        const val version = "1.2.0"
         const val compiler = "1.2.0"
         const val ui = "androidx.compose.ui:ui:$version"
         const val material = "androidx.compose.material:material:$version"
@@ -47,9 +47,11 @@ object Dependencies {
         const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.0-rc02"
         const val activity = "androidx.activity:activity-compose:1.5.0"
         const val runtime = "androidx.compose.runtime:runtime:$version"
+        const val util = "androidx.compose.ui:ui-util:$version"
+        const val navigation = "androidx.navigation:navigation-compose:2.5.1"
 
         object Accompanist {
-            private const val version = "0.24.13-rc"
+            private const val version = "0.25.0"
 
             const val pager = "com.google.accompanist:accompanist-pager-indicators:$version"
             const val pagerIndicator = "com.google.accompanist:accompanist-pager:$version"
@@ -65,7 +67,7 @@ object Dependencies {
     }
 
     object Pluto {
-        const val version = "2.0.2-beta2"
+        const val version = "2.0.3"
 
         object Debug {
             const val pluto = "com.plutolib:pluto:$version"

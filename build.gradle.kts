@@ -31,7 +31,6 @@ subprojects {
         tasks.withType(KotlinCompile::class).all {
             kotlinOptions {
                 jvmTarget = Config.javaVersion.toString()
-                allWarningsAsErrors = true
                 freeCompilerArgs = listOf("-opt-in=kotlin.RequiresOptIn", "-Xcontext-receivers")
             }
         }

@@ -13,17 +13,20 @@ import androidx.compose.ui.unit.dp
 import com.example.spacexapp.R
 
 @Composable
-fun LoadingColumn(modifier: Modifier = Modifier) {
+fun LoadingColumn(modifier: Modifier = Modifier, color: Color = Color.Black) {
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = stringResource(id = R.string.spacex_app_loading))
+        Text(
+            text = stringResource(id = R.string.spacex_app_loading),
+            color = color
+        )
         CircularProgressIndicator(modifier = Modifier
             .size(40.dp)
             .padding(top = 16.dp),
-            color = Color.Black
+            color = color
         )
     }
 }

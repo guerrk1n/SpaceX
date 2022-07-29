@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="title_tab_main">
-        <item>@string/spacex_app_feature_history_event</item>
+        <item>@string/spacex_app_feature_rockets</item>
         <item>@string/spacex_app_feature_crew</item>
-<!--        <item>@string/spacex_app_feature_dragons</item>-->
-<!--        <item>@string/spacex_app_feature_landpads</item>-->
+        <item>@string/spacex_app_feature_history_event</item>
     </string-array>
 </resources>
