@@ -8,5 +8,4 @@ data class RocketDetail(
     val firstFlight: String,
     val wikipedia: String,
     val description: String,
-    val launchCost: Int,
 )

@@ -12,6 +12,4 @@ data class RocketDetailsResponse(
     val firstFlight: String,
     val wikipedia: String,
     val description: String,
-    @SerializedName("cost_per_launch")
-    val launchCost: Int,
 )

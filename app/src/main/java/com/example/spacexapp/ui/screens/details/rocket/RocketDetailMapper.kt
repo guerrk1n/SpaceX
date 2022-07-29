@@ -12,6 +12,5 @@ class RocketDetailMapper : Mapper<RocketDetailsResponse, RocketDetail> {
         input.firstFlight,
         input.wikipedia,
         input.description,
-        input.launchCost,
     )
 }
