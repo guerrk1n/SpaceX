@@ -1,5 +1,6 @@
 package com.example.spacexapp.data.historyEvents
 
+import com.example.spacexapp.util.ResponseField
 import com.google.gson.annotations.SerializedName
 
 data class HistoryEventsResponse(
@@ -12,7 +13,7 @@ data class HistoryEventsResponse(
 data class HistoryEventResponse(
     val links: Links,
     val title: String,
-    @SerializedName("event_date_unix")
+    @SerializedName(ResponseField.eventDateUnix)
     val date: Long,
     val details: String,
     val id: String,

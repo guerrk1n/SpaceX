@@ -7,6 +7,8 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.spacexapp.api.SpaceXService
+import com.example.spacexapp.data.Options
+import com.example.spacexapp.data.QueryBody
 import com.example.spacexapp.ui.screens.maintabs.BasePagingSource
 import com.example.spacexapp.ui.screens.maintabs.MappedDataWithPagingInfo
 import com.example.spacexapp.ui.screens.maintabs.crew.member.CrewMember
@@ -25,9 +27,11 @@ class CrewMembersViewModel(
 
     val crew: Flow<PagingData<CrewMember>> = pager.flow.cachedIn(viewModelScope)
 
-    private fun initPagingSource() = BasePagingSource() {
+    private fun initPagingSource() = BasePagingSource() { nextPage ->
         viewModelScope.async {
-            val response = spaceXService.getCrewMembers(it)
+            val options = Options(nextPage, Constants.PAGE_SIZE)
+            val queryBody = QueryBody(options)
+            val response = spaceXService.getCrewMembers(queryBody)
             val crewMembers = response.crewMembers.map(mapper::map)
             val totalPages = response.totalPages
             val page = response.page

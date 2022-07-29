@@ -4,6 +4,7 @@ object Constants {
 
     object Network {
         const val BASE_URL = "https://api.spacexdata.com"
+        const val SORT_BY_DESC = "desc"
     }
 
     object MimeTypes {
