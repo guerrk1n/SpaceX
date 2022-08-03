@@ -5,13 +5,13 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import com.example.spacexapp.data.repository.RocketsRepository
 import com.example.spacexapp.ui.screens.maintabs.rockets.rocket.Rocket
-import com.example.spacexapp.ui.screens.maintabs.rockets.rocket.RocketDboMapper
+import com.example.spacexapp.ui.screens.maintabs.rockets.rocket.RocketEntityMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class RocketsViewModel(
-    private val mapper: RocketDboMapper,
     rocketsRepository: RocketsRepository,
+    private val mapper: RocketEntityMapper,
 ) : ViewModel() {
 
     val rockets: Flow<PagingData<Rocket>> = rocketsRepository.getRocketsStream().map { pagingData ->

@@ -1,42 +1,20 @@
 package com.example.spacexapp.ui.screens.maintabs.crew
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.paging.cachedIn
-import com.example.spacexapp.api.SpaceXService
-import com.example.spacexapp.data.network.Options
-import com.example.spacexapp.data.network.QueryBody
-import com.example.spacexapp.ui.screens.maintabs.BasePagingSource
-import com.example.spacexapp.ui.screens.maintabs.MappedDataWithPagingInfo
+import androidx.paging.map
+import com.example.spacexapp.data.repository.CrewMembersRepository
 import com.example.spacexapp.ui.screens.maintabs.crew.member.CrewMember
-import com.example.spacexapp.ui.screens.maintabs.crew.member.CrewMemberMapper
-import com.example.spacexapp.util.Constants
-import kotlinx.coroutines.async
+import com.example.spacexapp.ui.screens.maintabs.crew.member.CrewMemberEntityMapper
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class CrewMembersViewModel(
-    private val spaceXService: SpaceXService,
-    private val mapper: CrewMemberMapper,
+    crewMembersRepository: CrewMembersRepository,
+    private val mapper: CrewMemberEntityMapper,
 ) : ViewModel() {
 
-    private val pager: Pager<Int, CrewMember> =
-        Pager(config = PagingConfig(Constants.PAGE_SIZE), pagingSourceFactory = ::initPagingSource)
-
-    val crew: Flow<PagingData<CrewMember>> = pager.flow.cachedIn(viewModelScope)
-
-    private fun initPagingSource() = BasePagingSource() { nextPage ->
-        viewModelScope.async {
-            val options = Options(nextPage, Constants.PAGE_SIZE)
-            val queryBody = QueryBody(options)
-            val response = spaceXService.getCrewMembers(queryBody)
-            val crewMembers = response.crewMembers.map(mapper::map)
-            val totalPages = response.totalPages
-            val page = response.page
-            MappedDataWithPagingInfo(crewMembers, totalPages, page)
-        }
-
-    }
+    val crewMembers: Flow<PagingData<CrewMember>> =
+        crewMembersRepository.getCrewMembersStream()
+            .map { pagingData -> pagingData.map(mapper::map) }
 }

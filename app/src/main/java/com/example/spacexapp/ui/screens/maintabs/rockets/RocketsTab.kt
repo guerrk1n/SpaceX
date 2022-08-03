@@ -34,7 +34,10 @@ private fun RocketsContent(rockets: LazyPagingItems<Rocket>, openRocketDetail: (
     when (val refreshLoadState = rockets.loadState.refresh) {
         is LoadState.Loading -> LoadingColumn()
         is LoadState.Error -> {
-            if (rockets.itemCount != 0) return
+            if (rockets.itemCount > 0) {
+                LazyRocketsColumn(rockets, openRocketDetail)
+                return
+            }
             val isInternetError = refreshLoadState.error is UnknownHostException
             if (isInternetError)
                 ErrorColumn(

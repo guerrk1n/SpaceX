@@ -8,6 +8,7 @@ import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
+import com.example.spacexapp.R
 import com.example.spacexapp.ui.common.error.ErrorColumn
 import com.example.spacexapp.ui.common.lazylists.ErrorItem
 import com.example.spacexapp.ui.common.lazylists.LoadingItem
@@ -17,10 +18,11 @@ import com.example.spacexapp.ui.screens.maintabs.crew.member.CrewMemberCard
 import com.example.spacexapp.ui.screens.maintabs.crew.member.CrewMemberStatus
 import kotlinx.coroutines.flow.flowOf
 import org.koin.androidx.compose.getViewModel
+import java.net.UnknownHostException
 
 @Composable
 fun CrewTab(viewmodel: CrewMembersViewModel = getViewModel()) {
-    val crewMembers = viewmodel.crew.collectAsLazyPagingItems()
+    val crewMembers = viewmodel.crewMembers.collectAsLazyPagingItems()
 
     CrewMembersContent(crewMembers)
 
@@ -28,9 +30,22 @@ fun CrewTab(viewmodel: CrewMembersViewModel = getViewModel()) {
 
 @Composable
 private fun CrewMembersContent(crewMembers: LazyPagingItems<CrewMember>) {
-    when (crewMembers.loadState.refresh) {
+    when (val refreshLoadState = crewMembers.loadState.refresh) {
         is LoadState.Loading -> LoadingColumn()
-        is LoadState.Error -> ErrorColumn(onClick = { crewMembers.refresh() })
+        is LoadState.Error -> {
+            if (crewMembers.itemCount > 0) {
+                LazyCrewMembersColumn(crewMembers)
+                return
+            }
+            val isInternetError = refreshLoadState.error is UnknownHostException
+            if (isInternetError)
+                ErrorColumn(
+                    textRes = R.string.spacex_app_error_internet,
+                    onClick = { crewMembers.refresh() }
+                )
+            else
+                ErrorColumn(onClick = { crewMembers.refresh() })
+        }
         else -> LazyCrewMembersColumn(crewMembers)
     }
 }

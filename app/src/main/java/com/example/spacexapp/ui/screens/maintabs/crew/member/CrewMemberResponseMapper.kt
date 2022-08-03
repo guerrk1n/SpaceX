@@ -1,15 +1,16 @@
 package com.example.spacexapp.ui.screens.maintabs.crew.member
 
+import com.example.spacexapp.data.database.model.CrewMemberEntity
 import com.example.spacexapp.data.network.CrewMemberResponse
 import com.example.spacexapp.util.Mapper
 
-class CrewMemberMapper : Mapper<CrewMemberResponse, CrewMember> {
-    override fun map(input: CrewMemberResponse) = CrewMember(
+class CrewMemberResponseMapper : Mapper<CrewMemberResponse, CrewMemberEntity> {
+    override fun map(input: CrewMemberResponse) = CrewMemberEntity(
+        input.id,
         input.name,
         input.agency,
         input.image,
         input.wikipedia,
         input.status,
-        input.id,
     )
 }
