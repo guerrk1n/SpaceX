@@ -63,5 +63,7 @@ private fun Preview() {
     HistoryEventCard(HistoryEvent("http://www.spacex.com/news/2013/02/11/flight-4-launch-update-0",
         "Falcon reaches Earth orbit",
         1222643700,
-        "Falcon 1 becomes the first privately developed liquid-fuel rocket to reach Earth orbit."))
+        "Falcon 1 becomes the first privately developed liquid-fuel rocket to reach Earth orbit.",
+        ""
+    ))
 }

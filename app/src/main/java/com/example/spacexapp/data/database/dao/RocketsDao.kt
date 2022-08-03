@@ -8,7 +8,7 @@ import androidx.room.Query
 import com.example.spacexapp.data.database.model.RocketEntity
 
 @Dao
-interface RocketDao {
+interface RocketsDao {
 
     @Query("SELECT * FROM rocket_dbo")
     fun getAllItems(): PagingSource<Int, RocketEntity>

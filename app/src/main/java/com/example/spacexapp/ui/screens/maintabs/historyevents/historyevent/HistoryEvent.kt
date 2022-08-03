@@ -5,4 +5,5 @@ data class HistoryEvent(
     val title: String,
     val date: Long,
     val details: String,
+    val id: String,
 )
