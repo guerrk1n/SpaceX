@@ -15,6 +15,7 @@ Now in development state.
 * [KOIN](https://insert-koin.io)
 * [Navigation](https://developer.android.com/jetpack/compose/navigation)
 * [Paging](https://developer.android.com/jetpack/androidx/releases/paging)
+* [Room](https://developer.android.com/training/data-storage/room)
 * [Accompanist (System UI Controller, Pager)](https://google.github.io/accompanist/)
 * [Retrofit](https://square.github.io/retrofit/)
 * [OkHttp](https://square.github.io/okhttp/)
