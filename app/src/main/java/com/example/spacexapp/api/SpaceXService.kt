@@ -1,10 +1,10 @@
 package com.example.spacexapp.api
 
-import com.example.spacexapp.data.QueryBody
-import com.example.spacexapp.data.crew.CrewMembersResponse
-import com.example.spacexapp.data.historyEvents.HistoryEventsResponse
-import com.example.spacexapp.data.rockets.RocketDetailsResponse
-import com.example.spacexapp.data.rockets.RocketsResponse
+import com.example.spacexapp.data.network.QueryBody
+import com.example.spacexapp.data.network.CrewMembersResponse
+import com.example.spacexapp.data.network.HistoryEventsResponse
+import com.example.spacexapp.data.network.RocketDetailsResponse
+import com.example.spacexapp.data.network.RocketsResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST

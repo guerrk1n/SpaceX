@@ -7,8 +7,8 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.spacexapp.api.SpaceXService
-import com.example.spacexapp.data.Options
-import com.example.spacexapp.data.QueryBody
+import com.example.spacexapp.data.network.Options
+import com.example.spacexapp.data.network.QueryBody
 import com.example.spacexapp.ui.screens.maintabs.BasePagingSource
 import com.example.spacexapp.ui.screens.maintabs.MappedDataWithPagingInfo
 import com.example.spacexapp.ui.screens.maintabs.historyevents.historyevent.HistoryEvent

@@ -1,4 +1,4 @@
-package com.example.spacexapp.data.rockets
+package com.example.spacexapp.data.network
 
 import com.google.gson.annotations.SerializedName
 

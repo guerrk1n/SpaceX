@@ -1,6 +1,6 @@
 package com.example.spacexapp.ui.screens.details.rocket
 
-import com.example.spacexapp.data.rockets.RocketDetailsResponse
+import com.example.spacexapp.data.network.RocketDetailsResponse
 import com.example.spacexapp.util.Mapper
 
 class RocketDetailMapper : Mapper<RocketDetailsResponse, RocketDetail> {

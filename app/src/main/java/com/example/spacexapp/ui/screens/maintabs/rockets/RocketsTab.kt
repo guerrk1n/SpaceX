@@ -8,6 +8,7 @@ import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
+import com.example.spacexapp.R
 import com.example.spacexapp.ui.common.error.ErrorColumn
 import com.example.spacexapp.ui.common.lazylists.ErrorItem
 import com.example.spacexapp.ui.common.lazylists.LoadingItem
@@ -16,11 +17,12 @@ import com.example.spacexapp.ui.screens.maintabs.rockets.rocket.Rocket
 import com.example.spacexapp.ui.screens.maintabs.rockets.rocket.RocketCard
 import kotlinx.coroutines.flow.flowOf
 import org.koin.androidx.compose.getViewModel
+import java.net.UnknownHostException
 
 @Composable
 fun RocketsTab(
     openRocketDetail: (String) -> Unit,
-    viewmodel: RocketsViewModel = getViewModel()
+    viewmodel: RocketsViewModel = getViewModel(),
 ) {
     val rockets = viewmodel.rockets.collectAsLazyPagingItems()
 
@@ -29,9 +31,20 @@ fun RocketsTab(
 
 @Composable
 private fun RocketsContent(rockets: LazyPagingItems<Rocket>, openRocketDetail: (String) -> Unit) {
-    when (rockets.loadState.refresh) {
+    when (val refreshLoadState = rockets.loadState.refresh) {
         is LoadState.Loading -> LoadingColumn()
-        is LoadState.Error -> ErrorColumn(onClick = { rockets.refresh() })
+        is LoadState.Error -> {
+            if (rockets.itemCount != 0) return
+            val isInternetError = refreshLoadState.error is UnknownHostException
+            if (isInternetError)
+                ErrorColumn(
+                    textRes = R.string.spacex_app_error_internet,
+                    onClick = { rockets.refresh() }
+                )
+            else
+                ErrorColumn(onClick = { rockets.refresh() })
+
+        }
         else -> LazyRocketsColumn(rockets, openRocketDetail)
     }
 }

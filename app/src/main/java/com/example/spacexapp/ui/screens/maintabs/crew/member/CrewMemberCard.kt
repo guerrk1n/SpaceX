@@ -80,7 +80,7 @@ private fun CrewMemberInfo(crewMember: CrewMember) {
 
 @Composable
 private fun CrewMemberWikiLink(crewMember: CrewMember) {
-    val wikipediaText = stringResource(id = R.string.spacex_app_wikipedia)
+    val wikipediaText = stringResource(R.string.spacex_app_wikipedia)
     HyperlinkText(
         fullText = wikipediaText,
         linkText = listOf(wikipediaText),

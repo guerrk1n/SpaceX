@@ -1,6 +1,6 @@
 package com.example.spacexapp.ui.screens.maintabs.crew.member
 
-import com.example.spacexapp.data.crew.CrewMemberResponse
+import com.example.spacexapp.data.network.CrewMemberResponse
 import com.example.spacexapp.util.Mapper
 
 class CrewMemberMapper : Mapper<CrewMemberResponse, CrewMember> {

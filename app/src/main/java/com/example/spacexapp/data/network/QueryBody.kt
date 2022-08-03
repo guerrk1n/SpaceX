@@ -1,4 +1,4 @@
-package com.example.spacexapp.data
+package com.example.spacexapp.data.network
 
 data class QueryBody(val options: Options)
 

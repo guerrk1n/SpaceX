@@ -1,5 +1,6 @@
 package com.example.spacexapp.ui.common.error
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,6 +20,7 @@ import com.example.spacexapp.ui.common.buttons.RefreshButton
 fun ErrorColumn(
     modifier: Modifier = Modifier,
     color: Color = Color.Black,
+    @StringRes textRes: Int = R.string.spacex_app_error,
     onClick: () -> Unit,
 ) {
     Column(
@@ -28,7 +30,7 @@ fun ErrorColumn(
     ) {
         Text(
             modifier = Modifier.padding(bottom = 15.dp),
-            text = stringResource(id = R.string.spacex_app_error),
+            text = stringResource(textRes),
             color = color
         )
         RefreshButton(

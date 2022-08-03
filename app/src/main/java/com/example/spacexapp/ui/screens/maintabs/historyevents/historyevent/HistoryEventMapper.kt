@@ -1,6 +1,6 @@
 package com.example.spacexapp.ui.screens.maintabs.historyevents.historyevent
 
-import com.example.spacexapp.data.historyEvents.HistoryEventResponse
+import com.example.spacexapp.data.network.HistoryEventResponse
 import com.example.spacexapp.util.Constants
 import com.example.spacexapp.util.Mapper
 

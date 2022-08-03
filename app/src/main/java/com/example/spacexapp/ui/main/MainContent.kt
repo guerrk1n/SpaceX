@@ -57,7 +57,7 @@ fun MainContentBox(openRocketDetail: (String) -> Unit) {
                 ),
         ) {
             val pagerState = rememberPagerState()
-            val tabs = stringArrayResource(id = R.array.title_tab_main)
+            val tabs = stringArrayResource(R.array.title_tab_main)
             MainTabRow(pagerState, tabs)
             MainHorizontalPager(pagerState, tabs.size,openRocketDetail)
         }
@@ -132,7 +132,7 @@ fun Toolbar() {
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center,
-                text = stringResource(id = R.string.app_name),
+                text = stringResource(R.string.app_name),
                 color = Color.White,
                 fontSize = 20.sp,
                 fontFamily = googleSansFamily,

@@ -31,6 +31,7 @@ class SpaceXApplication : Application() {
             koinApiModule,
             koinViewModelModule,
             koinMapperModule,
+            koinDatabaseModule,
         )
         startKoin {
             androidContext(this@SpaceXApplication)

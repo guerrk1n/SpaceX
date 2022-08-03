@@ -20,7 +20,7 @@ fun LoadingColumn(modifier: Modifier = Modifier, color: Color = Color.Black) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = stringResource(id = R.string.spacex_app_loading),
+            text = stringResource(R.string.spacex_app_loading),
             color = color
         )
         CircularProgressIndicator(modifier = Modifier
