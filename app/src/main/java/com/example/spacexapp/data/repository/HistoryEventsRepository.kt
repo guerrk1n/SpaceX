@@ -4,10 +4,11 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.example.spacexapp.api.SpaceXService
-import com.example.spacexapp.data.database.HistoryEventsDatabase
-import com.example.spacexapp.data.database.model.HistoryEventEntity
-import com.example.spacexapp.ui.screens.maintabs.historyevents.historyevent.HistoryEventResponseMapper
+import com.example.spacexapp.data.local.HistoryEventsDatabase
+import com.example.spacexapp.data.paging.HistoryEventsRemoteMediator
+import com.example.spacexapp.data.remote.SpaceXService
+import com.example.spacexapp.model.local.entities.HistoryEventEntity
+import com.example.spacexapp.model.remote.mappers.HistoryEventResponseMapper
 import com.example.spacexapp.util.Constants
 import kotlinx.coroutines.flow.Flow
 

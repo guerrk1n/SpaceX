@@ -2,9 +2,9 @@ package com.example.spacexapp.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.spacexapp.data.database.CrewMembersDatabase
-import com.example.spacexapp.data.database.HistoryEventsDatabase
-import com.example.spacexapp.data.database.RocketDatabase
+import com.example.spacexapp.data.local.CrewMembersDatabase
+import com.example.spacexapp.data.local.HistoryEventsDatabase
+import com.example.spacexapp.data.local.RocketDatabase
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 

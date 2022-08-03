@@ -2,7 +2,7 @@ package com.example.spacexapp.ui.screens.details.rocket
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.spacexapp.api.SpaceXService
+import com.example.spacexapp.data.remote.SpaceXService
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 

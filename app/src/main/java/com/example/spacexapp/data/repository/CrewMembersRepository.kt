@@ -4,10 +4,11 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.example.spacexapp.api.SpaceXService
-import com.example.spacexapp.data.database.CrewMembersDatabase
-import com.example.spacexapp.data.database.model.CrewMemberEntity
-import com.example.spacexapp.ui.screens.maintabs.crew.member.CrewMemberResponseMapper
+import com.example.spacexapp.data.local.CrewMembersDatabase
+import com.example.spacexapp.data.paging.CrewMembersRemoteMediator
+import com.example.spacexapp.data.remote.SpaceXService
+import com.example.spacexapp.model.local.entities.CrewMemberEntity
+import com.example.spacexapp.model.remote.mappers.CrewMemberResponseMapper
 import com.example.spacexapp.util.Constants
 import kotlinx.coroutines.flow.Flow
 

@@ -5,7 +5,7 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import com.example.spacexapp.data.repository.HistoryEventsRepository
 import com.example.spacexapp.ui.screens.maintabs.historyevents.historyevent.HistoryEvent
-import com.example.spacexapp.ui.screens.maintabs.historyevents.historyevent.HistoryEventEntityMapper
+import com.example.spacexapp.model.local.mappers.HistoryEventEntityMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

@@ -18,7 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.spacexapp.R
-import com.example.spacexapp.ui.navigation.TABS
+import com.example.spacexapp.ui.screens.maintabs.TABS
 import com.example.spacexapp.ui.screens.maintabs.crew.CrewTab
 import com.example.spacexapp.ui.screens.maintabs.historyevents.HistoryEventsTab
 import com.example.spacexapp.ui.screens.maintabs.rockets.RocketsTab

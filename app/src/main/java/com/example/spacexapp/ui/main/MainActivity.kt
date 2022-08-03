@@ -7,7 +7,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.navigation.compose.rememberNavController
-import com.example.spacexapp.ui.navigation.AppNavigation
+import com.example.spacexapp.navigation.AppNavigation
 import com.example.spacexapp.ui.theme.SpaceXTheme
 
 class MainActivity : ComponentActivity() {
