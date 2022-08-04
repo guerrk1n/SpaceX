@@ -6,5 +6,11 @@ import com.example.spacexapp.util.Mapper
 
 class RocketResponseMapper : Mapper<RocketResponse, RocketEntity> {
     override fun map(input: RocketResponse) =
-        RocketEntity(input.id, input.name, input.active, input.images)
+        RocketEntity(
+            input.id,
+            input.name,
+            input.active,
+            input.images,
+            System.currentTimeMillis(),
+        )
 }

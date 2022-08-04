@@ -26,7 +26,7 @@ class HistoryEventsRepository(
                 enablePlaceholders = false
             ),
             remoteMediator = HistoryEventsRemoteMediator(spaceXService, database, mapper),
-            pagingSourceFactory = { database.historyEventsDao().getAllItems() }
+            pagingSourceFactory = { database.historyEventsDao().getAll() }
         ).flow
     }
 }

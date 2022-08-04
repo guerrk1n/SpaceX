@@ -12,5 +12,6 @@ class CrewMemberResponseMapper : Mapper<CrewMemberResponse, CrewMemberEntity> {
         input.image,
         input.wikipedia,
         input.status,
+        System.currentTimeMillis()
     )
 }

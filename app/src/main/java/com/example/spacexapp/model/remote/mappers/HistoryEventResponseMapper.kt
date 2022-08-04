@@ -12,5 +12,6 @@ class HistoryEventResponseMapper : Mapper<HistoryEventResponse, HistoryEventEnti
         input.title,
         input.date * Constants.MILLISECONDS_IN_SECONDS,
         input.details,
+        System.currentTimeMillis()
     )
 }

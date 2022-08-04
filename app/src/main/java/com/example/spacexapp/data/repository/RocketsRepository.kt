@@ -1,9 +1,6 @@
 package com.example.spacexapp.data.repository
 
-import androidx.paging.ExperimentalPagingApi
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
+import androidx.paging.*
 import com.example.spacexapp.data.local.RocketDatabase
 import com.example.spacexapp.data.paging.RocketsRemoteMediator
 import com.example.spacexapp.data.remote.SpaceXService
@@ -26,7 +23,7 @@ class RocketsRepository(
                 enablePlaceholders = false
             ),
             remoteMediator = RocketsRemoteMediator(spaceXService, database, mapper),
-            pagingSourceFactory = { database.rocketDao().getAllItems() }
+            pagingSourceFactory = { database.rocketDao().getAll() }
         ).flow
     }
 }

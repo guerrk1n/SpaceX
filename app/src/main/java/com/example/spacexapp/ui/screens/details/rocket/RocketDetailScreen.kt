@@ -172,6 +172,7 @@ private fun PhotoInfo(images: List<String>) {
         modifier = Modifier.padding(top = 25.dp),
         state = rememberPagerState(),
         count = images.size,
+        itemSpacing = 1.dp,
     ) { pageIndex ->
         val animation = getPhotoSwipeAnimation(this@HorizontalPager, pageIndex)
 

@@ -26,7 +26,7 @@ class CrewMembersRepository(
                 enablePlaceholders = false
             ),
             remoteMediator = CrewMembersRemoteMediator(spaceXService, database, mapper),
-            pagingSourceFactory = { database.crewMembersDao().getAllItems() }
+            pagingSourceFactory = { database.crewMembersDao().getAll() }
         ).flow
     }
 }

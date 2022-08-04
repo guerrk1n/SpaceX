@@ -11,4 +11,5 @@ data class HistoryEventEntity(
     val title: String,
     val date: Long,
     val details: String,
+    val createdAt: Long,
 )

@@ -1,7 +1,9 @@
 package com.example.spacexapp.ui.screens.maintabs.historyevents
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import androidx.paging.map
 import com.example.spacexapp.data.repository.HistoryEventsRepository
 import com.example.spacexapp.ui.screens.maintabs.historyevents.historyevent.HistoryEvent
@@ -16,6 +18,6 @@ class HistoryEventsViewModel(
 
     val historyEvents: Flow<PagingData<HistoryEvent>> =
         historyEventsRepository.getHistoryEventsStream()
-            .map { pagingData -> pagingData.map(mapper::map) }
+            .map { pagingData -> pagingData.map(mapper::map) }.cachedIn(viewModelScope)
 
 }

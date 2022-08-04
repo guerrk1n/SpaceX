@@ -1,7 +1,9 @@
 package com.example.spacexapp.ui.screens.maintabs.crew
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import androidx.paging.map
 import com.example.spacexapp.data.repository.CrewMembersRepository
 import com.example.spacexapp.ui.screens.maintabs.crew.member.CrewMember
@@ -16,5 +18,5 @@ class CrewMembersViewModel(
 
     val crewMembers: Flow<PagingData<CrewMember>> =
         crewMembersRepository.getCrewMembersStream()
-            .map { pagingData -> pagingData.map(mapper::map) }
+            .map { pagingData -> pagingData.map(mapper::map) }.cachedIn(viewModelScope)
 }

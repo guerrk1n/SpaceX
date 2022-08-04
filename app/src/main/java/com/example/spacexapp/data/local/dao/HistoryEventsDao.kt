@@ -11,12 +11,14 @@ import com.example.spacexapp.model.local.entities.HistoryEventEntity
 interface HistoryEventsDao {
 
     @Query("SELECT * FROM history_event_dbo")
-    fun getAllItems(): PagingSource<Int, HistoryEventEntity>
+    fun getAll(): PagingSource<Int, HistoryEventEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(rockets: List<HistoryEventEntity>)
 
     @Query("DELETE FROM history_event_dbo")
-    suspend fun clearItems()
+    suspend fun clearAll()
 
+    @Query("SELECT * FROM history_event_dbo ORDER BY id ASC LIMIT 1")
+    suspend fun getFirst(): HistoryEventEntity
 }

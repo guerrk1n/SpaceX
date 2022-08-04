@@ -5,8 +5,8 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
-import com.example.spacexapp.data.remote.SpaceXService
 import com.example.spacexapp.data.local.CrewMembersDatabase
+import com.example.spacexapp.data.remote.SpaceXService
 import com.example.spacexapp.model.local.entities.CrewMemberEntity
 import com.example.spacexapp.model.local.entities.RemoteKeysEntity
 import com.example.spacexapp.model.remote.Options
@@ -15,6 +15,7 @@ import com.example.spacexapp.model.remote.mappers.CrewMemberResponseMapper
 import com.example.spacexapp.util.Constants
 import retrofit2.HttpException
 import java.io.IOException
+import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalPagingApi::class)
 class CrewMembersRemoteMediator(
@@ -22,6 +23,22 @@ class CrewMembersRemoteMediator(
     private val crewMembersDatabase: CrewMembersDatabase,
     private val mapper: CrewMemberResponseMapper,
 ) : RemoteMediator<Int, CrewMemberEntity>() {
+
+    override suspend fun initialize(): InitializeAction {
+        val cacheTimeout = TimeUnit.MILLISECONDS.convert(24, TimeUnit.HOURS)
+        var lastCrewMember: CrewMemberEntity? = null
+        crewMembersDatabase.withTransaction {
+            lastCrewMember = crewMembersDatabase.crewMembersDao().getLast()
+        }
+        val isCacheTimeout = lastCrewMember?.let {
+            (System.currentTimeMillis() - it.createdAt) >= cacheTimeout
+        } ?: true
+        return if (isCacheTimeout) {
+            InitializeAction.LAUNCH_INITIAL_REFRESH
+        } else {
+            InitializeAction.SKIP_INITIAL_REFRESH
+        }
+    }
 
     override suspend fun load(
         loadType: LoadType,
@@ -57,7 +74,7 @@ class CrewMembersRemoteMediator(
             crewMembersDatabase.withTransaction {
                 if (loadType == LoadType.REFRESH) {
                     crewMembersDatabase.remoteKeysDao().clearRemoteKeys()
-                    crewMembersDatabase.crewMembersDao().clearItems()
+                    crewMembersDatabase.crewMembersDao().clearAll()
                 }
                 val prevKey = if (page == CREW_MEMBERS_STARTING_PAGE_INDEX) null else page - 1
                 val nextKey = if (endOfPaginationReached) null else page + 1
@@ -76,7 +93,7 @@ class CrewMembersRemoteMediator(
     }
 
     private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, CrewMemberEntity>): RemoteKeysEntity? {
-        return state.pages.lastOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()
+        return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()
             ?.let { crewMember ->
                 crewMembersDatabase.remoteKeysDao().remoteKeysRepoId(crewMember.id)
             }

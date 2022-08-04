@@ -11,12 +11,15 @@ import com.example.spacexapp.model.local.entities.CrewMemberEntity
 interface CrewMembersDao {
 
     @Query("SELECT * FROM crew_member_dbo")
-    fun getAllItems(): PagingSource<Int, CrewMemberEntity>
+    fun getAll(): PagingSource<Int, CrewMemberEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(rockets: List<CrewMemberEntity>)
 
     @Query("DELETE FROM crew_member_dbo")
-    suspend fun clearItems()
+    suspend fun clearAll()
+
+    @Query("SELECT * FROM crew_member_dbo ORDER BY id DESC LIMIT 1")
+    suspend fun getLast(): CrewMemberEntity
 
 }

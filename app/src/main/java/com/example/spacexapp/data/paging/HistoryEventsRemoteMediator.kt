@@ -16,6 +16,7 @@ import com.example.spacexapp.util.Constants
 import com.example.spacexapp.util.ResponseField
 import retrofit2.HttpException
 import java.io.IOException
+import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalPagingApi::class)
 class HistoryEventsRemoteMediator(
@@ -23,6 +24,23 @@ class HistoryEventsRemoteMediator(
     private val historyEventsDatabase: HistoryEventsDatabase,
     private val mapper: HistoryEventResponseMapper,
 ) : RemoteMediator<Int, HistoryEventEntity>() {
+
+    override suspend fun initialize(): InitializeAction {
+
+        val cacheTimeout = TimeUnit.MILLISECONDS.convert(24, TimeUnit.HOURS)
+        var firstHistoryEvent: HistoryEventEntity? = null
+        historyEventsDatabase.withTransaction {
+            firstHistoryEvent = historyEventsDatabase.historyEventsDao().getFirst()
+        }
+        val isCacheTimeout = firstHistoryEvent?.let {
+            (System.currentTimeMillis() - it.createdAt) >= cacheTimeout
+        } ?: true
+        return if (isCacheTimeout) {
+            InitializeAction.LAUNCH_INITIAL_REFRESH
+        } else {
+            InitializeAction.SKIP_INITIAL_REFRESH
+        }
+    }
 
     override suspend fun load(
         loadType: LoadType,
@@ -62,7 +80,7 @@ class HistoryEventsRemoteMediator(
             historyEventsDatabase.withTransaction {
                 if (loadType == LoadType.REFRESH) {
                     historyEventsDatabase.remoteKeysDao().clearRemoteKeys()
-                    historyEventsDatabase.historyEventsDao().clearItems()
+                    historyEventsDatabase.historyEventsDao().clearAll()
                 }
                 val prevKey = if (page == HISTORY_EVENTS_STARTING_PAGE_INDEX) null else page - 1
                 val nextKey = if (endOfPaginationReached) null else page + 1
@@ -83,7 +101,7 @@ class HistoryEventsRemoteMediator(
     }
 
     private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, HistoryEventEntity>): RemoteKeysEntity? {
-        return state.pages.lastOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()
+        return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()
             ?.let { historyEvent ->
                 historyEventsDatabase.remoteKeysDao().remoteKeysRepoId(historyEvent.id)
             }

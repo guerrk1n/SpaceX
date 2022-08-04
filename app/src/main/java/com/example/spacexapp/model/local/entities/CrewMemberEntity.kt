@@ -12,4 +12,5 @@ data class CrewMemberEntity(
     val image: String,
     val wikipedia: String,
     val status: String,
+    val createdAt: Long,
 )

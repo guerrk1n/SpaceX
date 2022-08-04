@@ -11,12 +11,14 @@ import com.example.spacexapp.model.local.entities.RocketEntity
 interface RocketsDao {
 
     @Query("SELECT * FROM rocket_dbo")
-    fun getAllItems(): PagingSource<Int, RocketEntity>
+    fun getAll(): PagingSource<Int, RocketEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(rockets: List<RocketEntity>)
 
     @Query("DELETE FROM rocket_dbo")
-    suspend fun clearItems()
+    suspend fun clearAll()
 
+    @Query("SELECT * FROM rocket_dbo ORDER BY id DESC LIMIT 1")
+    suspend fun getLast(): RocketEntity
 }
