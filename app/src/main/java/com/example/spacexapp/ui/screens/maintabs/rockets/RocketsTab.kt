@@ -76,10 +76,10 @@ private fun PreviewRocketsTab() {
     repeat(10) {
         rockets.add(
             Rocket(
+                "5e9d0d95eda69955f709d1eb",
                 "Falcon 1",
                 false,
                 listOf("https://imgur.com/DaCfMsj.jpg"),
-                "5e9d0d95eda69955f709d1eb"
             ))
     }
     val lazyPagingRockets = flowOf(PagingData.from(rockets)).collectAsLazyPagingItems()

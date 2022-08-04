@@ -10,9 +10,13 @@ data class RocketsResponse(
 )
 
 data class RocketResponse(
+    val id: String,
     val name: String,
     val active: Boolean,
     @SerializedName("flickr_images")
     val images: List<String>,
-    val id: String,
+    @SerializedName("first_flight")
+    val firstFlight: String,
+    val wikipedia: String,
+    val description: String,
 )

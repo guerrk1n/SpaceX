@@ -70,12 +70,12 @@ private fun PreviewCrewMembersTab() {
     val crewMembers = mutableListOf<CrewMember>()
     repeat(10) {
         crewMembers.add(CrewMember(
+            "123",
             "Robert Behnken",
             "NASA",
             "https://imgur.com/0smMgMH.png",
             "https://en.wikipedia.org/wiki/Robert_L._Behnken",
             CrewMemberStatus.ACTIVE.name,
-            "123"
         ))
     }
     val lazyPagingCrewMembers = flowOf(PagingData.from(crewMembers)).collectAsLazyPagingItems()

@@ -6,10 +6,10 @@ import com.example.spacexapp.util.Mapper
 
 class HistoryEventEntityMapper : Mapper<HistoryEventEntity, HistoryEvent> {
     override fun map(input: HistoryEventEntity) = HistoryEvent(
+        input.id,
         input.link,
         input.title,
         input.date,
         input.details,
-        input.id,
     )
 }

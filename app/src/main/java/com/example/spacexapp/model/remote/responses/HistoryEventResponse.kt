@@ -11,12 +11,12 @@ data class HistoryEventsResponse(
 )
 
 data class HistoryEventResponse(
+    val id: String,
     val links: Links,
     val title: String,
     @SerializedName(ResponseField.eventDateUnix)
     val date: Long,
     val details: String,
-    val id: String,
 )
 
 data class Links(

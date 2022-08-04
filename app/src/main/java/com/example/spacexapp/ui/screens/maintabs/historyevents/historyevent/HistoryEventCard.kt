@@ -3,8 +3,6 @@ package com.example.spacexapp.ui.screens.maintabs.historyevents.historyevent
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -60,10 +58,12 @@ private fun HistoryEventSourceLink(historyEvent: HistoryEvent) {
 @Preview
 @Composable
 private fun Preview() {
-    HistoryEventCard(HistoryEvent("http://www.spacex.com/news/2013/02/11/flight-4-launch-update-0",
-        "Falcon reaches Earth orbit",
-        1222643700,
-        "Falcon 1 becomes the first privately developed liquid-fuel rocket to reach Earth orbit.",
-        ""
-    ))
+    HistoryEventCard(
+        HistoryEvent(
+            "",
+            "http://www.spacex.com/news/2013/02/11/flight-4-launch-update-0",
+            "Falcon reaches Earth orbit",
+            1222643700,
+            "Falcon 1 becomes the first privately developed liquid-fuel rocket to reach Earth orbit.",
+        ))
 }
