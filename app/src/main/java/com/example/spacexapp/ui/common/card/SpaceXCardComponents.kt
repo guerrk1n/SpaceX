@@ -97,6 +97,7 @@ fun SpaceXCardPhoto(
         modifier = modifier,
         model = model,
         contentDescription = contentDescription,
-        placeholder = painterResource(placeholderRes)
+        placeholder = painterResource(placeholderRes),
+        error = painterResource(placeholderRes),
     )
 }
