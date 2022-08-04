@@ -21,4 +21,7 @@ interface RocketsDao {
 
     @Query("SELECT * FROM rocket_dbo ORDER BY id DESC LIMIT 1")
     suspend fun getLast(): RocketEntity
+
+    @Query("SELECT * FROM rocket_dbo WHERE id = :id")
+    suspend fun getItemById(id: String): RocketEntity
 }

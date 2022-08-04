@@ -4,7 +4,7 @@ import com.example.spacexapp.model.local.entities.CrewMemberEntity
 import com.example.spacexapp.ui.screens.maintabs.crew.member.CrewMember
 import com.example.spacexapp.util.Mapper
 
-class CrewMemberEntityMapper : Mapper<CrewMemberEntity, CrewMember> {
+class CrewMemberEntityToCrewMemberMapper : Mapper<CrewMemberEntity, CrewMember> {
     override fun map(input: CrewMemberEntity) = CrewMember(
         input.id,
         input.name,

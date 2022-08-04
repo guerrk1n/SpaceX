@@ -2,13 +2,14 @@ package com.example.spacexapp.ui.screens.details.rocket
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.spacexapp.data.remote.SpaceXService
+import com.example.spacexapp.data.repository.RocketsRepository
+import com.example.spacexapp.model.local.mappers.RocketEntityToRocketDetailMapper
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 class RocketDetailViewModel(
-    private val spaceXService: SpaceXService,
-    private val mapper: RocketDetailMapper,
+    private val rocketsRepository: RocketsRepository,
+    private val mapper: RocketEntityToRocketDetailMapper,
     private val rocketId: String,
 ) : ViewModel() {
 
@@ -18,17 +19,19 @@ class RocketDetailViewModel(
         getRocketDetails()
     }
 
-    fun getRocketDetails() = viewModelScope.launch {
+    fun getRocketDetails() {
         state.value = state.value.copy(loading = true, error = null)
-        state.value = try {
-            val rocketDetailsResponse = spaceXService.getRocketDetail(rocketId)
-            state.value.copy(
-                rocketDetail = mapper.map(rocketDetailsResponse),
-                loading = false,
-                error = null,
-            )
-        } catch (exception: Exception) {
-            state.value.copy(loading = false, error = exception)
+        viewModelScope.launch {
+            runCatching { rocketsRepository.getRocketById(rocketId) }
+                .onSuccess {
+                    state.value = state.value.copy(
+                        rocketDetail = mapper.map(it),
+                        loading = false,
+                        error = null,
+                    )
+                }
+                .onFailure { state.value = state.value.copy(loading = false, error = it) }
+
         }
     }
 

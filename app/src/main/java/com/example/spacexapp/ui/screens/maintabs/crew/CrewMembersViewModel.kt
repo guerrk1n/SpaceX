@@ -7,13 +7,13 @@ import androidx.paging.cachedIn
 import androidx.paging.map
 import com.example.spacexapp.data.repository.CrewMembersRepository
 import com.example.spacexapp.ui.screens.maintabs.crew.member.CrewMember
-import com.example.spacexapp.model.local.mappers.CrewMemberEntityMapper
+import com.example.spacexapp.model.local.mappers.CrewMemberEntityToCrewMemberMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class CrewMembersViewModel(
     crewMembersRepository: CrewMembersRepository,
-    private val mapper: CrewMemberEntityMapper,
+    private val mapper: CrewMemberEntityToCrewMemberMapper,
 ) : ViewModel() {
 
     val crewMembers: Flow<PagingData<CrewMember>> =

@@ -1,20 +1,20 @@
 package com.example.spacexapp.di
 
-import com.example.spacexapp.ui.screens.details.rocket.RocketDetailMapper
-import com.example.spacexapp.model.local.mappers.CrewMemberEntityMapper
-import com.example.spacexapp.model.remote.mappers.CrewMemberResponseMapper
-import com.example.spacexapp.model.local.mappers.HistoryEventEntityMapper
-import com.example.spacexapp.model.remote.mappers.HistoryEventResponseMapper
-import com.example.spacexapp.model.local.mappers.RocketEntityMapper
-import com.example.spacexapp.model.remote.mappers.RocketResponseMapper
+import com.example.spacexapp.model.local.mappers.CrewMemberEntityToCrewMemberMapper
+import com.example.spacexapp.model.local.mappers.HistoryEventEntityToHistoryEventMapper
+import com.example.spacexapp.model.local.mappers.RocketEntityToRocketDetailMapper
+import com.example.spacexapp.model.local.mappers.RocketEntityToRocketMapper
+import com.example.spacexapp.model.remote.mappers.CrewMemberResponseToCrewMemberEntityMapper
+import com.example.spacexapp.model.remote.mappers.HistoryEventResponseToHistoryEventEntityMapper
+import com.example.spacexapp.model.remote.mappers.RocketResponseToRocketEntityMapper
 import org.koin.dsl.module
 
 val koinMapperModule = module {
-    single { HistoryEventResponseMapper() }
-    single { HistoryEventEntityMapper() }
-    single { CrewMemberResponseMapper() }
-    single { CrewMemberEntityMapper() }
-    single { RocketResponseMapper() }
-    single { RocketEntityMapper() }
-    single { RocketDetailMapper() }
+    single { HistoryEventResponseToHistoryEventEntityMapper() }
+    single { HistoryEventEntityToHistoryEventMapper() }
+    single { CrewMemberResponseToCrewMemberEntityMapper() }
+    single { CrewMemberEntityToCrewMemberMapper() }
+    single { RocketResponseToRocketEntityMapper() }
+    single { RocketEntityToRocketMapper() }
+    single { RocketEntityToRocketDetailMapper() }
 }

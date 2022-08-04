@@ -11,7 +11,7 @@ import com.example.spacexapp.model.local.entities.RemoteKeysEntity
 import com.example.spacexapp.model.local.entities.RocketEntity
 import com.example.spacexapp.model.remote.Options
 import com.example.spacexapp.model.remote.QueryBody
-import com.example.spacexapp.model.remote.mappers.RocketResponseMapper
+import com.example.spacexapp.model.remote.mappers.RocketResponseToRocketEntityMapper
 import com.example.spacexapp.util.Constants
 import retrofit2.HttpException
 import java.io.IOException
@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit
 class RocketsRemoteMediator(
     private val spaceXService: SpaceXService,
     private val rocketDatabase: RocketDatabase,
-    private val mapper: RocketResponseMapper,
+    private val mapper: RocketResponseToRocketEntityMapper,
 ) : RemoteMediator<Int, RocketEntity>() {
 
     override suspend fun initialize(): InitializeAction {

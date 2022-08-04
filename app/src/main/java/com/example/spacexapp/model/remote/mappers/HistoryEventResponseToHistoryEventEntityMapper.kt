@@ -5,7 +5,7 @@ import com.example.spacexapp.model.remote.responses.HistoryEventResponse
 import com.example.spacexapp.util.Constants
 import com.example.spacexapp.util.Mapper
 
-class HistoryEventResponseMapper : Mapper<HistoryEventResponse, HistoryEventEntity> {
+class HistoryEventResponseToHistoryEventEntityMapper : Mapper<HistoryEventResponse, HistoryEventEntity> {
     override fun map(input: HistoryEventResponse) = HistoryEventEntity(
         input.id,
         input.links.article,

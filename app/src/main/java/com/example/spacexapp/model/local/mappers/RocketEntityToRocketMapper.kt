@@ -4,7 +4,7 @@ import com.example.spacexapp.model.local.entities.RocketEntity
 import com.example.spacexapp.ui.screens.maintabs.rockets.rocket.Rocket
 import com.example.spacexapp.util.Mapper
 
-class RocketEntityMapper : Mapper<RocketEntity, Rocket> {
+class RocketEntityToRocketMapper : Mapper<RocketEntity, Rocket> {
     override fun map(input: RocketEntity) =
         Rocket(
             input.id,

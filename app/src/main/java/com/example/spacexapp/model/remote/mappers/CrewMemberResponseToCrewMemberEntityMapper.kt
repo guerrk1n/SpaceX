@@ -4,7 +4,7 @@ import com.example.spacexapp.model.local.entities.CrewMemberEntity
 import com.example.spacexapp.model.remote.responses.CrewMemberResponse
 import com.example.spacexapp.util.Mapper
 
-class CrewMemberResponseMapper : Mapper<CrewMemberResponse, CrewMemberEntity> {
+class CrewMemberResponseToCrewMemberEntityMapper : Mapper<CrewMemberResponse, CrewMemberEntity> {
     override fun map(input: CrewMemberResponse) = CrewMemberEntity(
         input.id,
         input.name,

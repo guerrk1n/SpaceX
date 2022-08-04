@@ -10,5 +10,8 @@ data class RocketEntity(
     val name: String,
     val active: Boolean,
     val images: List<String>,
+    val firstFlight: String,
+    val wikipedia: String,
+    val description: String,
     val createdAt: Long,
 )

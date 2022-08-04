@@ -11,7 +11,7 @@ import com.example.spacexapp.model.local.entities.HistoryEventEntity
 import com.example.spacexapp.model.local.entities.RemoteKeysEntity
 import com.example.spacexapp.model.remote.Options
 import com.example.spacexapp.model.remote.QueryBody
-import com.example.spacexapp.model.remote.mappers.HistoryEventResponseMapper
+import com.example.spacexapp.model.remote.mappers.HistoryEventResponseToHistoryEventEntityMapper
 import com.example.spacexapp.util.Constants
 import com.example.spacexapp.util.ResponseField
 import retrofit2.HttpException
@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit
 class HistoryEventsRemoteMediator(
     private val spaceXService: SpaceXService,
     private val historyEventsDatabase: HistoryEventsDatabase,
-    private val mapper: HistoryEventResponseMapper,
+    private val mapper: HistoryEventResponseToHistoryEventEntityMapper,
 ) : RemoteMediator<Int, HistoryEventEntity>() {
 
     override suspend fun initialize(): InitializeAction {

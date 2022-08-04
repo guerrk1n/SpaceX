@@ -8,14 +8,14 @@ import com.example.spacexapp.data.local.HistoryEventsDatabase
 import com.example.spacexapp.data.paging.HistoryEventsRemoteMediator
 import com.example.spacexapp.data.remote.SpaceXService
 import com.example.spacexapp.model.local.entities.HistoryEventEntity
-import com.example.spacexapp.model.remote.mappers.HistoryEventResponseMapper
+import com.example.spacexapp.model.remote.mappers.HistoryEventResponseToHistoryEventEntityMapper
 import com.example.spacexapp.util.Constants
 import kotlinx.coroutines.flow.Flow
 
 class HistoryEventsRepository(
     private val spaceXService: SpaceXService,
     private val database: HistoryEventsDatabase,
-    private val mapper: HistoryEventResponseMapper,
+    private val mapper: HistoryEventResponseToHistoryEventEntityMapper,
 ) {
 
     @OptIn(ExperimentalPagingApi::class)
