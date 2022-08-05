@@ -40,6 +40,13 @@ kapt {
 
 dependencies {
 
+//    implementation(project(":feature-rockets"))
+//    implementation(project(":feature-crew"))
+//    implementation(project(":feature-history-events"))
+
+    implementation(project(":core-ui"))
+    implementation(project(":core-designsystem"))
+
     // AndroidX
     implementation(Dependencies.AndroidX.Ktx.core)
 

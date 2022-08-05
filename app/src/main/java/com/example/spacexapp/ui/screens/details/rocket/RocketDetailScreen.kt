@@ -29,11 +29,11 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
 import coil.compose.AsyncImage
 import com.example.spacexapp.R
-import com.example.spacexapp.ui.common.buttons.BackButton
-import com.example.spacexapp.ui.common.error.ErrorColumn
-import com.example.spacexapp.ui.common.loading.LoadingColumn
-import com.example.spacexapp.ui.theme.colorRed
-import com.example.spacexapp.ui.theme.googleSansFamily
+import com.example.core.ui.buttons.BackButton
+import com.example.core.ui.error.ErrorColumn
+import com.example.core.ui.loading.LoadingColumn
+import com.example.core.designsystem.theme.colorRed
+import com.example.core.designsystem.theme.googleSansFamily
 import com.example.spacexapp.util.Constants
 import com.google.accompanist.pager.*
 import org.koin.androidx.compose.getViewModel
@@ -184,7 +184,7 @@ private fun PhotoInfo(images: List<String>) {
             AsyncImage(
                 model = images[pageIndex],
                 contentScale = ContentScale.Crop,
-                contentDescription = stringResource(R.string.spacex_app_content_description_photo),
+                contentDescription = stringResource(R.string.spacex_app_content_description_photo_rocket_detail),
             )
         }
     }

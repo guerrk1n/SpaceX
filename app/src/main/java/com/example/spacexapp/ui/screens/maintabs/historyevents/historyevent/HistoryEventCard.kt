@@ -9,10 +9,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.spacexapp.R
-import com.example.spacexapp.ui.common.card.SpaceXCardDetails
-import com.example.spacexapp.ui.common.card.SpaceXCardHeader
-import com.example.spacexapp.ui.common.card.SpaceXCardTitle
-import com.example.spacexapp.ui.common.text.HyperlinkText
+import com.example.core.ui.card.SpaceXCardDetails
+import com.example.core.ui.card.SpaceXCardHeader
+import com.example.core.ui.card.SpaceXCardTitle
+import com.example.core.ui.text.HyperlinkText
 import com.example.spacexapp.util.TimeUtils
 
 @Composable

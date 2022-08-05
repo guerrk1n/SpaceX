@@ -1,4 +1,4 @@
-package com.example.spacexapp.ui.common.lazylists
+package com.example.core.ui.lazylists
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -20,7 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.spacexapp.R
+import com.example.core.ui.R
 
 @Composable
 fun LoadingItem() {

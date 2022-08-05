@@ -9,10 +9,10 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.example.spacexapp.R
-import com.example.spacexapp.ui.common.error.ErrorColumn
-import com.example.spacexapp.ui.common.lazylists.ErrorItem
-import com.example.spacexapp.ui.common.lazylists.LoadingItem
-import com.example.spacexapp.ui.common.loading.LoadingColumn
+import com.example.core.ui.error.ErrorColumn
+import com.example.core.ui.lazylists.ErrorItem
+import com.example.core.ui.lazylists.LoadingItem
+import com.example.core.ui.loading.LoadingColumn
 import com.example.spacexapp.ui.screens.maintabs.crew.member.CrewMember
 import com.example.spacexapp.ui.screens.maintabs.crew.member.CrewMemberCard
 import com.example.spacexapp.ui.screens.maintabs.crew.member.CrewMemberStatus

@@ -11,11 +11,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.spacexapp.R
-import com.example.spacexapp.ui.common.card.SpaceXCardHeader
-import com.example.spacexapp.ui.common.card.SpaceXCardPhoto
-import com.example.spacexapp.ui.common.card.SpaceXCardStatus
-import com.example.spacexapp.ui.common.card.SpaceXCardTitle
-import com.example.spacexapp.ui.theme.colorGreen
+import com.example.core.ui.card.SpaceXCardHeader
+import com.example.core.ui.card.SpaceXCardPhoto
+import com.example.core.ui.card.SpaceXCardStatus
+import com.example.core.ui.card.SpaceXCardTitle
+import com.example.core.designsystem.theme.colorGreen
 
 
 @OptIn(ExperimentalMaterialApi::class)

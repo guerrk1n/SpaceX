@@ -1,4 +1,4 @@
-package com.example.spacexapp.ui.common.error
+package com.example.core.ui.error
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
@@ -13,8 +13,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.spacexapp.R
-import com.example.spacexapp.ui.common.buttons.RefreshButton
+import com.example.core.ui.R
+import com.example.core.ui.buttons.RefreshButton
 
 @Composable
 fun ErrorColumn(

@@ -1,4 +1,4 @@
-package com.example.spacexapp.ui.common.card
+package com.example.core.ui.card
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,8 +17,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.example.spacexapp.R
-import com.example.spacexapp.ui.theme.googleSansFamily
+import com.example.core.designsystem.theme.googleSansFamily
+import com.example.core.ui.R
 
 @Composable
 fun SpaceXCardHeader(modifier: Modifier = Modifier, header: String) {

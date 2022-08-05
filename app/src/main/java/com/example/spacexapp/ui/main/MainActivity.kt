@@ -8,7 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.navigation.compose.rememberNavController
 import com.example.spacexapp.navigation.AppNavigation
-import com.example.spacexapp.ui.theme.SpaceXTheme
+import com.example.core.designsystem.theme.SpaceXTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

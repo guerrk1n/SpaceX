@@ -1,10 +1,10 @@
-package com.example.spacexapp.ui.theme
+package com.example.core.designsystem.theme
 
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import com.example.spacexapp.R
+import com.example.core.designsystem.R
 
 val googleSansFamily = FontFamily(
     Font(R.font.google_sans_bold, FontWeight.Bold),

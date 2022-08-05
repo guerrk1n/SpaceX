@@ -1,4 +1,4 @@
-package com.example.spacexapp.ui.theme
+package com.example.core.designsystem.theme
 
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable

@@ -1,4 +1,4 @@
-package com.example.spacexapp.ui.theme
+package com.example.core.designsystem.theme
 
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
@@ -33,6 +33,3 @@ val DarkThemeColors = darkColors(
     onSurface = Color(0xFF1C1C1C),
     onError = Color.White
 )
-
-val colorRed = Color(0xFFFF003D)
-val colorGreen = Color(0xFF00D215)

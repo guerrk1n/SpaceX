@@ -22,8 +22,8 @@ import com.example.spacexapp.ui.screens.maintabs.TABS
 import com.example.spacexapp.ui.screens.maintabs.crew.CrewTab
 import com.example.spacexapp.ui.screens.maintabs.historyevents.HistoryEventsTab
 import com.example.spacexapp.ui.screens.maintabs.rockets.RocketsTab
-import com.example.spacexapp.ui.theme.colorRed
-import com.example.spacexapp.ui.theme.googleSansFamily
+import com.example.core.designsystem.theme.colorRed
+import com.example.core.designsystem.theme.googleSansFamily
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
@@ -146,5 +146,5 @@ fun Toolbar() {
 @Preview
 @Composable
 fun PreviewMainContent() {
-    MainScreen() {}
+    MainScreen {}
 }

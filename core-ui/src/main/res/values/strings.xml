@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="spacex_app_back">Back</string>
+    <string name="spacex_app_refresh">Refresh</string>
+    <string name="spacex_app_content_description_photo">Photo of %s</string>
+    <string name="spacex_app_error">Something goes wrong</string>
+    <string name="spacex_app_content_description_error">Error</string>
+    <string name="spacex_app_retry">Retry</string>
+    <string name="spacex_app_loading">Getting data</string>
+</resources>

@@ -1,4 +1,4 @@
-package com.example.spacexapp.ui.theme
+package com.example.core.designsystem.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.graphics.Color
