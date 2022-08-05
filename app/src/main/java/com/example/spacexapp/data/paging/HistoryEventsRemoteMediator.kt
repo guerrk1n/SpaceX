@@ -26,8 +26,10 @@ class HistoryEventsRemoteMediator(
 ) : RemoteMediator<Int, HistoryEventEntity>() {
 
     override suspend fun initialize(): InitializeAction {
-
-        val cacheTimeout = TimeUnit.MILLISECONDS.convert(24, TimeUnit.HOURS)
+        val cacheTimeout = TimeUnit.MILLISECONDS.convert(
+            Constants.REMOTE_MEDIATOR_CACHE_TIMEOUT_IN_HOURS,
+            TimeUnit.HOURS
+        )
         var firstHistoryEvent: HistoryEventEntity? = null
         historyEventsDatabase.withTransaction {
             firstHistoryEvent = historyEventsDatabase.historyEventsDao().getFirst()
