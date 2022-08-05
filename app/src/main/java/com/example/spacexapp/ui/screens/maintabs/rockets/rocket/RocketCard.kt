@@ -78,10 +78,10 @@ private fun RocketStatus(rocket: Rocket) {
 @Composable
 private fun PreviewRocketCard() {
     val rocket = Rocket(
+        "5e9d0d95eda69955f709d1eb",
         "Falcon 1",
         false,
         listOf("https://imgur.com/DaCfMsj.jpg"),
-        "5e9d0d95eda69955f709d1eb"
     )
     RocketCard(rocket) {}
 }
