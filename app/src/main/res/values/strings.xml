@@ -3,6 +3,7 @@
     <string name="spacex_app_history_events_overline">History Event</string>
     <string name="spacex_app_loading">Getting data</string>
     <string name="spacex_app_error">Something goes wrong</string>
+    <string name="spacex_app_error_internet">Internet goes wrong</string>
     <string name="spacex_app_retry">Retry</string>
     <string name="spacex_app_feature_history_event">History Events</string>
     <string name="spacex_app_feature_crew">Crew</string>

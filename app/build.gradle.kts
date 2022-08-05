@@ -55,6 +55,12 @@ dependencies {
     implementation(Dependencies.Compose.util)
     implementation(Dependencies.Compose.navigation)
 
+    // Room
+    implementation(Dependencies.Room.ktx)
+    implementation(Dependencies.Room.runtime)
+    implementation(Dependencies.Room.paging)
+    kapt(Dependencies.Room.kapt)
+
     // Accompanist
     implementation(Dependencies.Compose.Accompanist.pager)
     implementation(Dependencies.Compose.Accompanist.pagerIndicator)

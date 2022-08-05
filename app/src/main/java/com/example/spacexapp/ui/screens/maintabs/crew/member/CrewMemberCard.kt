@@ -80,7 +80,7 @@ private fun CrewMemberInfo(crewMember: CrewMember) {
 
 @Composable
 private fun CrewMemberWikiLink(crewMember: CrewMember) {
-    val wikipediaText = stringResource(id = R.string.spacex_app_wikipedia)
+    val wikipediaText = stringResource(R.string.spacex_app_wikipedia)
     HyperlinkText(
         fullText = wikipediaText,
         linkText = listOf(wikipediaText),
@@ -91,12 +91,12 @@ private fun CrewMemberWikiLink(crewMember: CrewMember) {
 @Composable
 private fun PreviewCrewMemberCard() {
     val crewMember = CrewMember(
+        "123",
         "Robert Behnken",
         "NASA",
         "https://imgur.com/0smMgMH.png",
         "https://en.wikipedia.org/wiki/Robert_L._Behnken",
         CrewMemberStatus.ACTIVE.name,
-        "123"
     )
     CrewMemberCard(crewMember)
 }

@@ -1,6 +1,6 @@
 package com.example.spacexapp.di
 
-import com.example.spacexapp.api.SpaceXService
+import com.example.spacexapp.data.remote.SpaceXService
 import org.koin.dsl.module
 import retrofit2.Retrofit
 

@@ -120,7 +120,7 @@ private fun RocketInfo(uiState: RocketDetailViewModel.RocketDetailViewState) {
 
 @Composable
 private fun InfoBlock(@StringRes titleRes: Int, info: String) {
-    val title = stringResource(id = titleRes)
+    val title = stringResource(titleRes)
     Text(text = title, style = MaterialTheme.typography.overline, color = colorRed)
     Text(
         modifier = Modifier.padding(top = 10.dp, bottom = 20.dp),
@@ -172,6 +172,7 @@ private fun PhotoInfo(images: List<String>) {
         modifier = Modifier.padding(top = 25.dp),
         state = rememberPagerState(),
         count = images.size,
+        itemSpacing = 1.dp,
     ) { pageIndex ->
         val animation = getPhotoSwipeAnimation(this@HorizontalPager, pageIndex)
 

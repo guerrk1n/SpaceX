@@ -63,8 +63,8 @@ fun ErrorItem(onClick: () -> Unit) {
                     .clip(CircleShape)
                     .width(42.dp)
                     .height(42.dp),
-                painter = painterResource(id = R.drawable.ic_error),
-                contentDescription = stringResource(id = R.string.spacex_app_content_description_error),
+                painter = painterResource(R.drawable.ic_error),
+                contentDescription = stringResource(R.string.spacex_app_content_description_error),
                 colorFilter = ColorFilter.tint(Color.White)
             )
             Text(
@@ -72,7 +72,7 @@ fun ErrorItem(onClick: () -> Unit) {
                     .padding(start = 12.dp)
                     .align(Alignment.CenterVertically),
                 color = Color.White,
-                text = stringResource(id = R.string.spacex_app_error),
+                text = stringResource(R.string.spacex_app_error),
                 fontSize = 16.sp,
 
                 )
@@ -82,7 +82,7 @@ fun ErrorItem(onClick: () -> Unit) {
                     .align(Alignment.CenterVertically)
                     .clickable { onClick.invoke() },
                 color = Color.White,
-                text = stringResource(id = R.string.spacex_app_retry),
+                text = stringResource(R.string.spacex_app_retry),
                 fontSize = 16.sp,
                 textDecoration = TextDecoration.Underline,
             )

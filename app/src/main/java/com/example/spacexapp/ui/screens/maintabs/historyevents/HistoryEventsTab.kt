@@ -9,6 +9,7 @@ import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
+import com.example.spacexapp.R
 import com.example.spacexapp.ui.common.error.ErrorColumn
 import com.example.spacexapp.ui.common.lazylists.ErrorItem
 import com.example.spacexapp.ui.common.lazylists.LoadingItem
@@ -17,6 +18,7 @@ import com.example.spacexapp.ui.screens.maintabs.historyevents.historyevent.Hist
 import com.example.spacexapp.ui.screens.maintabs.historyevents.historyevent.HistoryEventCard
 import kotlinx.coroutines.flow.flowOf
 import org.koin.androidx.compose.getViewModel
+import java.net.UnknownHostException
 
 @Composable
 fun HistoryEventsTab(viewModel: HistoryEventsViewModel = getViewModel()) {
@@ -27,9 +29,22 @@ fun HistoryEventsTab(viewModel: HistoryEventsViewModel = getViewModel()) {
 
 @Composable
 private fun HistoryEventContent(historyEvents: LazyPagingItems<HistoryEvent>) {
-    when (historyEvents.loadState.refresh) {
+    when (val refreshLoadState = historyEvents.loadState.refresh) {
         is LoadState.Loading -> LoadingColumn()
-        is LoadState.Error -> ErrorColumn(onClick = { historyEvents.refresh() })
+        is LoadState.Error -> {
+            if (historyEvents.itemCount > 0) {
+                LazyHistoryEventsColumn(historyEvents)
+                return
+            }
+            val isInternetError = refreshLoadState.error is UnknownHostException
+            if (isInternetError)
+                ErrorColumn(
+                    textRes = R.string.spacex_app_error_internet,
+                    onClick = { historyEvents.refresh() }
+                )
+            else
+                ErrorColumn(onClick = { historyEvents.refresh() })
+        }
         else -> LazyHistoryEventsColumn(historyEvents)
     }
 }
@@ -55,10 +70,13 @@ private fun PreviewHistoryEventContent() {
     val historyEvents = mutableListOf<HistoryEvent>()
     repeat(10) {
         historyEvents.add(
-            HistoryEvent("http://www.spacex.com/news/2013/02/11/flight-4-launch-update-0",
+            HistoryEvent(
+                "",
+                "http://www.spacex.com/news/2013/02/11/flight-4-launch-update-0",
                 "Falcon reaches Earth orbit",
                 1222643700,
-                "Falcon 1 becomes the first privately developed liquid-fuel rocket to reach Earth orbit.")
+                "Falcon 1 becomes the first privately developed liquid-fuel rocket to reach Earth orbit.",
+            )
         )
     }
     val lazyPagingHistoryEvents = flowOf(PagingData.from(historyEvents)).collectAsLazyPagingItems()
