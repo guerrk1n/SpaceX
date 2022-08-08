@@ -1,6 +1,5 @@
 package com.app.spacexapp.navigation
 
-import android.net.Uri
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
@@ -10,8 +9,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
-import com.app.spacexapp.ui.main.MainScreen
-import com.app.spacexapp.ui.screens.details.rocket.RocketDetailScreen
+import com.app.feature.rocket.detail.RocketDetailScreen
+import com.app.spacexapp.ui.MainScreen
 
 internal sealed class Screen(val route: String) {
     object MainTabs : Screen("mainTabs")
@@ -75,9 +74,4 @@ private fun NavGraphBuilder.addDetail(navController: NavHostController, root: Sc
             navigateUp = navController::navigateUp
         )
     }
-}
-
-fun createRocketDetailNavigationRoute(authorIdArg: String): String {
-    val encodedId = Uri.encode(authorIdArg)
-    return "author_route/$encodedId"
 }

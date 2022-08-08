@@ -1,24 +1,6 @@
 <resources>
     <string name="app_name">Space X App</string>
-    <string name="spacex_app_history_events_overline">History Event</string>
-    <string name="spacex_app_error_internet">Internet goes wrong</string>
     <string name="spacex_app_feature_history_event">History Events</string>
     <string name="spacex_app_feature_crew">Crew</string>
-    <string name="spacex_app_feature_dragons">Dragons</string>
-    <string name="spacex_app_feature_landpads">Landpads</string>
-    <string name="spacex_app_crew_overline">Crew</string>
-    <string name="spacex_app_wikipedia">Wikipedia</string>
-    <string name="spacex_app_source">Source</string>
-    <string name="spacex_app_rocket_overline">Rocket</string>
-    <string name="spacex_app_active">Active</string>
-    <string name="spacex_app_inactive">Inactive</string>
     <string name="spacex_app_feature_rockets">Rockets</string>
-    <string name="spacex_app_feature_rocket_title">Rocket</string>
-    <string name="spacex_app_feature_rocket_details">Details</string>
-    <string name="spacex_app_feature_rocket_first_flight">First flight</string>
-    <string name="spacex_app_feature_rocket_first_launch_cost">Launch cost</string>
-    <string name="spacex_app_feature_rocket_sneak_peak">Sneak Peak</string>
-    <string name="spacex_app_link">Link</string>
-    <string name="spacex_app_send">Send</string>
-    <string name="spacex_app_content_description_photo_rocket_detail">Photo of %s</string>
 </resources>

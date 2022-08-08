@@ -1,3 +1,5 @@
+import Dependencies.Room.kapt
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -41,9 +43,10 @@ kapt {
 
 dependencies {
 
-//    implementation(project(":feature-rockets"))
-//    implementation(project(":feature-crew"))
-//    implementation(project(":feature-history-events"))
+    implementation(project(":feature-rockets"))
+    implementation(project(":feature-crew"))
+    implementation(project(":feature-history-events"))
+    implementation(project(":feature-rocket-detail"))
 
     implementation(project(":core-ui"))
     implementation(project(":core-designsystem"))
