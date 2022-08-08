@@ -69,23 +69,10 @@ dependencies {
     implementation(Dependencies.Compose.util)
     implementation(Dependencies.Compose.navigation)
 
-    // Room
-    implementation(Dependencies.Room.ktx)
-    implementation(Dependencies.Room.runtime)
-    implementation(Dependencies.Room.paging)
-    kapt(Dependencies.Room.kapt)
-
     // Accompanist
     implementation(Dependencies.Compose.Accompanist.pager)
     implementation(Dependencies.Compose.Accompanist.pagerIndicator)
     implementation(Dependencies.Compose.Accompanist.systemUiController)
-
-    // Network
-    implementation(Dependencies.Retrofit.retrofit)
-    implementation(Dependencies.Retrofit.gsonConverter)
-    implementation(Dependencies.OkHttp.okHttp)
-    implementation(Dependencies.OkHttp.okLog)
-    implementation(Dependencies.gson)
 
     // Coil Image
     implementation(Dependencies.coil)
@@ -94,7 +81,6 @@ dependencies {
     implementation(Dependencies.Hilt.hilt)
     kapt(Dependencies.Hilt.compiler)
     implementation(Dependencies.Hilt.navigation)
-//    kapt("androidx.hilt:hilt-compiler:1.0.0")
 
     // Logs
     implementation(Dependencies.timber)
