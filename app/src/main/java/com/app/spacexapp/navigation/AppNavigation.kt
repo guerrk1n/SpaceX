@@ -1,5 +1,6 @@
 package com.app.spacexapp.navigation
 
+import android.net.Uri
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
@@ -68,14 +69,15 @@ private fun NavGraphBuilder.addDetail(navController: NavHostController, root: Sc
     composable(
         route = LeafScreen.RocketDetails.createRoute(root),
         arguments = listOf(
-            navArgument("rocketId") {
-                type = NavType.StringType
-            })
+            navArgument("rocketId") { type = NavType.StringType }) // TODO replace with constant
     ) {
-        val rocketId = it.arguments?.getString("rocketId")!!
         RocketDetailScreen(
-            navigateUp = navController::navigateUp,
-            rocketId = rocketId
+            navigateUp = navController::navigateUp
         )
     }
+}
+
+fun createRocketDetailNavigationRoute(authorIdArg: String): String {
+    val encodedId = Uri.encode(authorIdArg)
+    return "author_route/$encodedId"
 }

@@ -11,6 +11,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.app.core.designsystem.theme.colorGreen
+import com.app.core.model.Rocket
 import com.app.core.ui.card.SpaceXCardHeader
 import com.app.core.ui.card.SpaceXCardPhoto
 import com.app.core.ui.card.SpaceXCardStatus

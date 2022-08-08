@@ -27,22 +27,24 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
-import com.app.spacexapp.R
+import com.app.core.common.Constants
+import com.app.core.designsystem.theme.colorRed
+import com.app.core.designsystem.theme.googleSansFamily
+import com.app.core.model.RocketDetail
 import com.app.core.ui.buttons.BackButton
 import com.app.core.ui.error.ErrorColumn
 import com.app.core.ui.loading.LoadingColumn
-import com.app.core.designsystem.theme.colorRed
-import com.app.core.designsystem.theme.googleSansFamily
-import com.app.spacexapp.util.Constants
+import com.app.spacexapp.R
 import com.google.accompanist.pager.*
-import org.koin.androidx.compose.getViewModel
-import org.koin.core.parameter.parametersOf
 import kotlin.math.absoluteValue
 
 @Composable
-fun RocketDetailScreen(navigateUp: () -> Unit, rocketId: String) {
-    val viewModel: RocketDetailViewModel = getViewModel(parameters = { parametersOf(rocketId) })
+fun RocketDetailScreen(
+    viewModel: RocketDetailViewModel = hiltViewModel(),
+    navigateUp: () -> Unit,
+) {
     val uiState = viewModel.state.collectAsState().value
     RocketDetailContent(
         navigateUp = navigateUp,

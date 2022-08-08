@@ -3,6 +3,7 @@ package com.app.spacexapp.ui.screens.maintabs.crew
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
@@ -13,15 +14,14 @@ import com.app.core.ui.error.ErrorColumn
 import com.app.core.ui.lazylists.ErrorItem
 import com.app.core.ui.lazylists.LoadingItem
 import com.app.core.ui.loading.LoadingColumn
-import com.app.spacexapp.ui.screens.maintabs.crew.member.CrewMember
+import com.app.core.model.CrewMember
 import com.app.spacexapp.ui.screens.maintabs.crew.member.CrewMemberCard
 import com.app.spacexapp.ui.screens.maintabs.crew.member.CrewMemberStatus
 import kotlinx.coroutines.flow.flowOf
-import org.koin.androidx.compose.getViewModel
 import java.net.UnknownHostException
 
 @Composable
-fun CrewTab(viewmodel: CrewMembersViewModel = getViewModel()) {
+fun CrewTab(viewmodel: CrewMembersViewModel = hiltViewModel()) {
     val crewMembers = viewmodel.crewMembers.collectAsLazyPagingItems()
 
     CrewMembersContent(crewMembers)

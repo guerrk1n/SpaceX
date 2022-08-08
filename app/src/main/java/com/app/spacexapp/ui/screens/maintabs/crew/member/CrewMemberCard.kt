@@ -14,6 +14,7 @@ import com.app.spacexapp.R
 import com.app.core.ui.card.*
 import com.app.core.ui.text.HyperlinkText
 import com.app.core.designsystem.theme.colorGreen
+import com.app.core.model.CrewMember
 
 @Composable
 fun CrewMemberCard(crewMember: CrewMember) {

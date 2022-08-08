@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-android")
     id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -46,6 +47,12 @@ dependencies {
 
     implementation(project(":core-ui"))
     implementation(project(":core-designsystem"))
+    implementation(project(":core-data"))
+    implementation(project(":core-common"))
+    implementation(project(":core-network"))
+    implementation(project(":core-model"))
+    implementation(project(":core-database"))
+
 
     // AndroidX
     implementation(Dependencies.AndroidX.Ktx.core)
@@ -83,9 +90,11 @@ dependencies {
     // Coil Image
     implementation(Dependencies.coil)
 
-    // Koin
-    implementation(Dependencies.Koin.koin)
-    implementation(Dependencies.Koin.compose)
+    // Hilt
+    implementation(Dependencies.Hilt.hilt)
+    kapt(Dependencies.Hilt.compiler)
+    implementation(Dependencies.Hilt.navigation)
+//    kapt("androidx.hilt:hilt-compiler:1.0.0")
 
     // Logs
     implementation(Dependencies.timber)

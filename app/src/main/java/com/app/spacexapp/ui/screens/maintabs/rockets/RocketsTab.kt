@@ -13,16 +13,16 @@ import com.app.core.ui.error.ErrorColumn
 import com.app.core.ui.lazylists.ErrorItem
 import com.app.core.ui.lazylists.LoadingItem
 import com.app.core.ui.loading.LoadingColumn
-import com.app.spacexapp.ui.screens.maintabs.rockets.rocket.Rocket
+import com.app.core.model.Rocket
 import com.app.spacexapp.ui.screens.maintabs.rockets.rocket.RocketCard
+import androidx.hilt.navigation.compose.hiltViewModel
 import kotlinx.coroutines.flow.flowOf
-import org.koin.androidx.compose.getViewModel
 import java.net.UnknownHostException
 
 @Composable
 fun RocketsTab(
     openRocketDetail: (String) -> Unit,
-    viewmodel: RocketsViewModel = getViewModel(),
+    viewmodel: RocketsViewModel = hiltViewModel(),
 ) {
     val rockets = viewmodel.rockets.collectAsLazyPagingItems()
 

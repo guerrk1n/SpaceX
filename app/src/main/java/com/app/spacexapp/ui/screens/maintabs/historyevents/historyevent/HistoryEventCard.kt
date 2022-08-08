@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.app.core.model.HistoryEvent
 import com.app.spacexapp.R
 import com.app.core.ui.card.SpaceXCardDetails
 import com.app.core.ui.card.SpaceXCardHeader

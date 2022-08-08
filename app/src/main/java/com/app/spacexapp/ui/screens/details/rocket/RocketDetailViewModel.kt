@@ -1,17 +1,22 @@
 package com.app.spacexapp.ui.screens.details.rocket
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.app.spacexapp.data.repository.RocketsRepository
-import com.app.spacexapp.model.local.mappers.RocketEntityToRocketDetailMapper
+import com.app.core.data.repository.RocketsRepository
+import com.app.core.model.RocketDetail
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class RocketDetailViewModel(
+@HiltViewModel
+class RocketDetailViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val rocketsRepository: RocketsRepository,
-    private val mapper: RocketEntityToRocketDetailMapper,
-    private val rocketId: String,
 ) : ViewModel() {
+
+    private val rocketId: String = checkNotNull(savedStateHandle["rocketId"])
 
     val state = MutableStateFlow(RocketDetailViewState())
 
@@ -25,7 +30,7 @@ class RocketDetailViewModel(
             runCatching { rocketsRepository.getRocketById(rocketId) }
                 .onSuccess {
                     state.value = state.value.copy(
-                        rocketDetail = mapper.map(it),
+                        rocketDetail = it,
                         loading = false,
                         error = null,
                     )
