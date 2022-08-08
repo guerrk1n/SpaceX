@@ -12,7 +12,7 @@ Now in development state.
 * [Jetpack Compose](https://developer.android.com/jetpack/compose)
 * [Space X REST API](https://github.com/r-spacex/SpaceX-API)
 * [Kotlin Coroutines](https://kotlinlang.org/docs/coroutines-overview.html)
-* [KOIN](https://insert-koin.io)
+* [Hilt](https://developer.android.com/training/dependency-injection/hilt-android)
 * [Navigation](https://developer.android.com/jetpack/compose/navigation)
 * [Paging](https://developer.android.com/jetpack/androidx/releases/paging)
 * [Room](https://developer.android.com/training/data-storage/room)
