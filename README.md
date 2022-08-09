@@ -5,7 +5,8 @@ Android application for tracking Space X data using [Space X REST API](https://g
 
 Now in development state.
 
-![main](https://user-images.githubusercontent.com/23438229/180867970-5f789568-b225-4ed9-afef-6fd5286cd387.gif)
+![main](https://user-images.githubusercontent.com/23438229/183024880-62ae7a68-7f51-4dd3-b33e-dbc96d452ea8.gif)
+![detail](https://user-images.githubusercontent.com/23438229/183024921-fc55101f-99ab-430b-abd6-ae192d0b3c97.gif)
 
 ## App is using:
 * [Kotlin](https://kotlinlang.org/)
