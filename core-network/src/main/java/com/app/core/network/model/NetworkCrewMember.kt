@@ -1,0 +1,19 @@
+package com.app.core.network.model
+
+import com.google.gson.annotations.SerializedName
+
+data class NetworkCrewMembers(
+    @SerializedName("docs")
+    val crewMembers: List<NetworkCrewMember>,
+    val totalPages: Int,
+    val page: Int,
+)
+
+data class NetworkCrewMember(
+    val id: String,
+    val name: String,
+    val agency: String,
+    val image: String,
+    val wikipedia: String,
+    val status: String,
+)

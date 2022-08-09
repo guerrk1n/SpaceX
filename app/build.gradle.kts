@@ -1,8 +1,11 @@
+import Dependencies.Room.kapt
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("kotlin-android")
     id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -40,6 +43,20 @@ kapt {
 
 dependencies {
 
+    implementation(project(":feature-rockets"))
+    implementation(project(":feature-crew"))
+    implementation(project(":feature-history-events"))
+    implementation(project(":feature-rocket-detail"))
+
+    implementation(project(":core-ui"))
+    implementation(project(":core-designsystem"))
+    implementation(project(":core-data"))
+    implementation(project(":core-common"))
+    implementation(project(":core-network"))
+    implementation(project(":core-model"))
+    implementation(project(":core-database"))
+
+
     // AndroidX
     implementation(Dependencies.AndroidX.Ktx.core)
 
@@ -55,30 +72,15 @@ dependencies {
     implementation(Dependencies.Compose.util)
     implementation(Dependencies.Compose.navigation)
 
-    // Room
-    implementation(Dependencies.Room.ktx)
-    implementation(Dependencies.Room.runtime)
-    implementation(Dependencies.Room.paging)
-    kapt(Dependencies.Room.kapt)
-
     // Accompanist
     implementation(Dependencies.Compose.Accompanist.pager)
     implementation(Dependencies.Compose.Accompanist.pagerIndicator)
     implementation(Dependencies.Compose.Accompanist.systemUiController)
 
-    // Network
-    implementation(Dependencies.Retrofit.retrofit)
-    implementation(Dependencies.Retrofit.gsonConverter)
-    implementation(Dependencies.OkHttp.okHttp)
-    implementation(Dependencies.OkHttp.okLog)
-    implementation(Dependencies.gson)
-
-    // Coil Image
-    implementation(Dependencies.coil)
-
-    // Koin
-    implementation(Dependencies.Koin.koin)
-    implementation(Dependencies.Koin.compose)
+    // Hilt
+    implementation(Dependencies.Hilt.hilt)
+    kapt(Dependencies.Hilt.compiler)
+    implementation(Dependencies.Hilt.navigation)
 
     // Logs
     implementation(Dependencies.timber)
