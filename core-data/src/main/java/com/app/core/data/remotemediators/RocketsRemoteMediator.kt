@@ -3,7 +3,6 @@ package com.app.core.data.remotemediators
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
-import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.app.core.common.Constants
 import com.app.core.data.model.asEntity
@@ -17,11 +16,11 @@ import retrofit2.HttpException
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
-@OptIn(ExperimentalPagingApi::class)
+@ExperimentalPagingApi
 class RocketsRemoteMediator(
     private val spaceXService: SpaceXService,
-    private val rocketDatabase: SpaceXDatabase,
-) : RemoteMediator<Int, RocketEntity>() {
+    private val database: SpaceXDatabase,
+) : BaseRemoteMediator<RocketEntity>(database.remoteKeysDao()) {
 
     override suspend fun initialize(): InitializeAction {
         val cacheTimeout = TimeUnit.MILLISECONDS.convert(
@@ -29,8 +28,8 @@ class RocketsRemoteMediator(
             TimeUnit.HOURS
         )
         var lastRocketEntity: RocketEntity? = null
-        rocketDatabase.withTransaction {
-            lastRocketEntity = rocketDatabase.rocketDao().getLast()
+        database.withTransaction {
+            lastRocketEntity = database.rocketDao().getLast()
         }
         val isCacheTimeout = lastRocketEntity?.let {
             (System.currentTimeMillis() - it.createdAt) >= cacheTimeout
@@ -49,7 +48,7 @@ class RocketsRemoteMediator(
         val page: Int = when (loadType) {
             LoadType.REFRESH -> {
                 val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
-                remoteKeys?.nextKey?.minus(1) ?: ROCKETS_STARTING_PAGE_INDEX
+                remoteKeys?.nextKey?.minus(1) ?: STARTING_PAGE_INDEX
             }
 
             LoadType.PREPEND -> {
@@ -73,18 +72,18 @@ class RocketsRemoteMediator(
             val apiResponse = spaceXService.getRockets(queryBody)
             val endOfPaginationReached = page >= apiResponse.totalPages
             val rockets = apiResponse.rockets
-            rocketDatabase.withTransaction {
+            database.withTransaction {
                 if (loadType == LoadType.REFRESH) {
-                    rocketDatabase.remoteKeysDao().clearRemoteKeys()
-                    rocketDatabase.rocketDao().clearAll()
+                    database.remoteKeysDao().clearRemoteKeys()
+                    database.rocketDao().clearAll()
                 }
-                val prevKey = if (page == ROCKETS_STARTING_PAGE_INDEX) null else page - 1
+                val prevKey = if (page == STARTING_PAGE_INDEX) null else page - 1
                 val nextKey = if (endOfPaginationReached) null else page + 1
                 val keys = rockets.map {
                     RemoteKeysEntity(it.id, prevKey, nextKey)
                 }
-                rocketDatabase.remoteKeysDao().insertAll(keys)
-                rocketDatabase.rocketDao().insertAll(rockets.map { it.asEntity() })
+                database.remoteKeysDao().insertAll(keys)
+                database.rocketDao().insertAll(rockets.map { it.asEntity() })
             }
             return MediatorResult.Success(endOfPaginationReached)
         } catch (exception: IOException) {
@@ -95,30 +94,4 @@ class RocketsRemoteMediator(
             return MediatorResult.Error(exception)
         }
     }
-
-    private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, RocketEntity>): RemoteKeysEntity? {
-        return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()
-            ?.let { rocket ->
-                rocketDatabase.remoteKeysDao().remoteKeysRepoId(rocket.id)
-            }
-    }
-
-    private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, RocketEntity>): RemoteKeysEntity? {
-        return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
-            ?.let { rocket ->
-                rocketDatabase.remoteKeysDao().remoteKeysRepoId(rocket.id)
-            }
-    }
-
-    private suspend fun getRemoteKeyClosestToCurrentPosition(
-        state: PagingState<Int, RocketEntity>,
-    ): RemoteKeysEntity? {
-        return state.anchorPosition?.let { position ->
-            state.closestItemToPosition(position)?.id?.let { rocketId ->
-                rocketDatabase.remoteKeysDao().remoteKeysRepoId(rocketId)
-            }
-        }
-    }
 }
-
-private const val ROCKETS_STARTING_PAGE_INDEX = 1

@@ -3,7 +3,6 @@ package com.app.core.data.remotemediators
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
-import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.app.core.common.Constants
 import com.app.core.data.model.asEntity
@@ -17,11 +16,11 @@ import retrofit2.HttpException
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
-@OptIn(ExperimentalPagingApi::class)
+@ExperimentalPagingApi
 class CrewMembersRemoteMediator(
     private val spaceXService: SpaceXService,
-    private val crewMembersDatabase: SpaceXDatabase,
-) : RemoteMediator<Int, CrewMemberEntity>() {
+    private val database: SpaceXDatabase,
+) : BaseRemoteMediator<CrewMemberEntity>(database.remoteKeysDao()) {
 
     override suspend fun initialize(): InitializeAction {
         val cacheTimeout = TimeUnit.MILLISECONDS.convert(
@@ -29,8 +28,8 @@ class CrewMembersRemoteMediator(
             TimeUnit.HOURS
         )
         var lastCrewMember: CrewMemberEntity? = null
-        crewMembersDatabase.withTransaction {
-            lastCrewMember = crewMembersDatabase.crewMembersDao().getLast()
+        database.withTransaction {
+            lastCrewMember = database.crewMembersDao().getLast()
         }
         val isCacheTimeout = lastCrewMember?.let {
             (System.currentTimeMillis() - it.createdAt) >= cacheTimeout
@@ -49,7 +48,7 @@ class CrewMembersRemoteMediator(
         val page: Int = when (loadType) {
             LoadType.REFRESH -> {
                 val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
-                remoteKeys?.nextKey?.minus(1) ?: CREW_MEMBERS_STARTING_PAGE_INDEX
+                remoteKeys?.nextKey?.minus(1) ?: STARTING_PAGE_INDEX
             }
 
             LoadType.PREPEND -> {
@@ -73,18 +72,18 @@ class CrewMembersRemoteMediator(
             val apiResponse = spaceXService.getCrewMembers(queryBody)
             val endOfPaginationReached = page >= apiResponse.totalPages
             val crewMembers = apiResponse.crewMembers
-            crewMembersDatabase.withTransaction {
+            database.withTransaction {
                 if (loadType == LoadType.REFRESH) {
-                    crewMembersDatabase.remoteKeysDao().clearRemoteKeys()
-                    crewMembersDatabase.crewMembersDao().clearAll()
+                    database.remoteKeysDao().clearRemoteKeys()
+                    database.crewMembersDao().clearAll()
                 }
-                val prevKey = if (page == CREW_MEMBERS_STARTING_PAGE_INDEX) null else page - 1
+                val prevKey = if (page == STARTING_PAGE_INDEX) null else page - 1
                 val nextKey = if (endOfPaginationReached) null else page + 1
                 val keys = crewMembers.map {
                     RemoteKeysEntity(it.id, prevKey, nextKey)
                 }
-                crewMembersDatabase.remoteKeysDao().insertAll(keys)
-                crewMembersDatabase.crewMembersDao().insertAll(crewMembers.map { it.asEntity() })
+                database.remoteKeysDao().insertAll(keys)
+                database.crewMembersDao().insertAll(crewMembers.map { it.asEntity() })
             }
             return MediatorResult.Success(endOfPaginationReached)
         } catch (exception: IOException) {
@@ -93,30 +92,4 @@ class CrewMembersRemoteMediator(
             return MediatorResult.Error(exception)
         }
     }
-
-    private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, CrewMemberEntity>): RemoteKeysEntity? {
-        return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()
-            ?.let { crewMember ->
-                crewMembersDatabase.remoteKeysDao().remoteKeysRepoId(crewMember.id)
-            }
-    }
-
-    private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, CrewMemberEntity>): RemoteKeysEntity? {
-        return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
-            ?.let { crewMember ->
-                crewMembersDatabase.remoteKeysDao().remoteKeysRepoId(crewMember.id)
-            }
-    }
-
-    private suspend fun getRemoteKeyClosestToCurrentPosition(
-        state: PagingState<Int, CrewMemberEntity>,
-    ): RemoteKeysEntity? {
-        return state.anchorPosition?.let { position ->
-            state.closestItemToPosition(position)?.id?.let { crewMemberId ->
-                crewMembersDatabase.remoteKeysDao().remoteKeysRepoId(crewMemberId)
-            }
-        }
-    }
 }
-
-private const val CREW_MEMBERS_STARTING_PAGE_INDEX = 1

@@ -7,13 +7,13 @@ import com.app.core.model.HistoryEvent
 @Entity(tableName = "history_event_dbo")
 data class HistoryEventEntity(
     @PrimaryKey
-    val id: String,
+    override val id: String,
     val link: String?,
     val title: String,
     val date: Long,
     val details: String,
     val createdAt: Long,
-)
+): BaseEntity()
 
 fun HistoryEventEntity.asExternalModel() = HistoryEvent(
     id = id,

@@ -8,7 +8,7 @@ import com.app.core.model.RocketDetail
 @Entity(tableName = "rocket_dbo")
 data class RocketEntity(
     @PrimaryKey
-    val id: String,
+    override val id: String,
     val name: String,
     val active: Boolean,
     val images: List<String>,
@@ -16,7 +16,7 @@ data class RocketEntity(
     val wikipedia: String,
     val description: String,
     val createdAt: Long,
-)
+): BaseEntity()
 
 fun RocketEntity.asExternalModel() = Rocket(
     id = id,

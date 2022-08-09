@@ -3,7 +3,6 @@ package com.app.core.data.remotemediators
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
-import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.app.core.common.Constants
 import com.app.core.common.ResponseField
@@ -18,11 +17,11 @@ import retrofit2.HttpException
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
-@OptIn(ExperimentalPagingApi::class)
+@ExperimentalPagingApi
 class HistoryEventsRemoteMediator(
     private val spaceXService: SpaceXService,
-    private val historyEventsDatabase: SpaceXDatabase,
-) : RemoteMediator<Int, HistoryEventEntity>() {
+    private val database: SpaceXDatabase,
+) : BaseRemoteMediator<HistoryEventEntity>(database.remoteKeysDao()) {
 
     override suspend fun initialize(): InitializeAction {
         val cacheTimeout = TimeUnit.MILLISECONDS.convert(
@@ -30,8 +29,8 @@ class HistoryEventsRemoteMediator(
             TimeUnit.HOURS
         )
         var firstHistoryEvent: HistoryEventEntity? = null
-        historyEventsDatabase.withTransaction {
-            firstHistoryEvent = historyEventsDatabase.historyEventsDao().getFirst()
+        database.withTransaction {
+            firstHistoryEvent = database.historyEventsDao().getFirst()
         }
         val isCacheTimeout = firstHistoryEvent?.let {
             (System.currentTimeMillis() - it.createdAt) >= cacheTimeout
@@ -50,7 +49,7 @@ class HistoryEventsRemoteMediator(
         val page: Int = when (loadType) {
             LoadType.REFRESH -> {
                 val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
-                remoteKeys?.nextKey?.minus(1) ?: HISTORY_EVENTS_STARTING_PAGE_INDEX
+                remoteKeys?.nextKey?.minus(1) ?: STARTING_PAGE_INDEX
             }
 
             LoadType.PREPEND -> {
@@ -78,18 +77,18 @@ class HistoryEventsRemoteMediator(
             val apiResponse = spaceXService.getHistoryEvents(queryBody)
             val endOfPaginationReached = page >= apiResponse.totalPages
             val historyEvents = apiResponse.historyEvents
-            historyEventsDatabase.withTransaction {
+            database.withTransaction {
                 if (loadType == LoadType.REFRESH) {
-                    historyEventsDatabase.remoteKeysDao().clearRemoteKeys()
-                    historyEventsDatabase.historyEventsDao().clearAll()
+                    database.remoteKeysDao().clearRemoteKeys()
+                    database.historyEventsDao().clearAll()
                 }
-                val prevKey = if (page == HISTORY_EVENTS_STARTING_PAGE_INDEX) null else page - 1
+                val prevKey = if (page == STARTING_PAGE_INDEX) null else page - 1
                 val nextKey = if (endOfPaginationReached) null else page + 1
                 val keys = historyEvents.map {
                     RemoteKeysEntity(it.id, prevKey, nextKey)
                 }
-                historyEventsDatabase.remoteKeysDao().insertAll(keys)
-                historyEventsDatabase.historyEventsDao()
+                database.remoteKeysDao().insertAll(keys)
+                database.historyEventsDao()
                     .insertAll(historyEvents.map { it.asEntity() })
             }
             return MediatorResult.Success(endOfPaginationReached)
@@ -101,30 +100,4 @@ class HistoryEventsRemoteMediator(
             return MediatorResult.Error(exception)
         }
     }
-
-    private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, HistoryEventEntity>): RemoteKeysEntity? {
-        return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()
-            ?.let { historyEvent ->
-                historyEventsDatabase.remoteKeysDao().remoteKeysRepoId(historyEvent.id)
-            }
-    }
-
-    private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, HistoryEventEntity>): RemoteKeysEntity? {
-        return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
-            ?.let { historyEvent ->
-                historyEventsDatabase.remoteKeysDao().remoteKeysRepoId(historyEvent.id)
-            }
-    }
-
-    private suspend fun getRemoteKeyClosestToCurrentPosition(
-        state: PagingState<Int, HistoryEventEntity>,
-    ): RemoteKeysEntity? {
-        return state.anchorPosition?.let { position ->
-            state.closestItemToPosition(position)?.id?.let { historyEventId ->
-                historyEventsDatabase.remoteKeysDao().remoteKeysRepoId(historyEventId)
-            }
-        }
-    }
 }
-
-private const val HISTORY_EVENTS_STARTING_PAGE_INDEX = 1
