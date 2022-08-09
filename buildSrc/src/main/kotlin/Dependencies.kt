@@ -2,7 +2,7 @@ object Dependencies {
 
     const val ktlint = "com.pinterest:ktlint:0.46.1"
     const val coil = "io.coil-kt:coil-compose:2.1.0"
-    const val gson = "com.google.code.gson:gson:2.9.0"
+    const val gson = "com.google.code.gson:gson:2.9.1"
     const val timber = "com.jakewharton.timber:timber:5.0.1"
 
     object Kotlin {
@@ -23,7 +23,7 @@ object Dependencies {
     }
 
     object Gradle {
-        const val androidBuildPlugin = "com.android.tools.build:gradle:7.2.1"
+        const val androidBuildPlugin = "com.android.tools.build:gradle:7.2.2"
         const val kotlinPlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Kotlin.version}"
 
         object VersionsPlugin {
@@ -77,7 +77,7 @@ object Dependencies {
     }
 
     object Pluto {
-        const val version = "2.0.3"
+        const val version = "2.0.4"
 
         object Debug {
             const val pluto = "com.plutolib:pluto:$version"
