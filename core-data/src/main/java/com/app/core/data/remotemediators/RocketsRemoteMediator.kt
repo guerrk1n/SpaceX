@@ -4,8 +4,8 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.room.withTransaction
-import com.app.core.common.Constants
 import com.app.core.data.model.asEntity
+import com.app.core.data.util.DataConstants
 import com.app.core.database.SpaceXDatabase
 import com.app.core.database.model.RemoteKeysEntity
 import com.app.core.database.model.RocketEntity
@@ -24,7 +24,7 @@ class RocketsRemoteMediator(
 
     override suspend fun initialize(): InitializeAction {
         val cacheTimeout = TimeUnit.MILLISECONDS.convert(
-            Constants.REMOTE_MEDIATOR_CACHE_TIMEOUT_IN_HOURS,
+            REMOTE_MEDIATOR_CACHE_TIMEOUT_IN_HOURS,
             TimeUnit.HOURS
         )
         var lastRocketEntity: RocketEntity? = null
@@ -67,7 +67,7 @@ class RocketsRemoteMediator(
             }
         }
         try {
-            val options = Options(page, Constants.PAGE_SIZE)
+            val options = Options(page, DataConstants.PAGE_SIZE)
             val queryBody = QueryBody(options)
             val apiResponse = spaceXService.getRockets(queryBody)
             val endOfPaginationReached = page >= apiResponse.totalPages

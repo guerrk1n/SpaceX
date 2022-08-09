@@ -1,8 +1,8 @@
 package com.app.core.data.repository
 
 import androidx.paging.*
-import com.app.core.common.Constants
 import com.app.core.data.remotemediators.HistoryEventsRemoteMediator
+import com.app.core.data.util.DataConstants
 import com.app.core.database.SpaceXDatabase
 import com.app.core.database.model.asExternalModel
 import com.app.core.model.HistoryEvent
@@ -20,7 +20,7 @@ class HistoryEventsRepositoryImpl @Inject constructor(
     override fun getHistoryEventsStream(): Flow<PagingData<HistoryEvent>> {
         return Pager(
             config = PagingConfig(
-                pageSize = Constants.PAGE_SIZE,
+                pageSize = DataConstants.PAGE_SIZE,
                 enablePlaceholders = false
             ),
             remoteMediator = HistoryEventsRemoteMediator(spaceXService, database),

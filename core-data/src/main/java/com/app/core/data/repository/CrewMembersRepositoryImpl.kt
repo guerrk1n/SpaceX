@@ -1,8 +1,8 @@
 package com.app.core.data.repository
 
 import androidx.paging.*
-import com.app.core.common.Constants
 import com.app.core.data.remotemediators.CrewMembersRemoteMediator
+import com.app.core.data.util.DataConstants
 import com.app.core.database.SpaceXDatabase
 import com.app.core.database.model.asExternalModel
 import com.app.core.model.CrewMember
@@ -20,7 +20,7 @@ class CrewMembersRepositoryImpl @Inject constructor(
     override fun getCrewMembersStream(): Flow<PagingData<CrewMember>> {
         return Pager(
             config = PagingConfig(
-                pageSize = Constants.PAGE_SIZE,
+                pageSize = DataConstants.PAGE_SIZE,
                 enablePlaceholders = false
             ),
             remoteMediator = CrewMembersRemoteMediator(spaceXService, database),

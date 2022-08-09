@@ -77,9 +77,6 @@ dependencies {
     implementation(Dependencies.Compose.Accompanist.pagerIndicator)
     implementation(Dependencies.Compose.Accompanist.systemUiController)
 
-    // Coil Image
-    implementation(Dependencies.coil)
-
     // Hilt
     implementation(Dependencies.Hilt.hilt)
     kapt(Dependencies.Hilt.compiler)

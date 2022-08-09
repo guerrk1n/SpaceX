@@ -3,6 +3,7 @@ package com.app.core.data.repository
 import androidx.paging.*
 import com.app.core.common.Constants
 import com.app.core.data.remotemediators.RocketsRemoteMediator
+import com.app.core.data.util.DataConstants
 import com.app.core.database.SpaceXDatabase
 import com.app.core.database.model.asExternalDetailModel
 import com.app.core.database.model.asExternalModel
@@ -22,7 +23,7 @@ class RocketsRepositoryImpl @Inject constructor(
     override fun getRocketsStream(): Flow<PagingData<Rocket>> {
         return Pager(
             config = PagingConfig(
-                pageSize = Constants.PAGE_SIZE,
+                pageSize = DataConstants.PAGE_SIZE,
                 enablePlaceholders = false
             ),
             remoteMediator = RocketsRemoteMediator(spaceXService, database),

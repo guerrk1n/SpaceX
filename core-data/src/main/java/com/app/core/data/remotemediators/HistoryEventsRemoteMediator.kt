@@ -7,6 +7,7 @@ import androidx.room.withTransaction
 import com.app.core.common.Constants
 import com.app.core.common.ResponseField
 import com.app.core.data.model.asEntity
+import com.app.core.data.util.DataConstants
 import com.app.core.database.SpaceXDatabase
 import com.app.core.database.model.HistoryEventEntity
 import com.app.core.database.model.RemoteKeysEntity
@@ -25,7 +26,7 @@ class HistoryEventsRemoteMediator(
 
     override suspend fun initialize(): InitializeAction {
         val cacheTimeout = TimeUnit.MILLISECONDS.convert(
-            Constants.REMOTE_MEDIATOR_CACHE_TIMEOUT_IN_HOURS,
+            REMOTE_MEDIATOR_CACHE_TIMEOUT_IN_HOURS,
             TimeUnit.HOURS
         )
         var firstHistoryEvent: HistoryEventEntity? = null
@@ -70,7 +71,7 @@ class HistoryEventsRemoteMediator(
         try {
             val options = Options(
                 page,
-                Constants.PAGE_SIZE,
+                DataConstants.PAGE_SIZE,
                 mapOf(Pair(ResponseField.eventDateUnix, Constants.Network.SORT_BY_DESC))
             )
             val queryBody = QueryBody(options)
