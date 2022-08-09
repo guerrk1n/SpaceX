@@ -10,10 +10,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.app.core.ui.card.*
-import com.app.core.ui.text.HyperlinkText
 import com.app.core.designsystem.theme.colorGreen
 import com.app.core.model.CrewMember
+import com.app.core.ui.card.*
+import com.app.core.ui.text.HyperlinkText
 
 @Composable
 fun CrewMemberCard(crewMember: CrewMember) {
@@ -72,8 +72,18 @@ private fun CrewMemberStatus(crewMember: CrewMember) {
 private fun CrewMemberInfo(crewMember: CrewMember) {
     Column(modifier = Modifier.padding(start = 50.dp)) {
         SpaceXCardHeader(header = stringResource(R.string.spacex_app_crew_overline))
-        SpaceXCardTitle(title = crewMember.name)
-        SpaceXCardDetails(details = crewMember.agency)
+        SpaceXCardTitle(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 20.dp),
+            title = crewMember.name,
+        )
+        SpaceXCardDetails(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 20.dp),
+            details = crewMember.agency,
+        )
         CrewMemberWikiLink(crewMember)
     }
 }

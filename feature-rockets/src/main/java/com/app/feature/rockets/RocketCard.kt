@@ -52,7 +52,12 @@ fun RocketCard(
 private fun RocketInfo(rocket: Rocket) {
     Column(modifier = Modifier.padding(start = 50.dp)) {
         SpaceXCardHeader(header = stringResource(R.string.spacex_app_rocket_overline))
-        SpaceXCardTitle(title = rocket.name)
+        SpaceXCardTitle(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 20.dp),
+            title = rocket.name,
+        )
         RocketStatus(rocket)
     }
 }
