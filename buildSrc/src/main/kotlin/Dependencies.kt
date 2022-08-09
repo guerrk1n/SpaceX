@@ -9,10 +9,12 @@ object Dependencies {
         const val version = "1.7.0"
     }
 
-    object Koin {
-        const val version = "3.2.0"
-        const val koin = "io.insert-koin:koin-android:$version"
-        const val compose = "io.insert-koin:koin-androidx-compose:$version"
+    object Hilt {
+        const val version = "2.43.2"
+        const val hilt = "com.google.dagger:hilt-android:$version"
+        const val plugin = "com.google.dagger:hilt-android-gradle-plugin:$version"
+        const val compiler = "com.google.dagger:hilt-compiler:$version"
+        const val navigation = "androidx.hilt:hilt-navigation-compose:1.0.0"
     }
 
     object OkHttp {

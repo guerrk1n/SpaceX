@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="spacex_app_crew_overline">Crew</string>
+    <string name="spacex_app_wikipedia">Wikipedia</string>
+    <string name="spacex_app_error_internet">Internet goes wrong</string>
+</resources>

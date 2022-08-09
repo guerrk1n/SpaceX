@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="spacex_app_history_events_overline">History Event</string>
+    <string name="spacex_app_source">Source</string>
+    <string name="spacex_app_error_internet">Internet goes wrong</string>
+</resources>
