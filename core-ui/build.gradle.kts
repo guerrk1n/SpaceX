@@ -28,4 +28,7 @@ dependencies {
     // Coil Image
     implementation(Dependencies.coil)
 
+    // Accompanist
+    implementation(Dependencies.Compose.Accompanist.pager)
+
 }

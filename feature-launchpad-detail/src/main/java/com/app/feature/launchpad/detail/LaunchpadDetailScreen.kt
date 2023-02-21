@@ -39,6 +39,7 @@ import com.app.core.common.Constants
 import com.app.core.designsystem.theme.colorRed
 import com.app.core.designsystem.theme.googleSansFamily
 import com.app.core.model.LaunchpadDetail
+import com.app.core.ui.animations.getPhotoSwipeAnimation
 import com.app.core.ui.buttons.BackButton
 import com.app.core.ui.error.ErrorColumn
 import com.app.core.ui.loading.LoadingColumn
@@ -187,26 +188,7 @@ private fun shareClick(context: Context, title: String, description: String) {
     context.startActivity(Intent.createChooser(sendIntent, null))
 }
 
-@OptIn(ExperimentalPagerApi::class)
-private fun getPhotoSwipeAnimation(
-    scope: PagerScope,
-    pageIndex: Int,
-): GraphicsLayerScope.() -> Unit = {
-    val pageOffset = scope.calculateCurrentOffsetForPage(pageIndex).absoluteValue
-    lerp(
-        start = 0.85f,
-        stop = 1f,
-        fraction = 1f - pageOffset.coerceIn(0f, 1f)
-    ).also { scale ->
-        scaleX = scale
-        scaleY = scale
-    }
-    alpha = lerp(
-        start = 0.5f,
-        stop = 1f,
-        fraction = 1f - pageOffset.coerceIn(0f, 1f)
-    )
-}
+
 
 @Preview
 @Composable
