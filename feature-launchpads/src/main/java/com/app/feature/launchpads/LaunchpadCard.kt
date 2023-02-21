@@ -111,25 +111,4 @@ private fun Preview() {
             "https://i.imgur.com/7uXe1Kv.png",
         )
     ) {}
-
-//    Launchpad(
-//        "5e9e4501f5090910d4566f83",
-//        "VAFB SLC 3W",
-//        "Vandenberg Space Force Base Space Launch Complex 3W",
-//        "retired",
-//        null,
-//        "Vandenberg Space Force Base",
-//        "California",
-//        0,
-//        0,
-//        listOf("https://i.imgur.com/7uXe1Kv.png"),
-//        null,
-//        """
-//                SpaceX's original west coast launch pad for Falcon 1. It was used in a static fire test but was never employed for a launch,
-//                 and was abandoned due to range scheduling conflicts arising from overflying other active pads.
-//            """.trimIndent(),
-//        listOf(""),
-//        listOf(""),
-//    )
-
 }

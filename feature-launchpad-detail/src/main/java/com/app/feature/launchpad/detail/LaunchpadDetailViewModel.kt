@@ -18,7 +18,7 @@ class LaunchpadDetailViewModel @Inject constructor(
 
     private val launchpadId: String = checkNotNull(savedStateHandle["launchpadId"])
 
-    val state = MutableStateFlow(RocketDetailViewState())
+    val state = MutableStateFlow(LaunchpadDetailViewState())
 
     init {
         getLaunchpadDetails()
@@ -40,7 +40,7 @@ class LaunchpadDetailViewModel @Inject constructor(
         }
     }
 
-    data class RocketDetailViewState(
+    data class LaunchpadDetailViewState(
         val launchpadDetail: LaunchpadDetail? = null,
         val loading: Boolean = false,
         val error: Throwable? = null,

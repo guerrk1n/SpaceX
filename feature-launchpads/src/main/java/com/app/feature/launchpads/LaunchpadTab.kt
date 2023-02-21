@@ -75,11 +75,16 @@ private fun LazyLaunchpadsColumn(
 @Preview(showSystemUi = true)
 @Composable
 private fun PreviewLaunchpadsContent() {
+    val launchpad = Launchpad(
+        "5e9e4501f5090910d4566f83",
+        "VAFB SLC 3W",
+        "Vandenberg Space Force Base Space Launch Complex 3W",
+        "retired",
+        "https://i.imgur.com/7uXe1Kv.png",
+    )
     val launchpads = mutableListOf<Launchpad>()
     repeat(10) {
-//        launchpads.add(
-        // TODO
-//        )
+        launchpads.add(launchpad)
     }
     val lazyPagingLaunchpads = flowOf(PagingData.from(launchpads)).collectAsLazyPagingItems()
 

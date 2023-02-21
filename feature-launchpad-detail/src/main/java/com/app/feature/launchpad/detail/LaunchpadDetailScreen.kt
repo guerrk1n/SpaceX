@@ -29,6 +29,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
@@ -65,7 +66,7 @@ fun LaunchpadDetailScreen(
 private fun LaunchpadDetailContent(
     navigateUp: () -> Unit,
     refreshContent: () -> Unit,
-    uiState: LaunchpadDetailViewModel.RocketDetailViewState,
+    uiState: LaunchpadDetailViewModel.LaunchpadDetailViewState,
 ) {
     Column(
         modifier = Modifier
@@ -111,7 +112,7 @@ private fun TopBar(navigateUp: () -> Unit, launchpadDetail: LaunchpadDetail?) {
 }
 
 @Composable
-private fun LaunchpadInfo(uiState: LaunchpadDetailViewModel.RocketDetailViewState) {
+private fun LaunchpadInfo(uiState: LaunchpadDetailViewModel.LaunchpadDetailViewState) {
     uiState.launchpadDetail?.let {
         InfoBlock(R.string.spacex_app_feature_launchpad_title, it.name)
         InfoBlock(R.string.spacex_app_feature_launchpad_full_name, it.fullName)
@@ -205,4 +206,30 @@ private fun getPhotoSwipeAnimation(
         stop = 1f,
         fraction = 1f - pageOffset.coerceIn(0f, 1f)
     )
+}
+
+@Preview
+@Composable
+private fun PreviewLaunchpadDetailContent() {
+    val launchpad = LaunchpadDetail(
+        "5e9e4501f5090910d4566f83",
+        "VAFB SLC 3W",
+        "Vandenberg Space Force Base Space Launch Complex 3W",
+        "retired",
+        "Vandenberg Space Force Base",
+        "California",
+        0,
+        0,
+        listOf("https://i.imgur.com/7uXe1Kv.png"),
+        """
+                SpaceX's original west coast launch pad for Falcon 1. It was used in a static fire test but was never employed for a launch,
+                 and was abandoned due to range scheduling conflicts arising from overflying other active pads.
+            """.trimIndent(),
+        listOf(""),
+        listOf(""),
+        "America/Los_Angeles"
+    )
+    val launchpadDetailState = LaunchpadDetailViewModel.LaunchpadDetailViewState(launchpad)
+    LaunchpadDetailContent(navigateUp = {}, refreshContent = {}, uiState = launchpadDetailState)
+
 }
