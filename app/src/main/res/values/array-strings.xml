@@ -4,5 +4,6 @@
         <item>@string/spacex_app_feature_rockets</item>
         <item>@string/spacex_app_feature_crew</item>
         <item>@string/spacex_app_feature_history_event</item>
+        <item>@string/spacex_app_feature_launchpads</item>
     </string-array>
 </resources>

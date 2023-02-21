@@ -11,4 +11,5 @@ include(":feature-rockets")
 include(":feature-crew")
 include(":feature-history-events")
 include(":feature-rocket-detail")
-
+include(":feature-launchpads")
+include(":feature-launchpad-detail")

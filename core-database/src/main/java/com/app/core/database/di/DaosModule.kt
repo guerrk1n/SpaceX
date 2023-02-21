@@ -3,6 +3,7 @@ package com.app.core.database.di
 import com.app.core.database.SpaceXDatabase
 import com.app.core.database.dao.CrewMembersDao
 import com.app.core.database.dao.HistoryEventsDao
+import com.app.core.database.dao.LaunchpadsDao
 import com.app.core.database.dao.RemoteKeysDao
 import com.app.core.database.dao.RocketsDao
 import dagger.Module
@@ -26,4 +27,7 @@ object DaosModule {
 
     @Provides
     fun providesRemoteKeysDao(database: SpaceXDatabase): RemoteKeysDao = database.remoteKeysDao()
+
+    @Provides
+    fun providesLaunchpadsDao(database: SpaceXDatabase): LaunchpadsDao = database.launchpadsDao()
 }

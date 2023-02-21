@@ -3,4 +3,5 @@
     <string name="spacex_app_feature_history_event">History Events</string>
     <string name="spacex_app_feature_crew">Crew</string>
     <string name="spacex_app_feature_rockets">Rockets</string>
+    <string name="spacex_app_feature_launchpads">Launchpads</string>
 </resources>

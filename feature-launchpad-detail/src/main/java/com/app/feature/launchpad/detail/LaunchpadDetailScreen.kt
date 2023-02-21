@@ -1,61 +1,73 @@
-package com.app.feature.rocket.detail
+package com.app.feature.launchpad.detail
 
 import android.content.Context
 import android.content.Intent
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.GraphicsLayerScope
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.util.lerp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.app.core.common.Constants
 import com.app.core.designsystem.theme.colorRed
 import com.app.core.designsystem.theme.googleSansFamily
-import com.app.core.model.RocketDetail
+import com.app.core.model.LaunchpadDetail
 import com.app.core.ui.animations.getPhotoSwipeAnimation
 import com.app.core.ui.buttons.BackButton
 import com.app.core.ui.error.ErrorColumn
 import com.app.core.ui.loading.LoadingColumn
-import com.google.accompanist.pager.*
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.PagerScope
+import com.google.accompanist.pager.calculateCurrentOffsetForPage
+import com.google.accompanist.pager.rememberPagerState
+import kotlin.math.absoluteValue
 
 @Composable
-fun RocketDetailScreen(
-    viewModel: RocketDetailViewModel = hiltViewModel(),
+fun LaunchpadDetailScreen(
+    viewModel: LaunchpadDetailViewModel = hiltViewModel(),
     navigateUp: () -> Unit,
 ) {
     val uiState = viewModel.state.collectAsState().value
-    RocketDetailContent(
+    LaunchpadDetailContent(
         navigateUp = navigateUp,
-        refreshContent = { viewModel.getRocketDetails() },
-        uiState = uiState
+        refreshContent = { viewModel.getLaunchpadDetails() },
+        uiState = uiState,
     )
-
 }
 
 @Composable
-private fun RocketDetailContent(
+private fun LaunchpadDetailContent(
     navigateUp: () -> Unit,
     refreshContent: () -> Unit,
-    uiState: RocketDetailViewModel.RocketDetailViewState,
+    uiState: LaunchpadDetailViewModel.LaunchpadDetailViewState,
 ) {
     Column(
         modifier = Modifier
@@ -66,20 +78,19 @@ private fun RocketDetailContent(
             .padding(bottom = 40.dp)
             .verticalScroll(rememberScrollState()),
     ) {
-        TopBar(navigateUp, uiState.rocketDetail)
+        TopBar(navigateUp, uiState.launchpadDetail)
         when {
             uiState.loading -> LoadingColumn(color = colorRed)
 
             uiState.error != null -> ErrorColumn(color = colorRed, onClick = refreshContent)
 
-            else -> RocketInfo(uiState)
+            else -> LaunchpadInfo(uiState)
         }
-
     }
 }
 
 @Composable
-private fun TopBar(navigateUp: () -> Unit, rocketDetail: RocketDetail?) {
+private fun TopBar(navigateUp: () -> Unit, launchpadDetail: LaunchpadDetail?) {
     val context = LocalContext.current
     Row(
         modifier = Modifier
@@ -88,8 +99,8 @@ private fun TopBar(navigateUp: () -> Unit, rocketDetail: RocketDetail?) {
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         BackButton(navigateUp)
-        rocketDetail?.let {
-            IconButton(onClick = { shareClick(context, it.name, it.description) }) {
+        launchpadDetail?.let {
+            IconButton(onClick = { shareClick(context, it.name, it.details) }) {
                 Icon(
                     painter = painterResource(R.drawable.ic_send),
                     contentDescription = stringResource(R.string.spacex_app_send),
@@ -102,18 +113,24 @@ private fun TopBar(navigateUp: () -> Unit, rocketDetail: RocketDetail?) {
 }
 
 @Composable
-private fun RocketInfo(uiState: RocketDetailViewModel.RocketDetailViewState) {
-    uiState.rocketDetail?.let {
-        InfoBlock(R.string.spacex_app_feature_rocket_title, it.name)
-        InfoBlock(R.string.spacex_app_feature_rocket_first_flight, it.firstFlight)
-
-        val activeRes =
-            if (it.active) R.string.spacex_app_active else R.string.spacex_app_inactive
-        InfoBlock(R.string.spacex_app_active, stringResource(activeRes))
-
-        InfoBlock(R.string.spacex_app_feature_rocket_details, it.description)
-        WikipediaButton(it.wikipedia)
-        PhotoInfo(it.images)
+private fun LaunchpadInfo(uiState: LaunchpadDetailViewModel.LaunchpadDetailViewState) {
+    uiState.launchpadDetail?.let {
+        InfoBlock(R.string.spacex_app_feature_launchpad_title, it.name)
+        InfoBlock(R.string.spacex_app_feature_launchpad_full_name, it.fullName)
+        InfoBlock(R.string.spacex_app_feature_launchpad_status, it.status)
+        InfoBlock(R.string.spacex_app_feature_launchpad_locality, it.locality)
+        InfoBlock(R.string.spacex_app_feature_launchpad_region, it.region)
+        InfoBlock(
+            R.string.spacex_app_feature_launchpad_landing_attempts_and_successes,
+            stringResource(
+                R.string.spacex_app_feature_launchpad_landing_successes_and_attempts_format,
+                it.landingSuccesses,
+                it.landingAttempts,
+            )
+        )
+        InfoBlock(R.string.spacex_app_feature_launchpad_time_zone, it.timeZone)
+        InfoBlock(R.string.spacex_app_feature_launchpad_details, it.details)
+        PhotoInfo(it.images, it.name)
     }
 }
 
@@ -131,39 +148,11 @@ private fun InfoBlock(@StringRes titleRes: Int, info: String) {
     )
 }
 
-@Composable
-private fun WikipediaButton(wikipedia: String) {
-    val uriHandler = LocalUriHandler.current
-    Text(
-        text = stringResource(R.string.spacex_app_link),
-        style = MaterialTheme.typography.overline, color = colorRed
-    )
-    Card(
-        modifier = Modifier
-            .padding(top = 10.dp, bottom = 20.dp)
-            .wrapContentSize()
-            .clickable { uriHandler.openUri(wikipedia) },
-        shape = RoundedCornerShape(6.dp),
-        backgroundColor = colorRed,
-    ) {
-        Text(
-            modifier = Modifier
-                .padding(vertical = 15.dp, horizontal = 50.dp),
-            text = stringResource(R.string.spacex_app_wikipedia),
-            textAlign = TextAlign.Center,
-            color = Color.White,
-            fontSize = 12.sp,
-            fontWeight = FontWeight.Medium,
-            fontFamily = googleSansFamily
-        )
-    }
-}
-
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-private fun PhotoInfo(images: List<String>) {
+private fun PhotoInfo(images: List<String>, contentDescription: String) {
     Text(
-        text = stringResource(R.string.spacex_app_feature_rocket_sneak_peak),
+        text = stringResource(R.string.spacex_app_feature_launchpad_sneak_peak),
         style = MaterialTheme.typography.overline,
         color = colorRed
     )
@@ -183,7 +172,7 @@ private fun PhotoInfo(images: List<String>) {
             AsyncImage(
                 model = images[pageIndex],
                 contentScale = ContentScale.Crop,
-                contentDescription = stringResource(R.string.spacex_app_content_description_photo_rocket_detail),
+                contentDescription = stringResource(R.string.spacex_app_content_description_photo_launchpad_detail, contentDescription),
             )
         }
     }
@@ -199,8 +188,30 @@ private fun shareClick(context: Context, title: String, description: String) {
     context.startActivity(Intent.createChooser(sendIntent, null))
 }
 
+
+
 @Preview
 @Composable
-private fun PreviewRocketDetailScreen() {
-//    RocketDetailContent(uiState)
+private fun PreviewLaunchpadDetailContent() {
+    val launchpad = LaunchpadDetail(
+        "5e9e4501f5090910d4566f83",
+        "VAFB SLC 3W",
+        "Vandenberg Space Force Base Space Launch Complex 3W",
+        "retired",
+        "Vandenberg Space Force Base",
+        "California",
+        0,
+        0,
+        listOf("https://i.imgur.com/7uXe1Kv.png"),
+        """
+                SpaceX's original west coast launch pad for Falcon 1. It was used in a static fire test but was never employed for a launch,
+                 and was abandoned due to range scheduling conflicts arising from overflying other active pads.
+            """.trimIndent(),
+        listOf(""),
+        listOf(""),
+        "America/Los_Angeles"
+    )
+    val launchpadDetailState = LaunchpadDetailViewModel.LaunchpadDetailViewState(launchpad)
+    LaunchpadDetailContent(navigateUp = {}, refreshContent = {}, uiState = launchpadDetailState)
+
 }
