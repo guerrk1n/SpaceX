@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
+import com.app.feature.launchpad.detail.LaunchpadDetailScreen
 import com.app.feature.rocket.detail.RocketDetailScreen
 import com.app.spacexapp.ui.MainScreen
 
@@ -23,6 +24,10 @@ private sealed class LeafScreen(val route: String) {
     object MainTabs : LeafScreen("mainTabs")
     object RocketDetails : LeafScreen("rocketDetails/{rocketId}") {
         fun createRoute(root: Screen, rocketId: String) = "${root.route}/rocketDetails/$rocketId"
+    }
+
+    object LaunchpadDetails : LeafScreen("launchpadDetails/{launchpadId}") {
+        fun createRoute(root: Screen, launchpadId: String) = "${root.route}/launchpadDetails/$launchpadId"
     }
 
 }
@@ -47,7 +52,8 @@ private fun NavGraphBuilder.addMainTabsTopLevel(
         startDestination = LeafScreen.MainTabs.createRoute(Screen.MainTabs)
     ) {
         addMainTabs(navController, root)
-        addDetail(navController, root)
+        addRocketDetail(navController, root)
+        addLaunchpadDetail(navController, root)
     }
 }
 
@@ -59,18 +65,33 @@ private fun NavGraphBuilder.addMainTabs(
         MainScreen(
             openRocketDetail = { rocketId ->
                 navController.navigate(LeafScreen.RocketDetails.createRoute(root, rocketId))
+            },
+            openLaunchpadDetail = { launchpadId ->
+                navController.navigate(LeafScreen.LaunchpadDetails.createRoute(root, launchpadId))
             }
         )
     }
 }
 
-private fun NavGraphBuilder.addDetail(navController: NavHostController, root: Screen) {
+private fun NavGraphBuilder.addRocketDetail(navController: NavHostController, root: Screen) {
     composable(
         route = LeafScreen.RocketDetails.createRoute(root),
         arguments = listOf(
             navArgument("rocketId") { type = NavType.StringType }) // TODO replace with constant
     ) {
         RocketDetailScreen(
+            navigateUp = navController::navigateUp
+        )
+    }
+}
+
+private fun NavGraphBuilder.addLaunchpadDetail(navController: NavHostController, root: Screen) {
+    composable(
+        route = LeafScreen.LaunchpadDetails.createRoute(root),
+        arguments = listOf(
+            navArgument("launchpadId") { type = NavType.StringType }) // TODO replace with constant
+    ) {
+        LaunchpadDetailScreen(
             navigateUp = navController::navigateUp
         )
     }

@@ -31,9 +31,7 @@ fun SpaceXCardHeader(modifier: Modifier = Modifier, header: String) {
 
 @Composable
 fun SpaceXCardTitle(
-    modifier: Modifier = Modifier
-        .fillMaxWidth()
-        .padding(top = 20.dp),
+    modifier: Modifier = Modifier,
     title: String,
 ) {
     Text(
@@ -44,10 +42,20 @@ fun SpaceXCardTitle(
 }
 
 @Composable
+fun SpaceXCardSubTitle(
+    modifier: Modifier = Modifier,
+    subTitle: String,
+) {
+    Text(
+        modifier = modifier,
+        text = subTitle,
+        style = MaterialTheme.typography.subtitle2,
+    )
+}
+
+@Composable
 fun SpaceXCardDetails(
-    modifier: Modifier = Modifier
-        .fillMaxWidth()
-        .padding(vertical = 20.dp),
+    modifier: Modifier = Modifier,
     details: String,
 ) {
     Text(

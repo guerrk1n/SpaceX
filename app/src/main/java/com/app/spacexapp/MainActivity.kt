@@ -19,9 +19,7 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun renderUi() = setContent {
-        val systemTheme = isSystemInDarkTheme()
-        val isDarkTheme = remember { mutableStateOf(systemTheme) }
-        SpaceXTheme(isDarkTheme = isDarkTheme.value) {
+        SpaceXTheme {
             val navController = rememberNavController()
             AppNavigation(navController)
         }

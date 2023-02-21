@@ -14,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.GraphicsLayerScope
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -26,18 +25,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.util.lerp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.app.core.common.Constants
 import com.app.core.designsystem.theme.colorRed
 import com.app.core.designsystem.theme.googleSansFamily
 import com.app.core.model.RocketDetail
+import com.app.core.ui.animations.getPhotoSwipeAnimation
 import com.app.core.ui.buttons.BackButton
 import com.app.core.ui.error.ErrorColumn
 import com.app.core.ui.loading.LoadingColumn
 import com.google.accompanist.pager.*
-import kotlin.math.absoluteValue
 
 @Composable
 fun RocketDetailScreen(
@@ -200,28 +198,6 @@ private fun shareClick(context: Context, title: String, description: String) {
     }
     context.startActivity(Intent.createChooser(sendIntent, null))
 }
-
-@OptIn(ExperimentalPagerApi::class)
-private fun getPhotoSwipeAnimation(
-    scope: PagerScope,
-    pageIndex: Int,
-): GraphicsLayerScope.() -> Unit = {
-    val pageOffset = scope.calculateCurrentOffsetForPage(pageIndex).absoluteValue
-    lerp(
-        start = 0.85f,
-        stop = 1f,
-        fraction = 1f - pageOffset.coerceIn(0f, 1f)
-    ).also { scale ->
-        scaleX = scale
-        scaleY = scale
-    }
-    alpha = lerp(
-        start = 0.5f,
-        stop = 1f,
-        fraction = 1f - pageOffset.coerceIn(0f, 1f)
-    )
-}
-
 
 @Preview
 @Composable

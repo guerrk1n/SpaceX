@@ -22,6 +22,7 @@ import com.app.feature.historyevents.HistoryEventsTab
 import com.app.feature.rockets.RocketsTab
 import com.app.core.designsystem.theme.colorRed
 import com.app.core.designsystem.theme.googleSansFamily
+import com.app.feature.launchpads.LaunchpadTab
 import com.app.spacexapp.R
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -31,20 +32,31 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.launch
 
 @Composable
-fun MainScreen(openRocketDetail: (String) -> Unit) {
+fun MainScreen(
+    openRocketDetail: (String) -> Unit,
+    openLaunchpadDetail: (String) -> Unit,
+) {
     val systemUiComposable = rememberSystemUiController()
     SideEffect { systemUiComposable.setSystemBarsColor(color = Color.Black) }
 
     Scaffold(
         topBar = { Toolbar() },
         backgroundColor = Color.Black,
-        content = { MainContentBox(openRocketDetail) }
+        content = {
+            MainContentBox(
+                openRocketDetail,
+                openLaunchpadDetail,
+            )
+        }
     )
 }
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun MainContentBox(openRocketDetail: (String) -> Unit) {
+fun MainContentBox(
+    openRocketDetail: (String) -> Unit,
+    openLaunchpadDetail: (String) -> Unit,
+) {
     Box(modifier = Modifier.padding(top = 70.dp)) {
         Column(
             modifier = Modifier
@@ -58,7 +70,7 @@ fun MainContentBox(openRocketDetail: (String) -> Unit) {
             val pagerState = rememberPagerState()
             val tabs = stringArrayResource(R.array.title_tab_main)
             MainTabRow(pagerState, tabs)
-            MainHorizontalPager(pagerState, tabs.size,openRocketDetail)
+            MainHorizontalPager(pagerState, tabs.size, openRocketDetail, openLaunchpadDetail)
         }
     }
 }
@@ -106,7 +118,12 @@ fun MainTabRow(pagerState: PagerState, pages: Array<String>) {
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun MainHorizontalPager(pagerState: PagerState, size: Int, openRocketDetail: (String) -> Unit) {
+fun MainHorizontalPager(
+    pagerState: PagerState,
+    size: Int,
+    openRocketDetail: (String) -> Unit,
+    openLaunchpadDetail: (String) -> Unit,
+) {
     HorizontalPager(
         modifier = Modifier
             .fillMaxWidth()
@@ -120,6 +137,7 @@ fun MainHorizontalPager(pagerState: PagerState, size: Int, openRocketDetail: (St
             TABS.ROCKETS -> RocketsTab(openRocketDetail)
             TABS.CREW -> CrewTab()
             TABS.HISTORY_EVENTS -> HistoryEventsTab()
+            TABS.LAUNCHPADS -> LaunchpadTab(openLaunchpadDetail)
         }
     }
 }
@@ -145,5 +163,5 @@ fun Toolbar() {
 @Preview
 @Composable
 fun PreviewMainContent() {
-    MainScreen {}
+    MainScreen({}, {})
 }

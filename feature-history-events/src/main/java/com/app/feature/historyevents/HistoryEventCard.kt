@@ -27,8 +27,18 @@ fun HistoryEventCard(historyEvent: HistoryEvent) {
     ) {
         Column(modifier = Modifier.padding(horizontal = 15.dp, vertical = 20.dp)) {
             HistoryEventHeader(historyEvent)
-            SpaceXCardTitle(title = historyEvent.title)
-            SpaceXCardDetails(details = historyEvent.details)
+            SpaceXCardTitle(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 20.dp),
+                title = historyEvent.title,
+            )
+            SpaceXCardDetails(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 20.dp),
+                details = historyEvent.details,
+            )
             HistoryEventSourceLink(historyEvent)
         }
     }
