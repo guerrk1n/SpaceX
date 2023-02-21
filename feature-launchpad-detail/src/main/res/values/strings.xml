@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="spacex_app_send">Send</string>
+    <string name="spacex_app_feature_launchpad_title">Launchpad</string>
+    <string name="spacex_app_feature_launchpad_full_name">Full name</string>
+    <string name="spacex_app_feature_launchpad_status">Status</string>
+    <string name="spacex_app_feature_launchpad_locality">Locality</string>
+    <string name="spacex_app_feature_launchpad_region">Region</string>
+    <string name="spacex_app_feature_launchpad_landing_attempts_and_successes">Landing Successes / Landing Attempts</string>
+    <string name="spacex_app_feature_launchpad_landing_successes_and_attempts_format">%1d / %2d</string>
+    <string name="spacex_app_feature_launchpad_details">Details</string>
+    <string name="spacex_app_feature_launchpad_time_zone">Time zone</string>
+    <string name="spacex_app_feature_launchpad_sneak_peak">Sneak Peak</string>
+    <string name="spacex_app_content_description_photo_launchpad_detail">Photo of %s</string>
+</resources>

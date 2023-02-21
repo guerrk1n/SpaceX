@@ -42,6 +42,18 @@ fun SpaceXCardTitle(
 }
 
 @Composable
+fun SpaceXCardSubTitle(
+    modifier: Modifier = Modifier,
+    subTitle: String,
+) {
+    Text(
+        modifier = modifier,
+        text = subTitle,
+        style = MaterialTheme.typography.subtitle2,
+    )
+}
+
+@Composable
 fun SpaceXCardDetails(
     modifier: Modifier = Modifier,
     details: String,

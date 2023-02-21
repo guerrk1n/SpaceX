@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="spacex_app_launchpad_overline">Launchpad</string>
+    <string name="spacex_app_active">Active</string>
+    <string name="spacex_app_inactive">Inactive</string>
+    <string name="spacex_app_error_internet">Internet goes wrong</string>
+    <string name="spacex_app_source">Source</string>
+</resources>

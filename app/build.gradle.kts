@@ -47,6 +47,8 @@ dependencies {
     implementation(project(":feature-crew"))
     implementation(project(":feature-history-events"))
     implementation(project(":feature-rocket-detail"))
+    implementation(project(":feature-launchpads"))
+    implementation(project(":feature-launchpad-detail"))
 
     implementation(project(":core-ui"))
     implementation(project(":core-designsystem"))

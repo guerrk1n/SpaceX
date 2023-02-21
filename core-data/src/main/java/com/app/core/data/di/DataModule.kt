@@ -24,4 +24,9 @@ interface DataModule {
     fun bindHistoryEventsRepository(
         historyEventsRepository: HistoryEventsRepositoryImpl,
     ): HistoryEventsRepository
+
+    @Binds
+    fun bindLaunchpadsRepository(
+        launchpadsRepository: LaunchpadsRepositoryImpl,
+    ): LaunchpadsRepository
 }
