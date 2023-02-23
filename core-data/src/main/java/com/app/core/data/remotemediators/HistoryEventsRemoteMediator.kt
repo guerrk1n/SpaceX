@@ -4,7 +4,6 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.room.withTransaction
-import com.app.core.common.Constants
 import com.app.core.data.model.asEntity
 import com.app.core.data.providers.DataType
 import com.app.core.data.providers.SortTypeProvider
@@ -13,13 +12,12 @@ import com.app.core.database.SpaceXDatabase
 import com.app.core.database.model.HistoryEventEntity
 import com.app.core.database.model.RemoteKeysEntity
 import com.app.core.network.SpaceXService
-import com.app.core.network.model.NetworkCrewMember
 import com.app.core.network.model.NetworkHistoryEvent
 import com.app.core.network.model.Options
 import com.app.core.network.model.QueryBody
 import retrofit2.HttpException
+import timber.log.Timber
 import java.io.IOException
-import java.util.concurrent.TimeUnit
 
 @ExperimentalPagingApi
 class HistoryEventsRemoteMediator(
@@ -29,22 +27,11 @@ class HistoryEventsRemoteMediator(
 ) : BaseRemoteMediator<HistoryEventEntity>(database.remoteKeysDao()) {
 
     override suspend fun initialize(): InitializeAction {
-        val cacheTimeout = TimeUnit.MILLISECONDS.convert(
-            REMOTE_MEDIATOR_CACHE_TIMEOUT_IN_HOURS,
-            TimeUnit.HOURS
-        )
         var firstHistoryEvent: HistoryEventEntity? = null
         database.withTransaction {
             firstHistoryEvent = database.historyEventsDao().getFirst()
         }
-        val isCacheTimeout = firstHistoryEvent?.let {
-            (System.currentTimeMillis() - it.createdAt) >= cacheTimeout
-        } ?: true
-        return if (isCacheTimeout) {
-            InitializeAction.LAUNCH_INITIAL_REFRESH
-        } else {
-            InitializeAction.SKIP_INITIAL_REFRESH
-        }
+        return getInitializeAction(firstHistoryEvent?.createdAt)
     }
 
     override suspend fun load(
@@ -52,10 +39,7 @@ class HistoryEventsRemoteMediator(
         state: PagingState<Int, HistoryEventEntity>,
     ): MediatorResult {
         val page: Int = when (loadType) {
-            LoadType.REFRESH -> {
-                val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
-                remoteKeys?.nextKey?.minus(1) ?: STARTING_PAGE_INDEX
-            }
+            LoadType.REFRESH -> getPageForRefreshLoadType(state)
 
             LoadType.PREPEND -> {
                 val remoteKeys = getRemoteKeyForFirstItem(state)
@@ -97,10 +81,13 @@ class HistoryEventsRemoteMediator(
             }
             return MediatorResult.Success(endOfPaginationReached)
         } catch (exception: IOException) {
+            Timber.e("load exception $exception")
             return MediatorResult.Error(exception)
         } catch (exception: HttpException) {
+            Timber.e("load exception $exception")
             return MediatorResult.Error(exception)
         } catch (exception: Exception) {
+            Timber.e("load exception $exception")
             return MediatorResult.Error(exception)
         }
     }
