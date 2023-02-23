@@ -21,6 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.app.core.ui.R
 
@@ -54,5 +55,27 @@ fun DropDownMenuWithTitle(
                 }
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun PreviewDropDownMenuWithTitle() {
+    DropDownMenuWithTitle() {
+        SpaceXDropdownMenuItemWithCheckedIcon(
+            textRes = R.string.spacex_app_sort_type,
+            onClick = {},
+            showCheckedIcon = { true }
+        )
+        SpaceXDropdownMenuItemWithCheckedIcon(
+            textRes = R.string.spacex_app_sort_type,
+            onClick = {},
+            showCheckedIcon = { false }
+        )
+        SpaceXDropdownMenuItemWithCheckedIcon(
+            textRes = R.string.spacex_app_sort_type,
+            onClick = {},
+            showCheckedIcon = { true }
+        )
     }
 }
