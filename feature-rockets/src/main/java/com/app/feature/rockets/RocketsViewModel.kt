@@ -54,16 +54,16 @@ class RocketsViewModel @Inject constructor(
         }
     }
 
-    private fun submitUiEffect(effect: RocketsUiEffect) {
-        viewModelScope.launch {
-            _uiEffects.emit(effect)
-        }
-    }
-
     private fun onSortTypeChanged(type: SortType) {
         viewModelScope.launch {
             rocketsRepository.saveRocketSortType(type)
             submitUiEffect(RocketsUiEffect.ChangeSortType())
+        }
+    }
+
+    private fun submitUiEffect(effect: RocketsUiEffect) {
+        viewModelScope.launch {
+            _uiEffects.emit(effect)
         }
     }
 }

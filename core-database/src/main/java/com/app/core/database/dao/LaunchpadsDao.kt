@@ -10,8 +10,11 @@ import com.app.core.database.model.LaunchpadEntity
 @Dao
 interface LaunchpadsDao {
 
-    @Query("SELECT * FROM launchpad_dbo")
-    fun getAll(): PagingSource<Int, LaunchpadEntity>
+    @Query("SELECT * FROM launchpad_dbo ORDER BY name ASC")
+    fun getAllAsc(): PagingSource<Int, LaunchpadEntity>
+
+    @Query("SELECT * FROM launchpad_dbo ORDER BY name DESC")
+    fun getAllDesc(): PagingSource<Int, LaunchpadEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(rockets: List<LaunchpadEntity>)

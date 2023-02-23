@@ -5,6 +5,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
+import com.app.core.data.providers.DataType
 import com.app.core.data.providers.SortTypeProvider
 import com.app.core.data.remotemediators.RocketsRemoteMediator
 import com.app.core.data.util.DataConstants
@@ -36,7 +37,7 @@ class RocketsRepositoryImpl @Inject constructor(
             remoteMediator = RocketsRemoteMediator(spaceXService, database, sortTypeProvider),
             pagingSourceFactory = {
                 val sortType = runBlocking { // todo
-                    sortTypeProvider.getSortType()
+                    sortTypeProvider.getSortType(DataType.Rockets)
                 }
                 when (sortType) {
                     SortType.ASC -> database.rocketDao().getAllAsc()
@@ -53,10 +54,10 @@ class RocketsRepositoryImpl @Inject constructor(
     }
 
     override fun getRocketSortType(): Flow<SortType> {
-        return sortTypeProvider.getSortTypeFlow()
+        return sortTypeProvider.getSortTypeFlow(DataType.Rockets)
     }
 
     override suspend fun saveRocketSortType(sortType: SortType) {
-        sortTypeProvider.saveRocketSortType(sortType)
+        sortTypeProvider.saveSortType(sortType, DataType.Rockets)
     }
 }

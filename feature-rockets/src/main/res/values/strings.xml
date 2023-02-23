@@ -4,7 +4,6 @@
     <string name="spacex_app_active">Active</string>
     <string name="spacex_app_inactive">Inactive</string>
     <string name="spacex_app_error_internet">Internet goes wrong</string>
-    <string name="spacex_app_rocket_sort_type">Sort</string>
-    <string name="spacex_app_rocket_sort_type_asc">ASC</string>
-    <string name="spacex_app_rocket_sort_type_desc">DESC</string>
+    <string name="spacex_app_sort_type_asc">ASC</string>
+    <string name="spacex_app_sort_type_desc">DESC</string>
 </resources>

@@ -5,6 +5,7 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.room.withTransaction
 import com.app.core.data.model.asEntity
+import com.app.core.data.providers.DataType
 import com.app.core.data.providers.SortTypeProvider
 import com.app.core.data.util.DataConstants
 import com.app.core.database.SpaceXDatabase
@@ -70,7 +71,7 @@ class RocketsRemoteMediator(
             }
         }
         try {
-            val sortType = sortTypeProvider.getSortType()
+            val sortType = sortTypeProvider.getSortType(DataType.Rockets)
             val sortParameter = mapOf(NetworkRocket.FIELD_NAME to sortType.value)
             val options = Options(page, DataConstants.PAGE_SIZE, sortParameter)
             val queryBody = QueryBody(options)
