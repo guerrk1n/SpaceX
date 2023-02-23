@@ -11,9 +11,14 @@ data class NetworkCrewMembers(
 
 data class NetworkCrewMember(
     val id: String,
+    @SerializedName(FIELD_NAME)
     val name: String,
     val agency: String,
     val image: String,
     val wikipedia: String,
     val status: String,
-)
+) {
+    companion object {
+        const val FIELD_NAME = "name"
+    }
+}

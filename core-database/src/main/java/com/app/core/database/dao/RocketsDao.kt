@@ -10,8 +10,11 @@ import com.app.core.database.model.RocketEntity
 @Dao
 interface RocketsDao {
 
-    @Query("SELECT * FROM rocket_dbo")
-    fun getAll(): PagingSource<Int, RocketEntity>
+    @Query("SELECT * FROM rocket_dbo ORDER BY name ASC")
+    fun getAllAsc(): PagingSource<Int, RocketEntity>
+
+    @Query("SELECT * FROM rocket_dbo ORDER BY name DESC")
+    fun getAllDesc(): PagingSource<Int, RocketEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(rockets: List<RocketEntity>)

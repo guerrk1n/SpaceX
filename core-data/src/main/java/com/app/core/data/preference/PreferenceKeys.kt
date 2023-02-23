@@ -1,0 +1,8 @@
+package com.app.core.data.preference
+
+import androidx.datastore.preferences.core.stringPreferencesKey
+
+val ROCKET_SORT_TYPE_PREFERENCE_KEY = stringPreferencesKey("ROCKET_SORT_TYPE_PREFERENCE_KEY")
+val CREW_MEMBER_SORT_TYPE_PREFERENCE_KEY = stringPreferencesKey("CREW_MEMBER_SORT_TYPE_PREFERENCE_KEY")
+val HISTORY_EVENTS_SORT_TYPE_PREFERENCE_KEY = stringPreferencesKey("HISTORY_EVENTS_SORT_TYPE_PREFERENCE_KEY")
+val LAUNCHPADS_SORT_TYPE_PREFERENCE_KEY = stringPreferencesKey("LAUNCHPADS_SORT_TYPE_PREFERENCE_KEY")

@@ -11,6 +11,7 @@ data class NetworkLaunchpads(
 
 data class NetworkLaunchpad(
     val id: String,
+    @SerializedName(FIELD_NAME)
     val name: String,
     @SerializedName("full_name")
     val fullName: String,
@@ -27,4 +28,8 @@ data class NetworkLaunchpad(
     val rockets: List<String>,
     @SerializedName("timezone")
     val timeZone: String,
-)
+) {
+    companion object {
+        const val FIELD_NAME = "name"
+    }
+}

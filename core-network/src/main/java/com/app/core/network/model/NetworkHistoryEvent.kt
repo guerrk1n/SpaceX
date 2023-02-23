@@ -1,6 +1,5 @@
 package com.app.core.network.model
 
-import com.app.core.common.ResponseField
 import com.google.gson.annotations.SerializedName
 
 data class NetworkHistoryEvents(
@@ -13,11 +12,17 @@ data class NetworkHistoryEvents(
 data class NetworkHistoryEvent(
     val id: String,
     val links: Links,
+    @SerializedName(TITLE_FIELD)
     val title: String,
-    @SerializedName(ResponseField.eventDateUnix)
+    @SerializedName(DATE_FIELD)
     val date: Long,
     val details: String,
-)
+) {
+    companion object {
+        const val DATE_FIELD = "event_date_unix"
+        const val TITLE_FIELD = "title"
+    }
+}
 
 data class Links(
     val article: String? = null,

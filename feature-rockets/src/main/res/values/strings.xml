@@ -3,5 +3,7 @@
     <string name="spacex_app_rocket_overline">Rocket</string>
     <string name="spacex_app_active">Active</string>
     <string name="spacex_app_inactive">Inactive</string>
-    <string name="spacex_app_error_internet">Internet goes wrong</string>м
+    <string name="spacex_app_error_internet">Internet goes wrong</string>
+    <string name="spacex_app_sort_type_name_asc">Name (A-Z)</string>
+    <string name="spacex_app_sort_type_name_desc">Name (Z-A)</string>
 </resources>
