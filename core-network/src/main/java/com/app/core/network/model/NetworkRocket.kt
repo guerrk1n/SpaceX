@@ -11,6 +11,7 @@ data class NetworkRockets(
 
 data class NetworkRocket(
     val id: String,
+    @SerializedName(FIELD_NAME)
     val name: String,
     val active: Boolean,
     @SerializedName("flickr_images")
@@ -19,4 +20,8 @@ data class NetworkRocket(
     val firstFlight: String,
     val wikipedia: String,
     val description: String,
-)
+) {
+    companion object {
+        const val FIELD_NAME = "name"
+    }
+}

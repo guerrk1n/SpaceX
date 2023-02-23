@@ -20,6 +20,9 @@ dependencies {
     // Paging
     implementation(Dependencies.Compose.paging)
 
+    // Android X
+    implementation(Dependencies.AndroidX.dataStore)
+
     // Retrofit
     implementation(Dependencies.Retrofit.retrofit)
 

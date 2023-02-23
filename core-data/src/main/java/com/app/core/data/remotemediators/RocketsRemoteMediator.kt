@@ -5,11 +5,13 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.room.withTransaction
 import com.app.core.data.model.asEntity
+import com.app.core.data.providers.SortTypeProvider
 import com.app.core.data.util.DataConstants
 import com.app.core.database.SpaceXDatabase
 import com.app.core.database.model.RemoteKeysEntity
 import com.app.core.database.model.RocketEntity
 import com.app.core.network.SpaceXService
+import com.app.core.network.model.NetworkRocket
 import com.app.core.network.model.Options
 import com.app.core.network.model.QueryBody
 import retrofit2.HttpException
@@ -20,6 +22,7 @@ import java.util.concurrent.TimeUnit
 class RocketsRemoteMediator(
     private val spaceXService: SpaceXService,
     private val database: SpaceXDatabase,
+    private val sortTypeProvider: SortTypeProvider,
 ) : BaseRemoteMediator<RocketEntity>(database.remoteKeysDao()) {
 
     override suspend fun initialize(): InitializeAction {
@@ -67,7 +70,9 @@ class RocketsRemoteMediator(
             }
         }
         try {
-            val options = Options(page, DataConstants.PAGE_SIZE)
+            val sortType = sortTypeProvider.getSortType()
+            val sortParameter = mapOf(NetworkRocket.FIELD_NAME to sortType.value)
+            val options = Options(page, DataConstants.PAGE_SIZE, sortParameter)
             val queryBody = QueryBody(options)
             val apiResponse = spaceXService.getRockets(queryBody)
             val endOfPaginationReached = page >= apiResponse.totalPages

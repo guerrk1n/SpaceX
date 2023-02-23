@@ -44,6 +44,7 @@ object Dependencies {
         object Ktx {
             const val core = "androidx.core:core-ktx:1.8.0"
         }
+        const val dataStore = "androidx.datastore:datastore-preferences:1.0.0"
     }
 
     object Compose {

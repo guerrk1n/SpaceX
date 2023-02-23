@@ -7,4 +7,5 @@
     <string name="spacex_app_content_description_error">Error</string>
     <string name="spacex_app_retry">Retry</string>
     <string name="spacex_app_loading">Getting data</string>
+    <string name="spacex_app_rocket_sort_type_selected">Selected sort type %s</string>
 </resources>
