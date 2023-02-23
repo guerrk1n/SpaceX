@@ -29,7 +29,7 @@ class HistoryEventsRemoteMediator(
     override suspend fun initialize(): InitializeAction {
         var firstHistoryEvent: HistoryEventEntity? = null
         database.withTransaction {
-            firstHistoryEvent = database.historyEventsDao().getFirst()
+            firstHistoryEvent = database.historyEventsDao().getLast()
         }
         return getInitializeAction(firstHistoryEvent?.createdAt)
     }
