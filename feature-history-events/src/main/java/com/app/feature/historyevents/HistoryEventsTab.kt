@@ -6,6 +6,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
@@ -136,8 +138,8 @@ private fun PreviewHistoryEventContent() {
         )
     }
     val lazyPagingHistoryEvents = flowOf(PagingData.from(historyEvents)).collectAsLazyPagingItems()
-
-//    HistoryEventContent(lazyPagingHistoryEvents, sortType, onSortTypeClicked)
+    val sortType = remember { mutableStateOf(SortType.ASC) }
+    HistoryEventContent(lazyPagingHistoryEvents, sortType) {}
 }
 
 private fun handleUiEffects(uiEffects: State<HistoryEventsUiEffect?>, rockets: LazyPagingItems<HistoryEvent>) {
