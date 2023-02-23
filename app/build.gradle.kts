@@ -1,5 +1,3 @@
-import Dependencies.Room.kapt
-
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")

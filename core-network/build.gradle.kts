@@ -21,6 +21,9 @@ dependencies {
     implementation(Dependencies.OkHttp.okLog)
     implementation(Dependencies.gson)
 
+    // Logs
+    implementation(Dependencies.timber)
+
     // Pluto
     debugImplementation(Dependencies.Pluto.Debug.network)
     releaseImplementation(Dependencies.Pluto.Release.network)
