@@ -40,8 +40,8 @@ class LaunchpadsRepositoryImpl @Inject constructor(
                     sortTypeProvider.getSortType(DataType.Launchpads)
                 }
                 when (sortType) {
-                    SortType.ASC -> database.launchpadsDao().getAllAsc()
-                    SortType.DESC -> database.launchpadsDao().getAllDesc()
+                    SortType.NAME_ASC -> database.launchpadsDao().getAllAsc()
+                    SortType.NAME_DESC -> database.launchpadsDao().getAllDesc()
                 }
             }
         ).flow.map {

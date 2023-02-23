@@ -28,6 +28,7 @@ import com.app.core.ui.R
 @Composable
 fun DropDownMenuWithTitle(
     modifier: Modifier = Modifier,
+    selectedSortType: String,
     content: @Composable ColumnScope.(onItemClick: () -> Unit) -> Unit
 ) {
     Row(
@@ -38,19 +39,22 @@ fun DropDownMenuWithTitle(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
-            text = stringResource(R.string.spacex_app_sort_type),
+            text = stringResource(R.string.spacex_app_sort_by, selectedSortType),
             style = MaterialTheme.typography.overline,
         )
         var expanded by remember { mutableStateOf(false) }
         Box {
             IconButton(onClick = { expanded = true }) {
-                Icon(Icons.Default.ArrowDropDown, contentDescription = stringResource(R.string.spacex_app_sort_type))
+                Icon(
+                    Icons.Default.ArrowDropDown,
+                    contentDescription = stringResource(R.string.spacex_app_select_sort_button_content_description),
+                )
             }
             DropdownMenu(
                 expanded = expanded,
                 onDismissRequest = { expanded = false }
             ) {
-                content() {
+                content {
                     expanded = false
                 }
             }
@@ -61,19 +65,19 @@ fun DropDownMenuWithTitle(
 @Preview(showBackground = true)
 @Composable
 private fun PreviewDropDownMenuWithTitle() {
-    DropDownMenuWithTitle() {
+    DropDownMenuWithTitle(selectedSortType = "Newest") {
         SpaceXDropdownMenuItemWithCheckedIcon(
-            textRes = R.string.spacex_app_sort_type,
+            titleRes = R.string.spacex_app_back,
             onClick = {},
             showCheckedIcon = { true }
         )
         SpaceXDropdownMenuItemWithCheckedIcon(
-            textRes = R.string.spacex_app_sort_type,
+            titleRes = R.string.spacex_app_back,
             onClick = {},
             showCheckedIcon = { false }
         )
         SpaceXDropdownMenuItemWithCheckedIcon(
-            textRes = R.string.spacex_app_sort_type,
+            titleRes = R.string.spacex_app_back,
             onClick = {},
             showCheckedIcon = { true }
         )

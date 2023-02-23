@@ -57,9 +57,9 @@ class UserDataStore @Inject constructor(
     private fun Flow<Preferences>.mapSortType(sortKey: Preferences.Key<String>): Flow<SortType> = transform { value ->
         val transformation: suspend (value: Preferences) -> SortType = {
             when (it[sortKey]) {
-                SortType.ASC.value -> SortType.ASC
-                SortType.DESC.value -> SortType.DESC
-                else -> SortType.ASC
+                SortType.NAME_ASC.value -> SortType.NAME_ASC
+                SortType.NAME_DESC.value -> SortType.NAME_DESC
+                else -> SortType.NAME_ASC
             }
         }
         return@transform emit(transformation(value))

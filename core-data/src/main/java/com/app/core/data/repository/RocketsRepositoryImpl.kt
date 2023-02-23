@@ -40,8 +40,8 @@ class RocketsRepositoryImpl @Inject constructor(
                     sortTypeProvider.getSortType(DataType.Rockets)
                 }
                 when (sortType) {
-                    SortType.ASC -> database.rocketDao().getAllAsc()
-                    SortType.DESC -> database.rocketDao().getAllDesc()
+                    SortType.NAME_ASC -> database.rocketDao().getAllAsc()
+                    SortType.NAME_DESC -> database.rocketDao().getAllDesc()
                 }
             }
         ).flow.map {

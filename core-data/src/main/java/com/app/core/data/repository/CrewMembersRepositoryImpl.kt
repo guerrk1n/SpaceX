@@ -34,8 +34,8 @@ class CrewMembersRepositoryImpl @Inject constructor(
                     sortTypeProvider.getSortType(DataType.CrewMembers)
                 }
                 when (sortType) {
-                    SortType.ASC -> database.crewMembersDao().getAllAsc()
-                    SortType.DESC -> database.crewMembersDao().getAllDesc()
+                    SortType.NAME_ASC -> database.crewMembersDao().getAllAsc()
+                    SortType.NAME_DESC -> database.crewMembersDao().getAllDesc()
                 }
             }
         ).flow.map {

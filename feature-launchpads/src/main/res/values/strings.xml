@@ -5,6 +5,6 @@
     <string name="spacex_app_inactive">Inactive</string>
     <string name="spacex_app_error_internet">Internet goes wrong</string>
     <string name="spacex_app_source">Source</string>
-    <string name="spacex_app_sort_type_asc">ASC</string>
-    <string name="spacex_app_sort_type_desc">DESC</string>
+    <string name="spacex_app_sort_type_name_asc">Name (A-Z)</string>
+    <string name="spacex_app_sort_type_name_desc">Name (Z-A)</string>
 </resources>

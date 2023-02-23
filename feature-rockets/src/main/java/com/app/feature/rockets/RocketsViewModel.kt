@@ -31,7 +31,7 @@ class RocketsViewModel @Inject constructor(
     val sortType: StateFlow<SortType> = rocketsRepository.getRocketSortType().stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),
-        initialValue = SortType.ASC
+        initialValue = SortType.NAME_ASC
     )
 
     private val pendingActions = MutableSharedFlow<RocketsAction>()

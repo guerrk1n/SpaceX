@@ -34,8 +34,8 @@ class HistoryEventsRepositoryImpl @Inject constructor(
                     sortTypeProvider.getSortType(DataType.HistoryEvents)
                 }
                 when (sortType) {
-                    SortType.ASC -> database.historyEventsDao().getAllAsc()
-                    SortType.DESC -> database.historyEventsDao().getAllDesc()
+                    SortType.NAME_ASC -> database.historyEventsDao().getAllAsc()
+                    SortType.NAME_DESC -> database.historyEventsDao().getAllDesc()
                 }
             }
         ).flow.map { it.map { historyEventEntity -> historyEventEntity.asExternalModel() } }

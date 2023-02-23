@@ -21,7 +21,7 @@ import com.app.core.ui.R
 @Composable
 fun SpaceXDropdownMenuItemWithCheckedIcon(
     modifier: Modifier = Modifier,
-    @StringRes textRes: Int,
+    @StringRes titleRes: Int,
     @DrawableRes checkedIconRes: Int = R.drawable.ic_done,
     onClick: () -> Unit,
     showCheckedIcon: () -> Boolean
@@ -35,13 +35,13 @@ fun SpaceXDropdownMenuItemWithCheckedIcon(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
-            Text(stringResource(textRes))
+            Text(stringResource(titleRes))
             if (showCheckedIcon.invoke()) {
                 Icon(
                     modifier = Modifier.size(16.dp),
                     painter = painterResource(checkedIconRes),
                     contentDescription = stringResource(
-                        R.string.spacex_app_rocket_sort_type_selected, textRes
+                        R.string.spacex_app_rocket_sort_type_selected, titleRes
                     ),
                 )
             }
@@ -53,7 +53,7 @@ fun SpaceXDropdownMenuItemWithCheckedIcon(
 @Composable
 private fun PreviewSpaceXDropDownMenuItemWithCheckedIcon() {
     SpaceXDropdownMenuItemWithCheckedIcon(
-        textRes = R.string.spacex_app_sort_type,
+        titleRes = R.string.spacex_app_sort_by,
         onClick = {},
         showCheckedIcon = { true }
     )

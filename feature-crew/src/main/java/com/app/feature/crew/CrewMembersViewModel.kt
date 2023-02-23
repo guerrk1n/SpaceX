@@ -31,7 +31,7 @@ class CrewMembersViewModel @Inject constructor(
     val sortType: StateFlow<SortType> = crewMembersRepository.getCrewMembersSortType().stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),
-        initialValue = SortType.ASC
+        initialValue = SortType.NAME_ASC
     )
 
     private val pendingActions = MutableSharedFlow<CrewMembersAction>()

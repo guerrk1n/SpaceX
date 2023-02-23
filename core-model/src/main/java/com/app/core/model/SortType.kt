@@ -1,6 +1,8 @@
 package com.app.core.model
 
 enum class SortType(val value: String) {
-    ASC("asc"),
-    DESC("desc");
+    NAME_ASC("asc"),
+    NAME_DESC("desc");
+//    NEWEST("asc"),
+//    OLDEST("asc"),
 }

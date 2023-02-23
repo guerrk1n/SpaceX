@@ -31,7 +31,7 @@ class HistoryEventsViewModel @Inject constructor(
     val sortType: StateFlow<SortType> = historyEventsRepository.getHistoryEventSortType().stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),
-        initialValue = SortType.ASC
+        initialValue = SortType.NAME_ASC
     )
 
     private val pendingActions = MutableSharedFlow<HistoryEventsAction>()
