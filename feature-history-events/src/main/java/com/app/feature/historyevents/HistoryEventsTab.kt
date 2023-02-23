@@ -115,6 +115,7 @@ private fun LazyHistoryEventsColumn(historyEvents: LazyPagingItems<HistoryEvent>
             is LoadState.NotLoading -> Unit
             LoadState.Loading -> item { LoadingItem() }
             is LoadState.Error -> item { ErrorItem { historyEvents.retry() } }
+            else -> throw IllegalStateException("Not all LoadState handled")
         }
     }
 }

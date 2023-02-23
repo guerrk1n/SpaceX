@@ -118,6 +118,7 @@ private fun LazyRocketsColumn(
             is LoadState.NotLoading -> Unit
             LoadState.Loading -> item { LoadingItem() }
             is LoadState.Error -> item { ErrorItem { rockets.retry() } }
+            else -> throw IllegalStateException("Not all LoadState handled")
         }
     })
 }

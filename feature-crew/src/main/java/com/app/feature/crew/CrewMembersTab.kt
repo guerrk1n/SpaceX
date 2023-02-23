@@ -108,6 +108,7 @@ private fun LazyCrewMembersColumn(crewMembers: LazyPagingItems<CrewMember>) {
             is LoadState.NotLoading -> Unit
             LoadState.Loading -> item { LoadingItem() }
             is LoadState.Error -> item { ErrorItem { crewMembers.retry() } }
+            else -> throw IllegalStateException("Not all LoadState handled")
         }
     })
 }

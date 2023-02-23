@@ -119,7 +119,7 @@ private fun LazyLaunchpadsColumn(
             is LoadState.NotLoading -> Unit
             LoadState.Loading -> item { LoadingItem() }
             is LoadState.Error -> item { ErrorItem { launchpads.retry() } }
-            else -> {}
+            else -> throw IllegalStateException("Not all LoadState handled")
         }
     }
 }
