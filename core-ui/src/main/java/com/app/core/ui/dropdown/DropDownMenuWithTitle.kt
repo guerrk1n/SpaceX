@@ -1,6 +1,5 @@
 package com.app.core.ui.dropdown
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
@@ -35,7 +34,6 @@ fun DropDownMenuWithTitle(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 25.dp),
-        horizontalArrangement = Arrangement.End,
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
