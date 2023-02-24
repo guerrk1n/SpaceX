@@ -45,7 +45,7 @@ class LaunchpadsRepositoryImpl @Inject constructor(
                 }
             }
         ).flow.map {
-            it.map { launchpadEntity -> launchpadEntity.asExternalModel() }
+            it.map { launchpadResultEntity -> launchpadResultEntity.asExternalModel() }
         }
     }
 
