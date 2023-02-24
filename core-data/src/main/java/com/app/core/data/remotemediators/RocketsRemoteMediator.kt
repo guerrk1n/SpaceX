@@ -5,12 +5,13 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.room.withTransaction
 import com.app.core.data.model.asEntity
+import com.app.core.data.model.asRocketImageEntity
 import com.app.core.data.providers.DataType
 import com.app.core.data.providers.SortTypeProvider
 import com.app.core.data.util.DataConstants
 import com.app.core.database.SpaceXDatabase
 import com.app.core.database.model.RemoteKeysEntity
-import com.app.core.database.model.RocketEntity
+import com.app.core.database.model.rocket.RocketWithImagesEntity
 import com.app.core.network.SpaceXService
 import com.app.core.network.model.NetworkRocket
 import com.app.core.network.model.Options
@@ -24,19 +25,19 @@ class RocketsRemoteMediator(
     private val spaceXService: SpaceXService,
     private val database: SpaceXDatabase,
     private val sortTypeProvider: SortTypeProvider,
-) : BaseRemoteMediator<RocketEntity>(database.remoteKeysDao()) {
+) : BaseRemoteMediator<RocketWithImagesEntity>(database.remoteKeysDao()) {
 
     override suspend fun initialize(): InitializeAction {
-        var lastRocketEntity: RocketEntity? = null
+        var createdTime: Long? = null
         database.withTransaction {
-            lastRocketEntity = database.rocketDao().getLast()
+            createdTime = database.rocketDao().getLastCreatedAtTime()
         }
-        return getInitializeAction(lastRocketEntity?.createdAt)
+        return getInitializeAction(createdTime)
     }
 
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, RocketEntity>,
+        state: PagingState<Int, RocketWithImagesEntity>,
     ): MediatorResult {
         val page: Int = when (loadType) {
             LoadType.REFRESH -> getPageForRefreshLoadType(state)
@@ -75,7 +76,14 @@ class RocketsRemoteMediator(
                     RemoteKeysEntity(it.id, prevKey, nextKey)
                 }
                 database.remoteKeysDao().insertAll(keys)
-                database.rocketDao().insertAll(rockets.map { it.asEntity() })
+                val rocketsWithImages = rockets.map { rocket ->
+                    val rocketEntity = rocket.asEntity()
+                    val rocketImageEntities = rocket.asRocketImageEntity()
+                    rocketEntity to rocketImageEntities
+                }
+                rocketsWithImages.forEach { (rocketEntity, rocketImageEntities) ->
+                    database.rocketDao().insertRocketWithImages(rocketEntity, rocketImageEntities)
+                }
             }
             return MediatorResult.Success(endOfPaginationReached)
         } catch (exception: IOException) {

@@ -10,8 +10,8 @@ import com.app.core.data.providers.SortTypeProvider
 import com.app.core.data.remotemediators.RocketsRemoteMediator
 import com.app.core.data.util.DataConstants
 import com.app.core.database.SpaceXDatabase
-import com.app.core.database.model.asExternalDetailModel
-import com.app.core.database.model.asExternalModel
+import com.app.core.database.model.rocket.asExternalDetailModel
+import com.app.core.database.model.rocket.asExternalModel
 import com.app.core.model.Rocket
 import com.app.core.model.RocketDetail
 import com.app.core.model.SortType

@@ -12,12 +12,14 @@ import com.app.core.database.model.CrewMemberEntity
 import com.app.core.database.model.HistoryEventEntity
 import com.app.core.database.model.LaunchpadEntity
 import com.app.core.database.model.RemoteKeysEntity
-import com.app.core.database.model.RocketEntity
+import com.app.core.database.model.rocket.RocketEntity
+import com.app.core.database.model.rocket.RocketImageEntity
 import com.app.core.database.util.StringListConverter
 
 @Database(
     entities = [
         RocketEntity::class,
+        RocketImageEntity::class,
         CrewMemberEntity::class,
         HistoryEventEntity::class,
         RemoteKeysEntity::class,
