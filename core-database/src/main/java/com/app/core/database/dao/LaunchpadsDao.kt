@@ -8,7 +8,8 @@ import androidx.room.Query
 import androidx.room.Transaction
 import com.app.core.database.model.launchpad.LaunchpadEntity
 import com.app.core.database.model.launchpad.LaunchpadImageEntity
-import com.app.core.database.model.launchpad.LaunchpadWithImagesEntity
+import com.app.core.database.model.launchpad.LaunchpadResultEntity
+import com.app.core.database.model.launchpad.LaunchpadRocketCrossRefEntity
 
 @Dao
 interface LaunchpadsDao {
@@ -21,7 +22,7 @@ interface LaunchpadsDao {
         ORDER BY ${LaunchpadEntity.FIELD_NAME} ASC
     """
     )
-    fun getAllAsc(): PagingSource<Int, LaunchpadWithImagesEntity>
+    fun getAllAsc(): PagingSource<Int, LaunchpadResultEntity>
 
     @Transaction
     @Query(
@@ -31,12 +32,14 @@ interface LaunchpadsDao {
         ORDER BY ${LaunchpadEntity.FIELD_NAME} DESC
     """
     )
-    fun getAllDesc(): PagingSource<Int, LaunchpadWithImagesEntity>
+    fun getAllDesc(): PagingSource<Int, LaunchpadResultEntity>
 
+    @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertLaunchpadWithImages(
-        launchpadEntity: LaunchpadEntity,
-        launchpadImages: List<LaunchpadImageEntity>
+    suspend fun insertLaunchpadData(
+        launchpad: LaunchpadEntity,
+        launchpadImages: List<LaunchpadImageEntity>,
+        launchpadRocketCrossRef: List<LaunchpadRocketCrossRefEntity>,
     )
 
     @Query(
@@ -65,5 +68,5 @@ interface LaunchpadsDao {
         WHERE ${LaunchpadEntity.FIELD_ID} = :id
     """
     )
-    suspend fun getItemById(id: String): LaunchpadWithImagesEntity
+    suspend fun getItemById(id: String): LaunchpadResultEntity
 }

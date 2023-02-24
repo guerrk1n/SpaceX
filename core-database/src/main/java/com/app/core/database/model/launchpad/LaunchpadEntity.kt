@@ -19,7 +19,6 @@ data class LaunchpadEntity(
     val landingAttempts: Int,
     val landingSuccesses: Int,
     val details: String,
-    val rockets: List<String>,
     val timeZone: String,
     @ColumnInfo(FIELD_CREATED_AT)
     val createdAt: Long,

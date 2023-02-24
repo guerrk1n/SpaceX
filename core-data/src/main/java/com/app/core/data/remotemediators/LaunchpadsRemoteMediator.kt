@@ -6,12 +6,16 @@ import androidx.paging.PagingState
 import androidx.room.withTransaction
 import com.app.core.data.model.asEntity
 import com.app.core.data.model.asLaunchpadImageEntity
+import com.app.core.data.model.asLaunchpadRocketCrossRefsEntity
 import com.app.core.data.providers.DataType
 import com.app.core.data.providers.SortTypeProvider
 import com.app.core.data.util.DataConstants
 import com.app.core.database.SpaceXDatabase
 import com.app.core.database.model.RemoteKeysEntity
-import com.app.core.database.model.launchpad.LaunchpadWithImagesEntity
+import com.app.core.database.model.launchpad.LaunchpadEntity
+import com.app.core.database.model.launchpad.LaunchpadImageEntity
+import com.app.core.database.model.launchpad.LaunchpadResultEntity
+import com.app.core.database.model.launchpad.LaunchpadRocketCrossRefEntity
 import com.app.core.network.SpaceXService
 import com.app.core.network.model.NetworkLaunchpad
 import com.app.core.network.model.Options
@@ -25,7 +29,7 @@ class LaunchpadsRemoteMediator(
     private val spaceXService: SpaceXService,
     private val database: SpaceXDatabase,
     private val sortTypeProvider: SortTypeProvider,
-) : BaseRemoteMediator<LaunchpadWithImagesEntity>(database.remoteKeysDao()) {
+) : BaseRemoteMediator<LaunchpadResultEntity>(database.remoteKeysDao()) {
 
     override suspend fun initialize(): InitializeAction {
         var createdTime: Long? = null
@@ -37,7 +41,7 @@ class LaunchpadsRemoteMediator(
 
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, LaunchpadWithImagesEntity>,
+        state: PagingState<Int, LaunchpadResultEntity>,
     ): MediatorResult {
         val page: Int = when (loadType) {
             LoadType.REFRESH -> getPageForRefreshLoadType(state)
@@ -76,14 +80,7 @@ class LaunchpadsRemoteMediator(
                     RemoteKeysEntity(it.id, prevKey, nextKey)
                 }
                 database.remoteKeysDao().insertAll(keys)
-                val launchpadsWithImages = launchpads.map { launchpad ->
-                    val launchpadEntity = launchpad.asEntity()
-                    val launchpadImageEntities = launchpad.asLaunchpadImageEntity()
-                    launchpadEntity to launchpadImageEntities
-                }
-                launchpadsWithImages.forEach { (launchpadEntity, launchpadImageEntities) ->
-                    database.launchpadsDao().insertLaunchpadWithImages(launchpadEntity, launchpadImageEntities)
-                }
+                insertData(launchpads)
             }
             return MediatorResult.Success(endOfPaginationReached)
         } catch (exception: IOException) {
@@ -97,4 +94,22 @@ class LaunchpadsRemoteMediator(
             return MediatorResult.Error(exception)
         }
     }
+
+    private suspend fun insertData(launchpads: List<NetworkLaunchpad>) {
+        val launchpadsResultEntity = launchpads.map { launchpad ->
+            val launchpadEntity = launchpad.asEntity()
+            val launchpadImageEntities = launchpad.asLaunchpadImageEntity()
+            val launchpadRocketEntities = launchpad.asLaunchpadRocketCrossRefsEntity()
+            LaunchpadInsert(launchpadEntity, launchpadImageEntities, launchpadRocketEntities)
+        }
+        launchpadsResultEntity.forEach { (launchpadEntity, launchpadImageEntities, launchpadRocketEntities) ->
+            database.launchpadsDao().insertLaunchpadData(launchpadEntity, launchpadImageEntities, launchpadRocketEntities)
+        }
+    }
 }
+
+private data class LaunchpadInsert(
+    val launchpadEntity: LaunchpadEntity,
+    val launchpadImageEntities: List<LaunchpadImageEntity>,
+    val launchpadRocketEntities: List<LaunchpadRocketCrossRefEntity>,
+)
