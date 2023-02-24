@@ -11,7 +11,6 @@ data class LaunchpadDetail(
     val landingSuccesses: Int,
     val images: List<String>,
     val details: String,
-    val launches: List<String>,
     val rockets: List<String>,
     val timeZone: String,
 )

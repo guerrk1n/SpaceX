@@ -10,8 +10,9 @@ import com.app.core.database.dao.RemoteKeysDao
 import com.app.core.database.dao.RocketsDao
 import com.app.core.database.model.CrewMemberEntity
 import com.app.core.database.model.HistoryEventEntity
-import com.app.core.database.model.LaunchpadEntity
 import com.app.core.database.model.RemoteKeysEntity
+import com.app.core.database.model.launchpad.LaunchpadEntity
+import com.app.core.database.model.launchpad.LaunchpadImageEntity
 import com.app.core.database.model.rocket.RocketEntity
 import com.app.core.database.model.rocket.RocketImageEntity
 import com.app.core.database.util.StringListConverter
@@ -24,6 +25,7 @@ import com.app.core.database.util.StringListConverter
         HistoryEventEntity::class,
         RemoteKeysEntity::class,
         LaunchpadEntity::class,
+        LaunchpadImageEntity::class,
     ],
     version = 1,
     exportSchema = false,

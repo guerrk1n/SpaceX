@@ -24,7 +24,6 @@ data class NetworkLaunchpad(
     val launchSuccesses: Int,
     val images: NetworkImages,
     val details: String,
-    val launches: List<String>,
     val rockets: List<String>,
     @SerializedName("timezone")
     val timeZone: String,

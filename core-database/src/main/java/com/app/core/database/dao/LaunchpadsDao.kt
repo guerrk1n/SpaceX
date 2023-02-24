@@ -5,26 +5,65 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.app.core.database.model.LaunchpadEntity
+import androidx.room.Transaction
+import com.app.core.database.model.launchpad.LaunchpadEntity
+import com.app.core.database.model.launchpad.LaunchpadImageEntity
+import com.app.core.database.model.launchpad.LaunchpadWithImagesEntity
 
 @Dao
 interface LaunchpadsDao {
 
-    @Query("SELECT * FROM launchpad_dbo ORDER BY name ASC")
-    fun getAllAsc(): PagingSource<Int, LaunchpadEntity>
+    @Transaction
+    @Query(
+        """
+        SELECT * 
+        FROM ${LaunchpadEntity.TABLE_NAME}
+        ORDER BY ${LaunchpadEntity.FIELD_NAME} ASC
+    """
+    )
+    fun getAllAsc(): PagingSource<Int, LaunchpadWithImagesEntity>
 
-    @Query("SELECT * FROM launchpad_dbo ORDER BY name DESC")
-    fun getAllDesc(): PagingSource<Int, LaunchpadEntity>
+    @Transaction
+    @Query(
+        """
+        SELECT * 
+        FROM ${LaunchpadEntity.TABLE_NAME} 
+        ORDER BY ${LaunchpadEntity.FIELD_NAME} DESC
+    """
+    )
+    fun getAllDesc(): PagingSource<Int, LaunchpadWithImagesEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(rockets: List<LaunchpadEntity>)
+    suspend fun insertLaunchpadWithImages(
+        launchpadEntity: LaunchpadEntity,
+        launchpadImages: List<LaunchpadImageEntity>
+    )
 
-    @Query("DELETE FROM launchpad_dbo")
+    @Query(
+        """
+        DELETE 
+        FROM ${LaunchpadEntity.TABLE_NAME}
+    """
+    )
     suspend fun clearAll()
 
-    @Query("SELECT * FROM launchpad_dbo ORDER BY id DESC LIMIT 1")
-    suspend fun getLast(): LaunchpadEntity
+    @Query(
+        """
+        SELECT ${LaunchpadEntity.FIELD_CREATED_AT}
+        FROM ${LaunchpadEntity.TABLE_NAME} 
+        ORDER BY ${LaunchpadEntity.FIELD_ID} DESC 
+        LIMIT 1
+    """
+    )
+    suspend fun getLastCreatedAtTime(): Long?
 
-    @Query("SELECT * FROM launchpad_dbo WHERE id = :id")
-    suspend fun getItemById(id: String): LaunchpadEntity
+    @Transaction
+    @Query(
+        """
+        SELECT * 
+        FROM ${LaunchpadEntity.TABLE_NAME} 
+        WHERE ${LaunchpadEntity.FIELD_ID} = :id
+    """
+    )
+    suspend fun getItemById(id: String): LaunchpadWithImagesEntity
 }

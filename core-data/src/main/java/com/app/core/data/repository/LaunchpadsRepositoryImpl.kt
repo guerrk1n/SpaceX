@@ -10,8 +10,8 @@ import com.app.core.data.providers.SortTypeProvider
 import com.app.core.data.remotemediators.LaunchpadsRemoteMediator
 import com.app.core.data.util.DataConstants
 import com.app.core.database.SpaceXDatabase
-import com.app.core.database.model.asExternalDetailModel
-import com.app.core.database.model.asExternalModel
+import com.app.core.database.model.launchpad.asExternalDetailModel
+import com.app.core.database.model.launchpad.asExternalModel
 import com.app.core.model.Launchpad
 import com.app.core.model.LaunchpadDetail
 import com.app.core.model.SortType
