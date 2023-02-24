@@ -14,17 +14,18 @@ import com.app.core.database.model.rocket.RocketEntity
             entity = LaunchpadEntity::class,
             parentColumns = [LaunchpadEntity.FIELD_ID],
             childColumns = [LaunchpadRocketCrossRefEntity.FIELD_LAUNCHPAD_ID],
-            onDelete = ForeignKey.CASCADE
+            onDelete = ForeignKey.CASCADE,
         ),
         ForeignKey(
             entity = RocketEntity::class,
             parentColumns = [RocketEntity.FIELD_ID],
             childColumns = [LaunchpadRocketCrossRefEntity.FIELD_ROCKET_ID],
-            onDelete = ForeignKey.CASCADE
+            onDelete = ForeignKey.CASCADE,
         )
     ],
     indices = [
-        Index(value = [LaunchpadRocketCrossRefEntity.FIELD_ROCKET_ID])
+        Index(value = [LaunchpadRocketCrossRefEntity.FIELD_ROCKET_ID]),
+        Index(value = [LaunchpadRocketCrossRefEntity.FIELD_LAUNCHPAD_ID]),
     ]
 )
 data class LaunchpadRocketCrossRefEntity(
