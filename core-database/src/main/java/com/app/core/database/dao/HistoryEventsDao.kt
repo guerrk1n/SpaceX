@@ -22,6 +22,6 @@ interface HistoryEventsDao {
     @Query("DELETE FROM history_event_dbo")
     suspend fun clearAll()
 
-    @Query("SELECT * FROM history_event_dbo ORDER BY id ASC LIMIT 1")
-    suspend fun getFirst(): HistoryEventEntity
+    @Query("SELECT * FROM history_event_dbo ORDER BY id DESC LIMIT 1")
+    suspend fun getLast(): HistoryEventEntity
 }

@@ -21,4 +21,7 @@ dependencies {
     implementation(Dependencies.Compose.toolingPreview)
     implementation(Dependencies.Compose.runtime)
     implementation(Dependencies.Compose.util)
+
+    // Logs
+    implementation(Dependencies.timber)
 }

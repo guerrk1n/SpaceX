@@ -22,4 +22,7 @@ dependencies {
     // Hilt
     implementation(Dependencies.Hilt.hilt)
     kapt(Dependencies.Hilt.compiler)
+
+    // Logs
+    implementation(Dependencies.timber)
 }

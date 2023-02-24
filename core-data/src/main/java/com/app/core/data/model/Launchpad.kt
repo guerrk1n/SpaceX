@@ -1,6 +1,8 @@
 package com.app.core.data.model
 
-import com.app.core.database.model.LaunchpadEntity
+import com.app.core.database.model.launchpad.LaunchpadEntity
+import com.app.core.database.model.launchpad.LaunchpadImageEntity
+import com.app.core.database.model.crossref.LaunchpadRocketCrossRefEntity
 import com.app.core.network.model.NetworkLaunchpad
 
 fun NetworkLaunchpad.asEntity() = LaunchpadEntity(
@@ -12,10 +14,15 @@ fun NetworkLaunchpad.asEntity() = LaunchpadEntity(
     region = region,
     landingAttempts = launchAttempts,
     landingSuccesses = launchSuccesses,
-    images = images.large,
     details = details,
-    launches = launches,
-    rockets = rockets,
     timeZone = timeZone,
     createdAt = System.currentTimeMillis(),
 )
+
+fun NetworkLaunchpad.asLaunchpadImageEntity(): List<LaunchpadImageEntity> = images.large.map {
+    LaunchpadImageEntity(id, it)
+}
+
+fun NetworkLaunchpad.asLaunchpadRocketCrossRefsEntity(): List<LaunchpadRocketCrossRefEntity> = rockets.map {
+    LaunchpadRocketCrossRefEntity(id, it)
+}

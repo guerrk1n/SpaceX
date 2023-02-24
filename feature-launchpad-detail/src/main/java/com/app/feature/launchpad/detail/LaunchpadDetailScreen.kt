@@ -22,7 +22,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.GraphicsLayerScope
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -32,7 +31,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.util.lerp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.app.core.common.Constants
@@ -45,10 +43,7 @@ import com.app.core.ui.error.ErrorColumn
 import com.app.core.ui.loading.LoadingColumn
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.PagerScope
-import com.google.accompanist.pager.calculateCurrentOffsetForPage
 import com.google.accompanist.pager.rememberPagerState
-import kotlin.math.absoluteValue
 
 @Composable
 fun LaunchpadDetailScreen(
@@ -207,7 +202,6 @@ private fun PreviewLaunchpadDetailContent() {
                 SpaceX's original west coast launch pad for Falcon 1. It was used in a static fire test but was never employed for a launch,
                  and was abandoned due to range scheduling conflicts arising from overflying other active pads.
             """.trimIndent(),
-        listOf(""),
         listOf(""),
         "America/Los_Angeles"
     )

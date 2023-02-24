@@ -5,26 +5,55 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.app.core.database.model.RocketEntity
+import androidx.room.Transaction
+import com.app.core.database.model.rocket.RocketEntity
+import com.app.core.database.model.rocket.RocketImageEntity
+import com.app.core.database.model.rocket.RocketWithImagesEntity
 
 @Dao
 interface RocketsDao {
 
-    @Query("SELECT * FROM rocket_dbo ORDER BY name ASC")
-    fun getAllAsc(): PagingSource<Int, RocketEntity>
+    @Transaction
+    @Query("""
+        SELECT * 
+        FROM ${RocketEntity.TABLE_NAME} 
+        ORDER BY ${RocketEntity.FIELD_NAME} ASC
+    """)
+    fun getAllAsc(): PagingSource<Int, RocketWithImagesEntity>
 
-    @Query("SELECT * FROM rocket_dbo ORDER BY name DESC")
-    fun getAllDesc(): PagingSource<Int, RocketEntity>
+    @Transaction
+    @Query("""
+        SELECT * 
+        FROM ${RocketEntity.TABLE_NAME} 
+        ORDER BY ${RocketEntity.FIELD_NAME} DESC
+    """)
+    fun getAllDesc(): PagingSource<Int, RocketWithImagesEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(rockets: List<RocketEntity>)
+    suspend fun insertRocketWithImages(
+        rocketEntity: RocketEntity,
+        rocketImages: List<RocketImageEntity>
+    )
 
-    @Query("DELETE FROM rocket_dbo")
+    @Query("""
+        DELETE 
+        FROM ${RocketEntity.TABLE_NAME}
+    """)
     suspend fun clearAll()
 
-    @Query("SELECT * FROM rocket_dbo ORDER BY id DESC LIMIT 1")
-    suspend fun getLast(): RocketEntity
+    @Query("""
+        SELECT ${RocketEntity.FIELD_CREATED_AT} 
+        FROM ${RocketEntity.TABLE_NAME} 
+        ORDER BY ${RocketEntity.FIELD_CREATED_AT} ASC 
+        LIMIT 1
+    """)
+    suspend fun getLastCreatedAtTime(): Long
 
-    @Query("SELECT * FROM rocket_dbo WHERE id = :id")
-    suspend fun getItemById(id: String): RocketEntity
+    @Query("""
+        SELECT * 
+        FROM ${RocketEntity.TABLE_NAME} 
+        WHERE ${RocketEntity.FIELD_ID} = :id
+    """)
+    @Transaction
+    suspend fun getItemById(id: String): RocketWithImagesEntity
 }

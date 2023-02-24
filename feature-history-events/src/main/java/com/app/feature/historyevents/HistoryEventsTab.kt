@@ -144,11 +144,11 @@ private fun PreviewHistoryEventContent() {
     HistoryEventContent(lazyPagingHistoryEvents, sortType) {}
 }
 
-private fun handleUiEffects(uiEffects: State<HistoryEventsUiEffect?>, rockets: LazyPagingItems<HistoryEvent>) {
+private fun handleUiEffects(uiEffects: State<HistoryEventsUiEffect?>, historyEvents: LazyPagingItems<HistoryEvent>) {
     if (uiEffects.value == null) return
     when (uiEffects.value) {
         is HistoryEventsUiEffect.ChangeSortType -> {
-            rockets.refresh()
+            historyEvents.refresh()
         }
         else -> {}
     }

@@ -43,4 +43,7 @@ dependencies {
     implementation(Dependencies.Hilt.hilt)
     kapt(Dependencies.Hilt.compiler)
     implementation(Dependencies.Hilt.navigation)
+
+    // Logs
+    implementation(Dependencies.timber)
 }

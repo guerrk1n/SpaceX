@@ -5,56 +5,46 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.room.withTransaction
 import com.app.core.data.model.asEntity
+import com.app.core.data.model.asLaunchpadImageEntity
+import com.app.core.data.model.asLaunchpadRocketCrossRefsEntity
 import com.app.core.data.providers.DataType
 import com.app.core.data.providers.SortTypeProvider
 import com.app.core.data.util.DataConstants
 import com.app.core.database.SpaceXDatabase
-import com.app.core.database.model.LaunchpadEntity
 import com.app.core.database.model.RemoteKeysEntity
+import com.app.core.database.model.launchpad.LaunchpadEntity
+import com.app.core.database.model.launchpad.LaunchpadImageEntity
+import com.app.core.database.model.launchpad.LaunchpadResultEntity
+import com.app.core.database.model.crossref.LaunchpadRocketCrossRefEntity
 import com.app.core.network.SpaceXService
 import com.app.core.network.model.NetworkLaunchpad
-import com.app.core.network.model.NetworkRocket
 import com.app.core.network.model.Options
 import com.app.core.network.model.QueryBody
 import retrofit2.HttpException
+import timber.log.Timber
 import java.io.IOException
-import java.util.concurrent.TimeUnit
 
 @ExperimentalPagingApi
 class LaunchpadsRemoteMediator(
     private val spaceXService: SpaceXService,
     private val database: SpaceXDatabase,
     private val sortTypeProvider: SortTypeProvider,
-) : BaseRemoteMediator<LaunchpadEntity>(database.remoteKeysDao()) {
+) : BaseRemoteMediator<LaunchpadResultEntity>(database.remoteKeysDao()) {
 
     override suspend fun initialize(): InitializeAction {
-        val cacheTimeout = TimeUnit.MILLISECONDS.convert(
-            REMOTE_MEDIATOR_CACHE_TIMEOUT_IN_HOURS,
-            TimeUnit.HOURS
-        )
-        var lastLaunchpadEntity: LaunchpadEntity? = null
+        var createdTime: Long? = null
         database.withTransaction {
-            lastLaunchpadEntity = database.launchpadsDao().getLast()
+            createdTime = database.launchpadsDao().getLastCreatedAtTime()
         }
-        val isCacheTimeout = lastLaunchpadEntity?.let {
-            (System.currentTimeMillis() - it.createdAt) >= cacheTimeout
-        } ?: true
-        return if (isCacheTimeout) {
-            InitializeAction.LAUNCH_INITIAL_REFRESH
-        } else {
-            InitializeAction.SKIP_INITIAL_REFRESH
-        }
+        return getInitializeAction(createdTime)
     }
 
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, LaunchpadEntity>,
+        state: PagingState<Int, LaunchpadResultEntity>,
     ): MediatorResult {
         val page: Int = when (loadType) {
-            LoadType.REFRESH -> {
-                val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
-                remoteKeys?.nextKey?.minus(1) ?: STARTING_PAGE_INDEX
-            }
+            LoadType.REFRESH -> getPageForRefreshLoadType(state)
 
             LoadType.PREPEND -> {
                 val remoteKeys = getRemoteKeyForFirstItem(state)
@@ -90,15 +80,36 @@ class LaunchpadsRemoteMediator(
                     RemoteKeysEntity(it.id, prevKey, nextKey)
                 }
                 database.remoteKeysDao().insertAll(keys)
-                database.launchpadsDao().insertAll(launchpads.map { it.asEntity() })
+                insertData(launchpads)
             }
             return MediatorResult.Success(endOfPaginationReached)
         } catch (exception: IOException) {
+            Timber.e("load exception $exception")
             return MediatorResult.Error(exception)
         } catch (exception: HttpException) {
+            Timber.e("load exception $exception")
             return MediatorResult.Error(exception)
         } catch (exception: Exception) {
+            Timber.e("load exception $exception")
             return MediatorResult.Error(exception)
         }
     }
+
+    private suspend fun insertData(launchpads: List<NetworkLaunchpad>) {
+        val launchpadsResultEntity = launchpads.map { launchpad ->
+            val launchpadEntity = launchpad.asEntity()
+            val launchpadImageEntities = launchpad.asLaunchpadImageEntity()
+            val launchpadRocketEntities = launchpad.asLaunchpadRocketCrossRefsEntity()
+            LaunchpadInsert(launchpadEntity, launchpadImageEntities, launchpadRocketEntities)
+        }
+        launchpadsResultEntity.forEach { (launchpadEntity, launchpadImageEntities, launchpadRocketEntities) ->
+            database.launchpadsDao().insertLaunchpadData(launchpadEntity, launchpadImageEntities, launchpadRocketEntities)
+        }
+    }
 }
+
+private data class LaunchpadInsert(
+    val launchpadEntity: LaunchpadEntity,
+    val launchpadImageEntities: List<LaunchpadImageEntity>,
+    val launchpadRocketEntities: List<LaunchpadRocketCrossRefEntity>,
+)
