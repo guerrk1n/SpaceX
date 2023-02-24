@@ -17,7 +17,7 @@ interface CrewMembersDao {
     fun getAllDesc(): PagingSource<Int, CrewMemberEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(rockets: List<CrewMemberEntity>)
+    suspend fun insertAll(crewMembers: List<CrewMemberEntity>)
 
     @Query("DELETE FROM crew_member_dbo")
     suspend fun clearAll()
