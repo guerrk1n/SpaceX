@@ -8,7 +8,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import com.app.core.database.model.rocket.RocketEntity
 import com.app.core.database.model.rocket.RocketImageEntity
-import com.app.core.database.model.rocket.RocketWithImagesEntity
+import com.app.core.database.model.rocket.RocketResultEntity
 
 @Dao
 interface RocketsDao {
@@ -19,7 +19,7 @@ interface RocketsDao {
         FROM ${RocketEntity.TABLE_NAME} 
         ORDER BY ${RocketEntity.FIELD_NAME} ASC
     """)
-    fun getAllAsc(): PagingSource<Int, RocketWithImagesEntity>
+    fun getAllAsc(): PagingSource<Int, RocketResultEntity>
 
     @Transaction
     @Query("""
@@ -27,7 +27,7 @@ interface RocketsDao {
         FROM ${RocketEntity.TABLE_NAME} 
         ORDER BY ${RocketEntity.FIELD_NAME} DESC
     """)
-    fun getAllDesc(): PagingSource<Int, RocketWithImagesEntity>
+    fun getAllDesc(): PagingSource<Int, RocketResultEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertRocketWithImages(
@@ -55,5 +55,5 @@ interface RocketsDao {
         WHERE ${RocketEntity.FIELD_ID} = :id
     """)
     @Transaction
-    suspend fun getItemById(id: String): RocketWithImagesEntity
+    suspend fun getItemById(id: String): RocketResultEntity
 }

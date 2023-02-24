@@ -6,7 +6,7 @@ import com.app.core.database.model.BaseEntity
 import com.app.core.model.Rocket
 import com.app.core.model.RocketDetail
 
-data class RocketWithImagesEntity(
+data class RocketResultEntity(
     @Embedded val rocket: RocketEntity,
     @Relation(
         parentColumn = RocketEntity.FIELD_ID,
@@ -18,14 +18,14 @@ data class RocketWithImagesEntity(
         get() = rocket.id
 }
 
-fun RocketWithImagesEntity.asExternalModel() = Rocket(
+fun RocketResultEntity.asExternalModel() = Rocket(
     id = rocket.id,
     name = rocket.name,
     active = rocket.active,
     images = images.map { it.image },
 )
 
-fun RocketWithImagesEntity.asExternalDetailModel() = RocketDetail(
+fun RocketResultEntity.asExternalDetailModel() = RocketDetail(
     id = rocket.id,
     name = rocket.name,
     active = rocket.active,

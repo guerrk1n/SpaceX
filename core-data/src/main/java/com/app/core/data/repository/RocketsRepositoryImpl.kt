@@ -45,7 +45,7 @@ class RocketsRepositoryImpl @Inject constructor(
                 }
             }
         ).flow.map {
-            it.map { rocketEntity -> rocketEntity.asExternalModel() }
+            it.map { rocketResultEntity -> rocketResultEntity.asExternalModel() }
         }
     }
 
