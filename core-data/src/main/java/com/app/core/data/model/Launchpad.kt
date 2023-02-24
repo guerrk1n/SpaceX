@@ -2,7 +2,7 @@ package com.app.core.data.model
 
 import com.app.core.database.model.launchpad.LaunchpadEntity
 import com.app.core.database.model.launchpad.LaunchpadImageEntity
-import com.app.core.database.model.launchpad.LaunchpadRocketCrossRefEntity
+import com.app.core.database.model.crossref.LaunchpadRocketCrossRefEntity
 import com.app.core.network.model.NetworkLaunchpad
 
 fun NetworkLaunchpad.asEntity() = LaunchpadEntity(

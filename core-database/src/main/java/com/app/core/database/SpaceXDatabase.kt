@@ -12,7 +12,7 @@ import com.app.core.database.model.HistoryEventEntity
 import com.app.core.database.model.RemoteKeysEntity
 import com.app.core.database.model.launchpad.LaunchpadEntity
 import com.app.core.database.model.launchpad.LaunchpadImageEntity
-import com.app.core.database.model.launchpad.LaunchpadRocketCrossRefEntity
+import com.app.core.database.model.crossref.LaunchpadRocketCrossRefEntity
 import com.app.core.database.model.rocket.RocketEntity
 import com.app.core.database.model.rocket.RocketImageEntity
 

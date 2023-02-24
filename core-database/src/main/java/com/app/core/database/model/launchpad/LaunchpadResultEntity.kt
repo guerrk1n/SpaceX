@@ -4,6 +4,7 @@ import androidx.room.Embedded
 import androidx.room.Junction
 import androidx.room.Relation
 import com.app.core.database.model.BaseEntity
+import com.app.core.database.model.crossref.LaunchpadRocketCrossRefEntity
 import com.app.core.database.model.rocket.RocketEntity
 import com.app.core.model.Launchpad
 import com.app.core.model.LaunchpadDetail

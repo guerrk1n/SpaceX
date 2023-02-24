@@ -1,9 +1,10 @@
-package com.app.core.database.model.launchpad
+package com.app.core.database.model.crossref
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
+import com.app.core.database.model.launchpad.LaunchpadEntity
 import com.app.core.database.model.rocket.RocketEntity
 
 @Entity(
