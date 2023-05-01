@@ -5,7 +5,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
-import com.app.core.data.providers.SortTypeProvider
+import com.app.core.data.providers.sort.SortTypeProvider
 import com.app.core.data.remotemediators.CrewMembersRemoteMediator
 import com.app.core.data.util.DataConstants
 import com.app.core.database.SpaceXDatabase

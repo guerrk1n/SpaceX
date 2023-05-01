@@ -1,4 +1,4 @@
-package com.app.core.data.providers
+package com.app.core.data.providers.sort
 
 import com.app.core.data.preference.UserDataStore
 import com.app.core.model.sort.RocketSortType

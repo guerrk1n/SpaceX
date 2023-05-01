@@ -6,7 +6,7 @@ import androidx.paging.PagingState
 import androidx.room.withTransaction
 import com.app.core.data.model.asEntity
 import com.app.core.data.model.asRocketImageEntity
-import com.app.core.data.providers.SortTypeProvider
+import com.app.core.data.providers.sort.SortTypeProvider
 import com.app.core.data.util.DataConstants
 import com.app.core.database.SpaceXDatabase
 import com.app.core.database.model.RemoteKeysEntity

@@ -1,4 +1,4 @@
-package com.app.core.data.providers
+package com.app.core.data.providers.sort
 
 import kotlinx.coroutines.flow.Flow
 

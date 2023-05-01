@@ -1,10 +1,10 @@
 package com.app.core.data.di
 
-import com.app.core.data.providers.CrewMemberSortTypeProvider
-import com.app.core.data.providers.HistoryEventsSortTypeProvider
-import com.app.core.data.providers.LaunchpadSortTypeProvider
-import com.app.core.data.providers.RocketsSortTypeProvider
-import com.app.core.data.providers.SortTypeProvider
+import com.app.core.data.providers.sort.CrewMemberSortTypeProvider
+import com.app.core.data.providers.sort.HistoryEventsSortTypeProvider
+import com.app.core.data.providers.sort.LaunchpadSortTypeProvider
+import com.app.core.data.providers.sort.RocketsSortTypeProvider
+import com.app.core.data.providers.sort.SortTypeProvider
 import com.app.core.data.repository.CrewMembersRepository
 import com.app.core.data.repository.CrewMembersRepositoryImpl
 import com.app.core.data.repository.HistoryEventsRepository
