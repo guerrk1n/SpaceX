@@ -16,7 +16,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.app.core.model.CrewMember
-import com.app.core.model.SortType
+import com.app.core.model.sort.CrewMemberSortType
 import com.app.core.ui.dropdown.DropDownMenuWithTitle
 import com.app.core.ui.dropdown.SpaceXDropdownMenuItemWithCheckedIcon
 import com.app.core.ui.error.ErrorColumn
@@ -42,7 +42,7 @@ fun CrewTab(viewModel: CrewMembersViewModel = hiltViewModel()) {
 @Composable
 private fun CrewMembersContent(
     crewMembers: LazyPagingItems<CrewMember>,
-    sortType: State<SortType>,
+    sortType: State<CrewMemberSortType>,
     onSortTypeClicked: (CrewMembersAction.ChangeSortType) -> Unit,
 ) {
     when (val refreshLoadState = crewMembers.loadState.refresh) {
@@ -68,7 +68,7 @@ private fun CrewMembersContent(
 @Composable
 private fun CrewMembersSortTypeWithList(
     crewMembers: LazyPagingItems<CrewMember>,
-    sortType: State<SortType>,
+    sortType: State<CrewMemberSortType>,
     onSortTypeClicked: (CrewMembersAction.ChangeSortType) -> Unit,
 ) {
     Column {
@@ -78,25 +78,25 @@ private fun CrewMembersSortTypeWithList(
 }
 
 @Composable
-private fun DropDownMenu(sortType: State<SortType>, onSortTypeClicked: (CrewMembersAction.ChangeSortType) -> Unit) {
+private fun DropDownMenu(sortType: State<CrewMemberSortType>, onSortTypeClicked: (CrewMembersAction.ChangeSortType) -> Unit) {
     val selectedSortType = stringResource(getSelectedSortTypeResId(sortType.value))
     DropDownMenuWithTitle(selectedSortType = selectedSortType) {
         SpaceXDropdownMenuItemWithCheckedIcon(
             titleRes = R.string.spacex_app_sort_type_name_asc,
             onClick = {
-                onSortClick(SortType.NAME_ASC, onSortTypeClicked)
+                onSortClick(CrewMemberSortType.NAME_ASC, onSortTypeClicked)
             },
             showCheckedIcon = {
-                sortType.value.value == SortType.NAME_ASC.value
+                sortType.value.value == CrewMemberSortType.NAME_ASC.value
             }
         )
         SpaceXDropdownMenuItemWithCheckedIcon(
             titleRes = R.string.spacex_app_sort_type_name_desc,
             onClick = {
-                onSortClick(SortType.NAME_DESC, onSortTypeClicked)
+                onSortClick(CrewMemberSortType.NAME_DESC, onSortTypeClicked)
             },
             showCheckedIcon = {
-                sortType.value.value == SortType.NAME_DESC.value
+                sortType.value.value == CrewMemberSortType.NAME_DESC.value
             }
         )
     }
@@ -134,7 +134,7 @@ private fun PreviewCrewMembersTab() {
         )
     }
     val lazyPagingCrewMembers = flowOf(PagingData.from(crewMembers)).collectAsLazyPagingItems()
-    val sortType = remember { mutableStateOf(SortType.NAME_ASC) }
+    val sortType = remember { mutableStateOf(CrewMemberSortType.NAME_ASC) }
     CrewMembersContent(lazyPagingCrewMembers, sortType) { }
 }
 
@@ -148,13 +148,13 @@ private fun handleUiEffects(uiEffects: State<CrewMembersUiEffect?>, crewMembers:
     }
 }
 
-private fun onSortClick(type: SortType, onSortTypeClicked: (CrewMembersAction.ChangeSortType) -> Unit) {
+private fun onSortClick(type: CrewMemberSortType, onSortTypeClicked: (CrewMembersAction.ChangeSortType) -> Unit) {
     onSortTypeClicked.invoke(CrewMembersAction.ChangeSortType(type))
 }
 
-private fun getSelectedSortTypeResId(sortType: SortType): Int {
+private fun getSelectedSortTypeResId(sortType: CrewMemberSortType): Int {
     return when (sortType) {
-        SortType.NAME_ASC -> R.string.spacex_app_sort_type_name_asc
-        SortType.NAME_DESC -> R.string.spacex_app_sort_type_name_desc
+        CrewMemberSortType.NAME_ASC -> R.string.spacex_app_sort_type_name_asc
+        CrewMemberSortType.NAME_DESC -> R.string.spacex_app_sort_type_name_desc
     }
 }

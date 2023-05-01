@@ -3,7 +3,7 @@ package com.app.core.data.repository
 import androidx.paging.PagingData
 import com.app.core.model.Launchpad
 import com.app.core.model.LaunchpadDetail
-import com.app.core.model.SortType
+import com.app.core.model.sort.LaunchpadSortType
 import kotlinx.coroutines.flow.Flow
 
 interface LaunchpadsRepository {
@@ -12,7 +12,7 @@ interface LaunchpadsRepository {
 
     suspend fun getLaunchpadById(id: String): LaunchpadDetail
 
-    fun getLaunchpadSortType(): Flow<SortType>
+    fun getLaunchpadSortType(): Flow<LaunchpadSortType>
 
-    suspend fun saveLaunchpadSortType(sortType: SortType)
+    suspend fun saveLaunchpadSortType(sortType: LaunchpadSortType)
 }

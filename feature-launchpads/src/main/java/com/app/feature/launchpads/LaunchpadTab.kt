@@ -17,7 +17,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.app.core.model.Launchpad
-import com.app.core.model.SortType
+import com.app.core.model.sort.LaunchpadSortType
 import com.app.core.ui.dropdown.DropDownMenuWithTitle
 import com.app.core.ui.dropdown.SpaceXDropdownMenuItemWithCheckedIcon
 import com.app.core.ui.error.ErrorColumn
@@ -46,7 +46,7 @@ fun LaunchpadTab(
 @Composable
 private fun LaunchpadsContent(
     launchpads: LazyPagingItems<Launchpad>,
-    sortType: State<SortType>,
+    sortType: State<LaunchpadSortType>,
     openLaunchpadDetail: (String) -> Unit,
     onSortTypeClicked: (LaunchpadsAction.ChangeSortType) -> Unit,
 ) {
@@ -73,7 +73,7 @@ private fun LaunchpadsContent(
 @Composable
 private fun RocketsSortTypeWithList(
     launchpads: LazyPagingItems<Launchpad>,
-    sortType: State<SortType>,
+    sortType: State<LaunchpadSortType>,
     onSortTypeClicked: (LaunchpadsAction.ChangeSortType) -> Unit,
     openLaunchpadDetail: (String) -> Unit,
 ) {
@@ -84,26 +84,26 @@ private fun RocketsSortTypeWithList(
 }
 
 @Composable
-private fun DropDownMenu(sortType: State<SortType>, onSortTypeClicked: (LaunchpadsAction.ChangeSortType) -> Unit) {
+private fun DropDownMenu(sortType: State<LaunchpadSortType>, onSortTypeClicked: (LaunchpadsAction.ChangeSortType) -> Unit) {
     val selectedSortType = stringResource(getSelectedSortTypeResId(sortType.value))
     DropDownMenuWithTitle(selectedSortType = selectedSortType) {
         SpaceXDropdownMenuItemWithCheckedIcon(
             titleRes = R.string.spacex_app_sort_type_name_asc,
             onClick = {
-                onSortClick(SortType.NAME_ASC, onSortTypeClicked)
+                onSortClick(LaunchpadSortType.NAME_ASC, onSortTypeClicked)
             },
             showCheckedIcon = {
-                sortType.value.value == SortType.NAME_ASC.value
+                sortType.value.value == LaunchpadSortType.NAME_ASC.value
             }
         )
 
         SpaceXDropdownMenuItemWithCheckedIcon(
             titleRes = R.string.spacex_app_sort_type_name_desc,
             onClick = {
-                onSortClick(SortType.NAME_DESC, onSortTypeClicked)
+                onSortClick(LaunchpadSortType.NAME_DESC, onSortTypeClicked)
             },
             showCheckedIcon = {
-                sortType.value.value == SortType.NAME_DESC.value
+                sortType.value.value == LaunchpadSortType.NAME_DESC.value
             }
         )
     }
@@ -143,7 +143,7 @@ private fun PreviewLaunchpadsContent() {
         launchpads.add(launchpad)
     }
     val lazyPagingLaunchpads = flowOf(PagingData.from(launchpads)).collectAsLazyPagingItems()
-    val sortType = remember { mutableStateOf(SortType.NAME_ASC) }
+    val sortType = remember { mutableStateOf(LaunchpadSortType.NAME_ASC) }
 
     LaunchpadsContent(lazyPagingLaunchpads, sortType, { }) {}
 }
@@ -158,13 +158,13 @@ private fun handleUiEffects(uiEffects: State<LaunchpadsUiEffect?>, rockets: Lazy
     }
 }
 
-private fun onSortClick(type: SortType, onSortTypeClicked: (LaunchpadsAction.ChangeSortType) -> Unit) {
+private fun onSortClick(type: LaunchpadSortType, onSortTypeClicked: (LaunchpadsAction.ChangeSortType) -> Unit) {
     onSortTypeClicked.invoke(LaunchpadsAction.ChangeSortType(type))
 }
 
-private fun getSelectedSortTypeResId(sortType: SortType): Int {
+private fun getSelectedSortTypeResId(sortType: LaunchpadSortType): Int {
     return when (sortType) {
-        SortType.NAME_ASC -> R.string.spacex_app_sort_type_name_asc
-        SortType.NAME_DESC -> R.string.spacex_app_sort_type_name_desc
+        LaunchpadSortType.NAME_ASC -> R.string.spacex_app_sort_type_name_asc
+        LaunchpadSortType.NAME_DESC -> R.string.spacex_app_sort_type_name_desc
     }
 }

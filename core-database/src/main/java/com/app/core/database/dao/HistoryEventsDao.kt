@@ -11,10 +11,16 @@ import com.app.core.database.model.HistoryEventEntity
 interface HistoryEventsDao {
 
     @Query("SELECT * FROM history_event_dbo ORDER BY title ASC")
-    fun getAllAsc(): PagingSource<Int, HistoryEventEntity>
+    fun getAllByNameAsc(): PagingSource<Int, HistoryEventEntity>
 
     @Query("SELECT * FROM history_event_dbo ORDER BY title DESC")
-    fun getAllDesc(): PagingSource<Int, HistoryEventEntity>
+    fun getAllByNameDesc(): PagingSource<Int, HistoryEventEntity>
+
+    @Query("SELECT * FROM history_event_dbo ORDER BY date ASC")
+    fun getAllByDateAsc(): PagingSource<Int, HistoryEventEntity>
+
+    @Query("SELECT * FROM history_event_dbo ORDER BY date DESC")
+    fun getAllByDateDesc(): PagingSource<Int, HistoryEventEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(rockets: List<HistoryEventEntity>)

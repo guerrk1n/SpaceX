@@ -21,7 +21,7 @@ import com.app.core.ui.lazylists.ErrorItem
 import com.app.core.ui.lazylists.LoadingItem
 import com.app.core.ui.loading.LoadingColumn
 import com.app.core.model.HistoryEvent
-import com.app.core.model.SortType
+import com.app.core.model.sort.HistoryEventSortType
 import com.app.core.ui.dropdown.DropDownMenuWithTitle
 import com.app.core.ui.dropdown.SpaceXDropdownMenuItemWithCheckedIcon
 import com.app.feature.history.events.R
@@ -44,7 +44,7 @@ fun HistoryEventsTab(viewModel: HistoryEventsViewModel = hiltViewModel()) {
 @Composable
 private fun HistoryEventContent(
     historyEvents: LazyPagingItems<HistoryEvent>,
-    sortType: State<SortType>,
+    sortType: State<HistoryEventSortType>,
     onSortTypeClicked: (HistoryEventsAction.ChangeSortType) -> Unit,
 ) {
     when (val refreshLoadState = historyEvents.loadState.refresh) {
@@ -70,7 +70,7 @@ private fun HistoryEventContent(
 @Composable
 private fun HistoryEventsSortTypeWithList(
     historyEvents: LazyPagingItems<HistoryEvent>,
-    sortType: State<SortType>,
+    sortType: State<HistoryEventSortType>,
     onSortTypeClicked: (HistoryEventsAction.ChangeSortType) -> Unit,
 ) {
     Column {
@@ -81,7 +81,7 @@ private fun HistoryEventsSortTypeWithList(
 
 @Composable
 private fun DropDownMenu(
-    sortType: State<SortType>,
+    sortType: State<HistoryEventSortType>,
     onSortTypeClicked: (HistoryEventsAction.ChangeSortType) -> Unit,
 ) {
     val selectedSortType = stringResource(getSelectedSortTypeResId(sortType.value))
@@ -89,20 +89,40 @@ private fun DropDownMenu(
         SpaceXDropdownMenuItemWithCheckedIcon(
             titleRes = R.string.spacex_app_sort_type_title_asc,
             onClick = {
-                onSortClick(SortType.NAME_ASC, onSortTypeClicked)
+                onSortClick(HistoryEventSortType.NAME_ASC, onSortTypeClicked)
             },
             showCheckedIcon = {
-                sortType.value.value == SortType.NAME_ASC.value
+                sortType.value.value == HistoryEventSortType.NAME_ASC.value
             }
         )
 
         SpaceXDropdownMenuItemWithCheckedIcon(
             titleRes = R.string.spacex_app_sort_type_title_desc,
             onClick = {
-                onSortClick(SortType.NAME_DESC, onSortTypeClicked)
+                onSortClick(HistoryEventSortType.NAME_DESC, onSortTypeClicked)
             },
             showCheckedIcon = {
-                sortType.value.value == SortType.NAME_DESC.value
+                sortType.value.value == HistoryEventSortType.NAME_DESC.value
+            }
+        )
+
+        SpaceXDropdownMenuItemWithCheckedIcon(
+            titleRes = R.string.spacex_app_sort_type_date_asc,
+            onClick = {
+                onSortClick(HistoryEventSortType.DATE_ASC, onSortTypeClicked)
+            },
+            showCheckedIcon = {
+                sortType.value.value == HistoryEventSortType.DATE_ASC.value
+            }
+        )
+
+        SpaceXDropdownMenuItemWithCheckedIcon(
+            titleRes = R.string.spacex_app_sort_type_date_desc,
+            onClick = {
+                onSortClick(HistoryEventSortType.DATE_DESC, onSortTypeClicked)
+            },
+            showCheckedIcon = {
+                sortType.value.value == HistoryEventSortType.DATE_DESC.value
             }
         )
     }
@@ -140,7 +160,7 @@ private fun PreviewHistoryEventContent() {
         )
     }
     val lazyPagingHistoryEvents = flowOf(PagingData.from(historyEvents)).collectAsLazyPagingItems()
-    val sortType = remember { mutableStateOf(SortType.NAME_ASC) }
+    val sortType = remember { mutableStateOf(HistoryEventSortType.NAME_ASC) }
     HistoryEventContent(lazyPagingHistoryEvents, sortType) {}
 }
 
@@ -154,13 +174,15 @@ private fun handleUiEffects(uiEffects: State<HistoryEventsUiEffect?>, historyEve
     }
 }
 
-private fun onSortClick(type: SortType, onSortTypeClicked: (HistoryEventsAction.ChangeSortType) -> Unit) {
+private fun onSortClick(type: HistoryEventSortType, onSortTypeClicked: (HistoryEventsAction.ChangeSortType) -> Unit) {
     onSortTypeClicked.invoke(HistoryEventsAction.ChangeSortType(type))
 }
 
-private fun getSelectedSortTypeResId(sortType: SortType): Int {
+private fun getSelectedSortTypeResId(sortType: HistoryEventSortType): Int {
     return when (sortType) {
-        SortType.NAME_ASC -> R.string.spacex_app_sort_type_title_asc
-        SortType.NAME_DESC -> R.string.spacex_app_sort_type_title_desc
+        HistoryEventSortType.NAME_ASC -> R.string.spacex_app_sort_type_title_asc
+        HistoryEventSortType.NAME_DESC -> R.string.spacex_app_sort_type_title_desc
+        HistoryEventSortType.DATE_ASC -> R.string.spacex_app_sort_type_date_asc
+        HistoryEventSortType.DATE_DESC -> R.string.spacex_app_sort_type_date_desc
     }
 }

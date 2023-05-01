@@ -16,7 +16,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.app.core.model.Rocket
-import com.app.core.model.SortType
+import com.app.core.model.sort.RocketSortType
 import com.app.core.ui.dropdown.DropDownMenuWithTitle
 import com.app.core.ui.dropdown.SpaceXDropdownMenuItemWithCheckedIcon
 import com.app.core.ui.error.ErrorColumn
@@ -44,7 +44,7 @@ fun RocketsTab(
 @Composable
 private fun RocketsContent(
     rockets: LazyPagingItems<Rocket>,
-    sortType: State<SortType>,
+    sortType: State<RocketSortType>,
     openRocketDetail: (String) -> Unit,
     onSortTypeClicked: (RocketsAction.ChangeSortType) -> Unit,
 ) {
@@ -72,7 +72,7 @@ private fun RocketsContent(
 @Composable
 private fun RocketsSortTypeWithList(
     rockets: LazyPagingItems<Rocket>,
-    sortType: State<SortType>,
+    sortType: State<RocketSortType>,
     openRocketDetail: (String) -> Unit,
     onSortTypeClicked: (RocketsAction.ChangeSortType) -> Unit,
 ) {
@@ -83,26 +83,26 @@ private fun RocketsSortTypeWithList(
 }
 
 @Composable
-private fun DropDownMenu(sortType: State<SortType>, onSortTypeClicked: (RocketsAction.ChangeSortType) -> Unit) {
+private fun DropDownMenu(sortType: State<RocketSortType>, onSortTypeClicked: (RocketsAction.ChangeSortType) -> Unit) {
     val selectedSortType = stringResource(getSelectedSortTypeResId(sortType.value))
     DropDownMenuWithTitle(selectedSortType = selectedSortType) {
         SpaceXDropdownMenuItemWithCheckedIcon(
             titleRes = R.string.spacex_app_sort_type_name_asc,
             onClick = {
-                onSortClick(SortType.NAME_ASC, onSortTypeClicked)
+                onSortClick(RocketSortType.NAME_ASC, onSortTypeClicked)
             },
             showCheckedIcon = {
-                sortType.value.value == SortType.NAME_ASC.value
+                sortType.value.value == RocketSortType.NAME_ASC.value
             }
         )
 
         SpaceXDropdownMenuItemWithCheckedIcon(
             titleRes = R.string.spacex_app_sort_type_name_desc,
             onClick = {
-                onSortClick(SortType.NAME_DESC, onSortTypeClicked)
+                onSortClick(RocketSortType.NAME_DESC, onSortTypeClicked)
             },
             showCheckedIcon = {
-                sortType.value.value == SortType.NAME_DESC.value
+                sortType.value.value == RocketSortType.NAME_DESC.value
             }
         )
     }
@@ -142,7 +142,7 @@ private fun PreviewRocketsTab() {
         )
     }
     val lazyPagingRockets = flowOf(PagingData.from(rockets)).collectAsLazyPagingItems()
-    val sortType = remember { mutableStateOf(SortType.NAME_ASC) }
+    val sortType = remember { mutableStateOf(RocketSortType.NAME_ASC) }
 
     RocketsContent(lazyPagingRockets, sortType, {}) { }
 }
@@ -157,13 +157,13 @@ private fun handleUiEffects(uiEffects: State<RocketsUiEffect?>, rockets: LazyPag
     }
 }
 
-private fun onSortClick(type: SortType, onSortTypeClicked: (RocketsAction.ChangeSortType) -> Unit) {
+private fun onSortClick(type: RocketSortType, onSortTypeClicked: (RocketsAction.ChangeSortType) -> Unit) {
     onSortTypeClicked.invoke(RocketsAction.ChangeSortType(type))
 }
 
-private fun getSelectedSortTypeResId(sortType: SortType): Int {
+private fun getSelectedSortTypeResId(sortType: RocketSortType): Int {
     return when (sortType) {
-        SortType.NAME_ASC -> R.string.spacex_app_sort_type_name_asc
-        SortType.NAME_DESC -> R.string.spacex_app_sort_type_name_desc
+        RocketSortType.NAME_ASC -> R.string.spacex_app_sort_type_name_asc
+        RocketSortType.NAME_DESC -> R.string.spacex_app_sort_type_name_desc
     }
 }

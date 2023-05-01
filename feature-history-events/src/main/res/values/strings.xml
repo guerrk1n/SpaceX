@@ -5,4 +5,6 @@
     <string name="spacex_app_error_internet">Internet goes wrong</string>
     <string name="spacex_app_sort_type_title_asc">Title (A-Z)</string>
     <string name="spacex_app_sort_type_title_desc">Title (Z-A)</string>
+    <string name="spacex_app_sort_type_date_asc">Date ASC</string>
+    <string name="spacex_app_sort_type_date_desc">Date DESC</string>
 </resources>

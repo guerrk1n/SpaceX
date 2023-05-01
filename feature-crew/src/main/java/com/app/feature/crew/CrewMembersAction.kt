@@ -1,8 +1,8 @@
 package com.app.feature.crew
 
-import com.app.core.model.SortType
+import com.app.core.model.sort.CrewMemberSortType
 
 sealed class CrewMembersAction {
 
-    class ChangeSortType(val type: SortType) : CrewMembersAction()
+    class ChangeSortType(val type: CrewMemberSortType) : CrewMembersAction()
 }

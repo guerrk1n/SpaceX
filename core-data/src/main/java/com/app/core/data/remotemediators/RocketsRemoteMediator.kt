@@ -6,7 +6,6 @@ import androidx.paging.PagingState
 import androidx.room.withTransaction
 import com.app.core.data.model.asEntity
 import com.app.core.data.model.asRocketImageEntity
-import com.app.core.data.providers.DataType
 import com.app.core.data.providers.SortTypeProvider
 import com.app.core.data.util.DataConstants
 import com.app.core.database.SpaceXDatabase
@@ -14,6 +13,7 @@ import com.app.core.database.model.RemoteKeysEntity
 import com.app.core.database.model.rocket.RocketEntity
 import com.app.core.database.model.rocket.RocketImageEntity
 import com.app.core.database.model.rocket.RocketResultEntity
+import com.app.core.model.sort.RocketSortType
 import com.app.core.network.SpaceXService
 import com.app.core.network.model.NetworkRocket
 import com.app.core.network.model.Options
@@ -26,7 +26,7 @@ import java.io.IOException
 class RocketsRemoteMediator(
     private val spaceXService: SpaceXService,
     private val database: SpaceXDatabase,
-    private val sortTypeProvider: SortTypeProvider,
+    private val sortTypeProvider: SortTypeProvider<RocketSortType>,
 ) : BaseRemoteMediator<RocketResultEntity>(database.remoteKeysDao()) {
 
     override suspend fun initialize(): InitializeAction {
@@ -60,7 +60,7 @@ class RocketsRemoteMediator(
             }
         }
         try {
-            val sortType = sortTypeProvider.getSortType(DataType.Rockets)
+            val sortType = sortTypeProvider.getSortType()
             val sortParameter = mapOf(NetworkRocket.FIELD_NAME to sortType.value)
             val options = Options(page, DataConstants.PAGE_SIZE, sortParameter)
             val queryBody = QueryBody(options)

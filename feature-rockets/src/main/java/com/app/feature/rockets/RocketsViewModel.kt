@@ -6,7 +6,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.app.core.data.repository.RocketsRepository
 import com.app.core.model.Rocket
-import com.app.core.model.SortType
+import com.app.core.model.sort.RocketSortType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -28,10 +28,10 @@ class RocketsViewModel @Inject constructor(
     private val _uiEffects = MutableSharedFlow<RocketsUiEffect>()
     val uiEffects = _uiEffects.asSharedFlow()
 
-    val sortType: StateFlow<SortType> = rocketsRepository.getRocketSortType().stateIn(
+    val sortType: StateFlow<RocketSortType> = rocketsRepository.getRocketSortType().stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),
-        initialValue = SortType.NAME_ASC
+        initialValue = RocketSortType.NAME_ASC
     )
 
     private val pendingActions = MutableSharedFlow<RocketsAction>()
@@ -54,7 +54,7 @@ class RocketsViewModel @Inject constructor(
         }
     }
 
-    private fun onSortTypeChanged(type: SortType) {
+    private fun onSortTypeChanged(type: RocketSortType) {
         viewModelScope.launch {
             rocketsRepository.saveRocketSortType(type)
             submitUiEffect(RocketsUiEffect.ChangeSortType())
