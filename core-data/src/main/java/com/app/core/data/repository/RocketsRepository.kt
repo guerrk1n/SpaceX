@@ -15,4 +15,6 @@ interface RocketsRepository {
     fun getRocketSortType(): Flow<RocketSortType>
 
     suspend fun saveRocketSortType(sortType: RocketSortType)
+
+    suspend fun saveSearchQuery(query: String)
 }

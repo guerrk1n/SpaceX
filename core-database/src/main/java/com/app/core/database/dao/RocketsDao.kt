@@ -12,22 +12,23 @@ import com.app.core.database.model.rocket.RocketResultEntity
 
 @Dao
 interface RocketsDao {
-
     @Transaction
     @Query("""
         SELECT * 
         FROM ${RocketEntity.TABLE_NAME} 
+        WHERE ${RocketEntity.FIELD_NAME} LIKE '%' || :query || '%'
         ORDER BY ${RocketEntity.FIELD_NAME} ASC
     """)
-    fun getAllAsc(): PagingSource<Int, RocketResultEntity>
+    fun getAllAsc(query: String? = null): PagingSource<Int, RocketResultEntity>
 
     @Transaction
     @Query("""
         SELECT * 
         FROM ${RocketEntity.TABLE_NAME} 
+        WHERE ${RocketEntity.FIELD_NAME} LIKE '%' || :query || '%'
         ORDER BY ${RocketEntity.FIELD_NAME} DESC
     """)
-    fun getAllDesc(): PagingSource<Int, RocketResultEntity>
+    fun getAllDesc(query: String? = null): PagingSource<Int, RocketResultEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertRocketWithImages(

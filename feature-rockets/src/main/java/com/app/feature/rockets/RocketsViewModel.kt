@@ -40,9 +40,8 @@ class RocketsViewModel @Inject constructor(
         viewModelScope.launch {
             pendingActions.collect {
                 when (it) {
-                    is RocketsAction.ChangeSortType -> {
-                        onSortTypeChanged(it.type)
-                    }
+                    is RocketsAction.ChangeSortType -> onSortTypeChanged(it.type)
+                    is RocketsAction.ChangeQuery -> onQueryChanged(it.query)
                 }
             }
         }
@@ -57,7 +56,14 @@ class RocketsViewModel @Inject constructor(
     private fun onSortTypeChanged(type: RocketSortType) {
         viewModelScope.launch {
             rocketsRepository.saveRocketSortType(type)
-            submitUiEffect(RocketsUiEffect.ChangeSortType())
+            submitUiEffect(RocketsUiEffect.ChangedSortType())
+        }
+    }
+
+    private fun onQueryChanged(query: String) {
+        viewModelScope.launch {
+            rocketsRepository.saveSearchQuery(query)
+            submitUiEffect(RocketsUiEffect.QueryChanged())
         }
     }
 

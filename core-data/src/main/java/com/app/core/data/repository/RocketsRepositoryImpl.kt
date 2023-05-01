@@ -5,6 +5,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
+import com.app.core.data.providers.search.SearchQueryProvider
 import com.app.core.data.providers.sort.SortTypeProvider
 import com.app.core.data.remotemediators.RocketsRemoteMediator
 import com.app.core.data.util.DataConstants
@@ -24,6 +25,7 @@ class RocketsRepositoryImpl @Inject constructor(
     private val spaceXService: SpaceXService,
     private val database: SpaceXDatabase,
     private val sortTypeProvider: SortTypeProvider<RocketSortType>,
+    private val searchQueryProvider: SearchQueryProvider,
 ) : RocketsRepository {
 
     @OptIn(ExperimentalPagingApi::class)
@@ -38,9 +40,10 @@ class RocketsRepositoryImpl @Inject constructor(
                 val sortType = runBlocking { // todo
                     sortTypeProvider.getSortType()
                 }
+                val query = searchQueryProvider.query
                 when (sortType) {
-                    RocketSortType.NAME_ASC -> database.rocketDao().getAllAsc()
-                    RocketSortType.NAME_DESC -> database.rocketDao().getAllDesc()
+                    RocketSortType.NAME_ASC -> database.rocketDao().getAllAsc(query)
+                    RocketSortType.NAME_DESC -> database.rocketDao().getAllDesc(query)
                 }
             }
         ).flow.map {
@@ -58,5 +61,9 @@ class RocketsRepositoryImpl @Inject constructor(
 
     override suspend fun saveRocketSortType(sortType: RocketSortType) {
         sortTypeProvider.saveSortType(sortType)
+    }
+
+    override suspend fun saveSearchQuery(query: String) {
+        searchQueryProvider.query = query
     }
 }
