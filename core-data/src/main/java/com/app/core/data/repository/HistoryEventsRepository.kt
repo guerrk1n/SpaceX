@@ -12,4 +12,6 @@ interface HistoryEventsRepository {
     fun getHistoryEventSortType(): Flow<HistoryEventSortType>
 
     suspend fun saveHistoryEventSortType(sortType: HistoryEventSortType)
+
+    suspend fun saveSearchQuery(query: String)
 }

@@ -40,9 +40,8 @@ class HistoryEventsViewModel @Inject constructor(
         viewModelScope.launch {
             pendingActions.collect {
                 when (it) {
-                    is HistoryEventsAction.ChangeSortType -> {
-                        onSortTypeChanged(it.type)
-                    }
+                    is HistoryEventsAction.ChangeSortType -> onSortTypeChanged(it.type)
+                    is HistoryEventsAction.ChangeQuery -> onQueryChanged(it.query)
                 }
             }
         }
@@ -51,6 +50,13 @@ class HistoryEventsViewModel @Inject constructor(
     fun submitAction(action: HistoryEventsAction) {
         viewModelScope.launch {
             pendingActions.emit(action)
+        }
+    }
+
+    private fun onQueryChanged(query: String) {
+        viewModelScope.launch {
+            historyEventsRepository.saveSearchQuery(query)
+            submitUiEffect(HistoryEventsUiEffect.QueryChanged())
         }
     }
 

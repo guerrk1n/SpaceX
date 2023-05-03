@@ -2,12 +2,14 @@ package com.app.feature.historyevents
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -24,6 +26,7 @@ import com.app.core.model.HistoryEvent
 import com.app.core.model.sort.HistoryEventSortType
 import com.app.core.ui.dropdown.DropDownMenuWithTitle
 import com.app.core.ui.dropdown.SpaceXDropdownMenuItemWithCheckedIcon
+import com.app.core.ui.text.SpaceXSearchField
 import com.app.feature.history.events.R
 import kotlinx.coroutines.flow.flowOf
 import java.net.UnknownHostException
@@ -36,35 +39,64 @@ fun HistoryEventsTab(viewModel: HistoryEventsViewModel = hiltViewModel()) {
     val onSortTypeClicked: (HistoryEventsAction.ChangeSortType) -> Unit = { action ->
         viewModel.submitAction(HistoryEventsAction.ChangeSortType(action.type))
     }
+    val onQueryChanged: (HistoryEventsAction.ChangeQuery) -> Unit = { action ->
+        viewModel.submitAction(HistoryEventsAction.ChangeQuery(action.query))
+    }
 
     handleUiEffects(uiEffects, historyEvents)
-    HistoryEventContent(historyEvents, sortType, onSortTypeClicked)
+    HistoryEventContent(
+        historyEvents = historyEvents,
+        sortType = sortType,
+        onSortTypeClicked = onSortTypeClicked,
+        onQueryChanged = onQueryChanged,
+    )
 }
 
 @Composable
 private fun HistoryEventContent(
+    modifier: Modifier = Modifier,
     historyEvents: LazyPagingItems<HistoryEvent>,
     sortType: State<HistoryEventSortType>,
     onSortTypeClicked: (HistoryEventsAction.ChangeSortType) -> Unit,
+    onQueryChanged: (HistoryEventsAction.ChangeQuery) -> Unit,
 ) {
-    when (val refreshLoadState = historyEvents.loadState.refresh) {
-        is LoadState.Loading -> LoadingColumn()
-        is LoadState.Error -> {
-            if (historyEvents.itemCount > 0) {
-                HistoryEventsSortTypeWithList(historyEvents, sortType, onSortTypeClicked)
-                return
+    Column(modifier = modifier) {
+        SearchField(onQueryChanged = onQueryChanged)
+        when (val refreshLoadState = historyEvents.loadState.refresh) {
+            is LoadState.Loading -> LoadingColumn()
+            is LoadState.Error -> {
+                if (historyEvents.itemCount > 0) {
+                    HistoryEventsSortTypeWithList(historyEvents, sortType, onSortTypeClicked)
+                    return
+                }
+                val isInternetError = refreshLoadState.error is UnknownHostException
+                if (isInternetError)
+                    ErrorColumn(
+                        textRes = R.string.spacex_app_error_internet,
+                        onClick = { historyEvents.refresh() }
+                    )
+                else
+                    ErrorColumn(onClick = { historyEvents.refresh() })
             }
-            val isInternetError = refreshLoadState.error is UnknownHostException
-            if (isInternetError)
-                ErrorColumn(
-                    textRes = R.string.spacex_app_error_internet,
-                    onClick = { historyEvents.refresh() }
-                )
-            else
-                ErrorColumn(onClick = { historyEvents.refresh() })
+            else -> HistoryEventsSortTypeWithList(historyEvents, sortType, onSortTypeClicked)
         }
-        else -> HistoryEventsSortTypeWithList(historyEvents, sortType, onSortTypeClicked)
     }
+}
+
+@Composable
+private fun SearchField(
+    modifier: Modifier = Modifier,
+    onQueryChanged: (HistoryEventsAction.ChangeQuery) -> Unit,
+) {
+    val searchQuery = remember { mutableStateOf("") }
+    SpaceXSearchField(
+        modifier = modifier.fillMaxWidth(),
+        titleRes = R.string.spacex_app_search_history_events,
+        text = searchQuery,
+        onValueChanged = {
+            onQueryChanged.invoke(HistoryEventsAction.ChangeQuery(it))
+        },
+    )
 }
 
 @Composable
@@ -161,15 +193,19 @@ private fun PreviewHistoryEventContent() {
     }
     val lazyPagingHistoryEvents = flowOf(PagingData.from(historyEvents)).collectAsLazyPagingItems()
     val sortType = remember { mutableStateOf(HistoryEventSortType.NAME_ASC) }
-    HistoryEventContent(lazyPagingHistoryEvents, sortType) {}
+    HistoryEventContent(
+        historyEvents = lazyPagingHistoryEvents,
+        sortType = sortType,
+        onSortTypeClicked = { },
+        onQueryChanged = { },
+    )
 }
 
 private fun handleUiEffects(uiEffects: State<HistoryEventsUiEffect?>, historyEvents: LazyPagingItems<HistoryEvent>) {
     if (uiEffects.value == null) return
     when (uiEffects.value) {
-        is HistoryEventsUiEffect.ChangeSortType -> {
-            historyEvents.refresh()
-        }
+        is HistoryEventsUiEffect.ChangeSortType,
+        is HistoryEventsUiEffect.QueryChanged -> historyEvents.refresh()
         else -> {}
     }
 }
