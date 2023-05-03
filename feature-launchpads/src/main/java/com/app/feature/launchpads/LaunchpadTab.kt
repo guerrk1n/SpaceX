@@ -190,9 +190,7 @@ private fun PreviewLaunchpadsContent() {
 private fun handleUiEffects(uiEffects: State<LaunchpadsUiEffect?>, rockets: LazyPagingItems<Launchpad>) {
     if (uiEffects.value == null) return
     when (uiEffects.value) {
-        is LaunchpadsUiEffect.ChangeSortType -> {
-            rockets.refresh()
-        }
+        is LaunchpadsUiEffect.ChangeSortType, is LaunchpadsUiEffect.QueryChanged -> rockets.refresh()
         else -> {}
     }
 }

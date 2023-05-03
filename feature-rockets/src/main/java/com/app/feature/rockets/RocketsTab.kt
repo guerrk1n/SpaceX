@@ -190,8 +190,7 @@ private fun PreviewRocketsTab() {
 private fun handleUiEffects(uiEffects: State<RocketsUiEffect?>, rockets: LazyPagingItems<Rocket>) {
     if (uiEffects.value == null) return
     when (uiEffects.value) {
-        is RocketsUiEffect.ChangedSortType -> rockets.refresh()
-        is RocketsUiEffect.QueryChanged -> rockets.refresh()
+        is RocketsUiEffect.ChangedSortType, is RocketsUiEffect.QueryChanged -> rockets.refresh()
         else -> {}
     }
 }
