@@ -5,12 +5,14 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
+import com.app.core.data.providers.search.SearchQueryProvider
 import com.app.core.data.providers.sort.SortTypeProvider
 import com.app.core.data.remotemediators.CrewMembersRemoteMediator
 import com.app.core.data.util.DataConstants
 import com.app.core.database.SpaceXDatabase
 import com.app.core.database.model.asExternalModel
 import com.app.core.model.CrewMember
+import com.app.core.model.DataType
 import com.app.core.model.sort.CrewMemberSortType
 import com.app.core.network.SpaceXService
 import kotlinx.coroutines.flow.Flow
@@ -22,6 +24,7 @@ class CrewMembersRepositoryImpl @Inject constructor(
     private val spaceXService: SpaceXService,
     private val database: SpaceXDatabase,
     private val sortTypeProvider: SortTypeProvider<CrewMemberSortType>,
+    private val searchQueryProvider: SearchQueryProvider,
 ) : CrewMembersRepository {
 
     @OptIn(ExperimentalPagingApi::class)
@@ -36,9 +39,10 @@ class CrewMembersRepositoryImpl @Inject constructor(
                 val sortType = runBlocking { // todo
                     sortTypeProvider.getSortType()
                 }
+                val query = searchQueryProvider.queryMap[DataType.CREW.name] ?: ""
                 when (sortType) {
-                    CrewMemberSortType.NAME_ASC -> database.crewMembersDao().getAllAsc()
-                    CrewMemberSortType.NAME_DESC -> database.crewMembersDao().getAllDesc()
+                    CrewMemberSortType.NAME_ASC -> database.crewMembersDao().getAllAsc(query)
+                    CrewMemberSortType.NAME_DESC -> database.crewMembersDao().getAllDesc(query)
                 }
             }
         ).flow.map {
@@ -52,5 +56,9 @@ class CrewMembersRepositoryImpl @Inject constructor(
 
     override suspend fun saveCrewMembersSortType(sortType: CrewMemberSortType) {
         sortTypeProvider.saveSortType(sortType)
+    }
+
+    override suspend fun saveSearchQuery(query: String) {
+        searchQueryProvider.queryMap[DataType.CREW.name] = query
     }
 }

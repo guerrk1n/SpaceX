@@ -5,4 +5,6 @@ import com.app.core.model.sort.CrewMemberSortType
 sealed class CrewMembersAction {
 
     class ChangeSortType(val type: CrewMemberSortType) : CrewMembersAction()
+
+    class ChangeQuery(val query: String) : CrewMembersAction()
 }

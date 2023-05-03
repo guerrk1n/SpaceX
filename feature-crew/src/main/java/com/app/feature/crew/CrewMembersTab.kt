@@ -1,12 +1,14 @@
 package com.app.feature.crew
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -23,6 +25,7 @@ import com.app.core.ui.error.ErrorColumn
 import com.app.core.ui.lazylists.ErrorItem
 import com.app.core.ui.lazylists.LoadingItem
 import com.app.core.ui.loading.LoadingColumn
+import com.app.core.ui.text.SpaceXSearchField
 import kotlinx.coroutines.flow.flowOf
 import java.net.UnknownHostException
 
@@ -34,35 +37,64 @@ fun CrewTab(viewModel: CrewMembersViewModel = hiltViewModel()) {
     val onSortTypeClicked: (CrewMembersAction.ChangeSortType) -> Unit = { action ->
         viewModel.submitAction(CrewMembersAction.ChangeSortType(action.type))
     }
+    val onQueryChanged: (CrewMembersAction.ChangeQuery) -> Unit = { action ->
+        viewModel.submitAction(CrewMembersAction.ChangeQuery(action.query))
+    }
     handleUiEffects(uiEffects, crewMembers)
-    CrewMembersContent(crewMembers, sortType, onSortTypeClicked)
+    CrewMembersContent(
+        crewMembers = crewMembers,
+        sortType = sortType,
+        onSortTypeClicked = onSortTypeClicked,
+        onQueryChanged = onQueryChanged
+    )
 
 }
 
 @Composable
 private fun CrewMembersContent(
+    modifier: Modifier = Modifier,
     crewMembers: LazyPagingItems<CrewMember>,
     sortType: State<CrewMemberSortType>,
     onSortTypeClicked: (CrewMembersAction.ChangeSortType) -> Unit,
+    onQueryChanged: (CrewMembersAction.ChangeQuery) -> Unit,
 ) {
-    when (val refreshLoadState = crewMembers.loadState.refresh) {
-        is LoadState.Loading -> LoadingColumn()
-        is LoadState.Error -> {
-            if (crewMembers.itemCount > 0) {
-                CrewMembersSortTypeWithList(crewMembers, sortType, onSortTypeClicked)
-                return
+    Column(modifier = modifier) {
+        SearchField(onQueryChanged = onQueryChanged)
+        when (val refreshLoadState = crewMembers.loadState.refresh) {
+            is LoadState.Loading -> LoadingColumn()
+            is LoadState.Error -> {
+                if (crewMembers.itemCount > 0) {
+                    CrewMembersSortTypeWithList(crewMembers, sortType, onSortTypeClicked)
+                    return
+                }
+                val isInternetError = refreshLoadState.error is UnknownHostException
+                if (isInternetError)
+                    ErrorColumn(
+                        textRes = R.string.spacex_app_error_internet,
+                        onClick = { crewMembers.refresh() }
+                    )
+                else
+                    ErrorColumn(onClick = { crewMembers.refresh() })
             }
-            val isInternetError = refreshLoadState.error is UnknownHostException
-            if (isInternetError)
-                ErrorColumn(
-                    textRes = R.string.spacex_app_error_internet,
-                    onClick = { crewMembers.refresh() }
-                )
-            else
-                ErrorColumn(onClick = { crewMembers.refresh() })
+            else -> CrewMembersSortTypeWithList(crewMembers, sortType, onSortTypeClicked)
         }
-        else -> CrewMembersSortTypeWithList(crewMembers, sortType, onSortTypeClicked)
     }
+}
+
+@Composable
+private fun SearchField(
+    modifier: Modifier = Modifier,
+    onQueryChanged: (CrewMembersAction.ChangeQuery) -> Unit,
+) {
+    val searchQuery = remember { mutableStateOf("") }
+    SpaceXSearchField(
+        modifier = modifier.fillMaxWidth(),
+        titleRes = R.string.spacex_app_search_crew_members,
+        text = searchQuery,
+        onValueChanged = {
+            onQueryChanged.invoke(CrewMembersAction.ChangeQuery(it))
+        },
+    )
 }
 
 @Composable
@@ -135,15 +167,18 @@ private fun PreviewCrewMembersTab() {
     }
     val lazyPagingCrewMembers = flowOf(PagingData.from(crewMembers)).collectAsLazyPagingItems()
     val sortType = remember { mutableStateOf(CrewMemberSortType.NAME_ASC) }
-    CrewMembersContent(lazyPagingCrewMembers, sortType) { }
+    CrewMembersContent(
+        crewMembers = lazyPagingCrewMembers,
+        sortType = sortType,
+        onSortTypeClicked = {},
+        onQueryChanged = {}
+    )
 }
 
 private fun handleUiEffects(uiEffects: State<CrewMembersUiEffect?>, crewMembers: LazyPagingItems<CrewMember>) {
     if (uiEffects.value == null) return
     when (uiEffects.value) {
-        is CrewMembersUiEffect.ChangeSortType -> {
-            crewMembers.refresh()
-        }
+        is CrewMembersUiEffect.ChangeSortType, is CrewMembersUiEffect.QueryChanged -> crewMembers.refresh()
         else -> {}
     }
 }

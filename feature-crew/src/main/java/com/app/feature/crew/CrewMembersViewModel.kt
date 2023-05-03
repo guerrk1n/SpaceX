@@ -40,9 +40,8 @@ class CrewMembersViewModel @Inject constructor(
         viewModelScope.launch {
             pendingActions.collect {
                 when (it) {
-                    is CrewMembersAction.ChangeSortType -> {
-                        onSortTypeChanged(it.type)
-                    }
+                    is CrewMembersAction.ChangeSortType -> onSortTypeChanged(it.type)
+                    is CrewMembersAction.ChangeQuery -> onQueryChanged(it.query)
                 }
             }
         }
@@ -51,6 +50,13 @@ class CrewMembersViewModel @Inject constructor(
     fun submitAction(action: CrewMembersAction) {
         viewModelScope.launch {
             pendingActions.emit(action)
+        }
+    }
+
+    private fun onQueryChanged(query: String) {
+        viewModelScope.launch {
+            crewMembersRepository.saveSearchQuery(query)
+            submitUiEffect(CrewMembersUiEffect.QueryChanged())
         }
     }
 

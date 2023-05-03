@@ -12,4 +12,6 @@ interface CrewMembersRepository {
     fun getCrewMembersSortType(): Flow<CrewMemberSortType>
 
     suspend fun saveCrewMembersSortType(sortType: CrewMemberSortType)
+
+    suspend fun saveSearchQuery(query: String)
 }
