@@ -12,6 +12,7 @@ import com.app.core.data.util.DataConstants
 import com.app.core.database.SpaceXDatabase
 import com.app.core.database.model.rocket.asExternalDetailModel
 import com.app.core.database.model.rocket.asExternalModel
+import com.app.core.model.DataType
 import com.app.core.model.Rocket
 import com.app.core.model.RocketDetail
 import com.app.core.model.sort.RocketSortType
@@ -40,7 +41,7 @@ class RocketsRepositoryImpl @Inject constructor(
                 val sortType = runBlocking { // todo
                     sortTypeProvider.getSortType()
                 }
-                val query = searchQueryProvider.query
+                val query = searchQueryProvider.queryMap[DataType.ROCKETS.name] ?: ""
                 when (sortType) {
                     RocketSortType.NAME_ASC -> database.rocketDao().getAllAsc(query)
                     RocketSortType.NAME_DESC -> database.rocketDao().getAllDesc(query)
@@ -64,6 +65,6 @@ class RocketsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun saveSearchQuery(query: String) {
-        searchQueryProvider.query = query
+        searchQueryProvider.queryMap[DataType.ROCKETS.name] = query
     }
 }

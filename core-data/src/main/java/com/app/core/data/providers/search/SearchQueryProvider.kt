@@ -6,5 +6,5 @@ import javax.inject.Singleton
 @Singleton
 class SearchQueryProvider @Inject constructor() {
 
-    var query: String = ""
+    var queryMap: MutableMap<String, String> = mutableMapOf()
 }

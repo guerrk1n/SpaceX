@@ -19,7 +19,7 @@ interface RocketsDao {
         WHERE ${RocketEntity.FIELD_NAME} LIKE '%' || :query || '%'
         ORDER BY ${RocketEntity.FIELD_NAME} ASC
     """)
-    fun getAllAsc(query: String? = null): PagingSource<Int, RocketResultEntity>
+    fun getAllAsc(query: String = ""): PagingSource<Int, RocketResultEntity>
 
     @Transaction
     @Query("""
@@ -28,7 +28,7 @@ interface RocketsDao {
         WHERE ${RocketEntity.FIELD_NAME} LIKE '%' || :query || '%'
         ORDER BY ${RocketEntity.FIELD_NAME} DESC
     """)
-    fun getAllDesc(query: String? = null): PagingSource<Int, RocketResultEntity>
+    fun getAllDesc(query: String = ""): PagingSource<Int, RocketResultEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertRocketWithImages(

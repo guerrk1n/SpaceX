@@ -15,4 +15,6 @@ interface LaunchpadsRepository {
     fun getLaunchpadSortType(): Flow<LaunchpadSortType>
 
     suspend fun saveLaunchpadSortType(sortType: LaunchpadSortType)
+
+    suspend fun saveSearchQuery(query: String)
 }

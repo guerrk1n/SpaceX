@@ -5,12 +5,14 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
+import com.app.core.data.providers.search.SearchQueryProvider
 import com.app.core.data.providers.sort.SortTypeProvider
 import com.app.core.data.remotemediators.LaunchpadsRemoteMediator
 import com.app.core.data.util.DataConstants
 import com.app.core.database.SpaceXDatabase
 import com.app.core.database.model.launchpad.asExternalDetailModel
 import com.app.core.database.model.launchpad.asExternalModel
+import com.app.core.model.DataType
 import com.app.core.model.Launchpad
 import com.app.core.model.LaunchpadDetail
 import com.app.core.model.sort.LaunchpadSortType
@@ -24,6 +26,7 @@ class LaunchpadsRepositoryImpl @Inject constructor(
     private val spaceXService: SpaceXService,
     private val database: SpaceXDatabase,
     private val sortTypeProvider: SortTypeProvider<LaunchpadSortType>,
+    private val searchQueryProvider: SearchQueryProvider,
 ) : LaunchpadsRepository {
 
     @OptIn(ExperimentalPagingApi::class)
@@ -38,9 +41,10 @@ class LaunchpadsRepositoryImpl @Inject constructor(
                 val sortType = runBlocking { // todo
                     sortTypeProvider.getSortType()
                 }
+                val query = searchQueryProvider.queryMap[DataType.LAUNCHPADS.name] ?: ""
                 when (sortType) {
-                    LaunchpadSortType.NAME_ASC -> database.launchpadsDao().getAllAsc()
-                    LaunchpadSortType.NAME_DESC -> database.launchpadsDao().getAllDesc()
+                    LaunchpadSortType.NAME_ASC -> database.launchpadsDao().getAllAsc(query)
+                    LaunchpadSortType.NAME_DESC -> database.launchpadsDao().getAllDesc(query)
                 }
             }
         ).flow.map {
@@ -58,5 +62,9 @@ class LaunchpadsRepositoryImpl @Inject constructor(
 
     override suspend fun saveLaunchpadSortType(sortType: LaunchpadSortType) {
         sortTypeProvider.saveSortType(sortType)
+    }
+
+    override suspend fun saveSearchQuery(query: String) {
+        searchQueryProvider.queryMap[DataType.LAUNCHPADS.name] = query
     }
 }

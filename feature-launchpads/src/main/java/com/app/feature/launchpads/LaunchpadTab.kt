@@ -2,12 +2,14 @@ package com.app.feature.launchpads
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -24,6 +26,7 @@ import com.app.core.ui.error.ErrorColumn
 import com.app.core.ui.lazylists.ErrorItem
 import com.app.core.ui.lazylists.LoadingItem
 import com.app.core.ui.loading.LoadingColumn
+import com.app.core.ui.text.SpaceXSearchField
 import kotlinx.coroutines.flow.flowOf
 import java.net.UnknownHostException
 
@@ -38,36 +41,66 @@ fun LaunchpadTab(
     val onSortTypeClicked: (LaunchpadsAction.ChangeSortType) -> Unit = { action ->
         viewModel.submitAction(LaunchpadsAction.ChangeSortType(action.type))
     }
+    val onQueryChanged: (LaunchpadsAction.ChangeQuery) -> Unit = { action ->
+        viewModel.submitAction(LaunchpadsAction.ChangeQuery(action.query))
+    }
     handleUiEffects(uiEffects, launchpads)
 
-    LaunchpadsContent(launchpads, sortType, openLaunchpadDetail, onSortTypeClicked)
+    LaunchpadsContent(
+        launchpads = launchpads,
+        sortType = sortType,
+        openLaunchpadDetail = openLaunchpadDetail,
+        onSortTypeClicked = onSortTypeClicked,
+        onQueryChanged = onQueryChanged,
+    )
 }
 
 @Composable
 private fun LaunchpadsContent(
+    modifier: Modifier = Modifier,
     launchpads: LazyPagingItems<Launchpad>,
     sortType: State<LaunchpadSortType>,
     openLaunchpadDetail: (String) -> Unit,
     onSortTypeClicked: (LaunchpadsAction.ChangeSortType) -> Unit,
+    onQueryChanged: (LaunchpadsAction.ChangeQuery) -> Unit,
 ) {
-    when (val refreshLoadState = launchpads.loadState.refresh) {
-        is LoadState.Loading -> LoadingColumn()
-        is LoadState.Error -> {
-            if (launchpads.itemCount > 0) {
-                RocketsSortTypeWithList(launchpads, sortType, onSortTypeClicked, openLaunchpadDetail)
-                return
+    Column(modifier = modifier) {
+        SearchField(onQueryChanged = onQueryChanged)
+        when (val refreshLoadState = launchpads.loadState.refresh) {
+            is LoadState.Loading -> LoadingColumn()
+            is LoadState.Error -> {
+                if (launchpads.itemCount > 0) {
+                    RocketsSortTypeWithList(launchpads, sortType, onSortTypeClicked, openLaunchpadDetail)
+                    return
+                }
+                val isInternetError = refreshLoadState.error is UnknownHostException
+                if (isInternetError)
+                    ErrorColumn(
+                        textRes = R.string.spacex_app_error_internet,
+                        onClick = { launchpads.refresh() }
+                    )
+                else
+                    ErrorColumn(onClick = { launchpads.refresh() })
             }
-            val isInternetError = refreshLoadState.error is UnknownHostException
-            if (isInternetError)
-                ErrorColumn(
-                    textRes = R.string.spacex_app_error_internet,
-                    onClick = { launchpads.refresh() }
-                )
-            else
-                ErrorColumn(onClick = { launchpads.refresh() })
+            else -> RocketsSortTypeWithList(launchpads, sortType, onSortTypeClicked, openLaunchpadDetail)
         }
-        else -> RocketsSortTypeWithList(launchpads, sortType, onSortTypeClicked, openLaunchpadDetail)
     }
+}
+
+@Composable
+private fun SearchField(
+    modifier: Modifier = Modifier,
+    onQueryChanged: (LaunchpadsAction.ChangeQuery) -> Unit,
+) {
+    val searchQuery = remember { mutableStateOf("") }
+    SpaceXSearchField(
+        modifier = modifier.fillMaxWidth(),
+        titleRes = R.string.spacex_app_search_launchpads,
+        text = searchQuery,
+        onValueChanged = {
+            onQueryChanged.invoke(LaunchpadsAction.ChangeQuery(it))
+        },
+    )
 }
 
 @Composable
@@ -145,7 +178,13 @@ private fun PreviewLaunchpadsContent() {
     val lazyPagingLaunchpads = flowOf(PagingData.from(launchpads)).collectAsLazyPagingItems()
     val sortType = remember { mutableStateOf(LaunchpadSortType.NAME_ASC) }
 
-    LaunchpadsContent(lazyPagingLaunchpads, sortType, { }) {}
+    LaunchpadsContent(
+        launchpads = lazyPagingLaunchpads,
+        sortType = sortType,
+        openLaunchpadDetail = {},
+        onSortTypeClicked = {},
+        onQueryChanged = {},
+    )
 }
 
 private fun handleUiEffects(uiEffects: State<LaunchpadsUiEffect?>, rockets: LazyPagingItems<Launchpad>) {

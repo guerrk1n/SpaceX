@@ -40,9 +40,8 @@ class LaunchpadsViewModel @Inject constructor(
         viewModelScope.launch {
             pendingActions.collect {
                 when (it) {
-                    is LaunchpadsAction.ChangeSortType -> {
-                        onSortTypeChanged(it.type)
-                    }
+                    is LaunchpadsAction.ChangeSortType -> onSortTypeChanged(it.type)
+                    is LaunchpadsAction.ChangeQuery -> onQueryChanged(it.query)
                 }
             }
         }
@@ -51,6 +50,13 @@ class LaunchpadsViewModel @Inject constructor(
     fun submitAction(action: LaunchpadsAction) {
         viewModelScope.launch {
             pendingActions.emit(action)
+        }
+    }
+
+    private fun onQueryChanged(query: String) {
+        viewModelScope.launch {
+            launchpadsRepository.saveSearchQuery(query)
+            submitUiEffect(LaunchpadsUiEffect.QueryChanged())
         }
     }
 

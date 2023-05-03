@@ -19,20 +19,22 @@ interface LaunchpadsDao {
         """
         SELECT * 
         FROM ${LaunchpadEntity.TABLE_NAME}
+        WHERE ${LaunchpadEntity.FIELD_FULL_NAME} LIKE '%' || :query || '%'
         ORDER BY ${LaunchpadEntity.FIELD_NAME} ASC
     """
     )
-    fun getAllAsc(): PagingSource<Int, LaunchpadResultEntity>
+    fun getAllAsc(query: String = ""): PagingSource<Int, LaunchpadResultEntity>
 
     @Transaction
     @Query(
         """
         SELECT * 
         FROM ${LaunchpadEntity.TABLE_NAME} 
+        WHERE ${LaunchpadEntity.FIELD_FULL_NAME} LIKE '%' || :query || '%'
         ORDER BY ${LaunchpadEntity.FIELD_NAME} DESC
     """
     )
-    fun getAllDesc(): PagingSource<Int, LaunchpadResultEntity>
+    fun getAllDesc(query: String = ""): PagingSource<Int, LaunchpadResultEntity>
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
