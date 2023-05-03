@@ -5,12 +5,12 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.room.withTransaction
 import com.app.core.data.model.asEntity
-import com.app.core.data.providers.DataType
-import com.app.core.data.providers.SortTypeProvider
+import com.app.core.data.providers.sort.SortTypeProvider
 import com.app.core.data.util.DataConstants
 import com.app.core.database.SpaceXDatabase
 import com.app.core.database.model.CrewMemberEntity
 import com.app.core.database.model.RemoteKeysEntity
+import com.app.core.model.sort.CrewMemberSortType
 import com.app.core.network.SpaceXService
 import com.app.core.network.model.NetworkCrewMember
 import com.app.core.network.model.Options
@@ -23,7 +23,7 @@ import java.io.IOException
 class CrewMembersRemoteMediator(
     private val spaceXService: SpaceXService,
     private val database: SpaceXDatabase,
-    private val sortTypeProvider: SortTypeProvider,
+    private val sortTypeProvider: SortTypeProvider<CrewMemberSortType>,
 ) : BaseRemoteMediator<CrewMemberEntity>(database.remoteKeysDao()) {
 
     override suspend fun initialize(): InitializeAction {
@@ -57,7 +57,7 @@ class CrewMembersRemoteMediator(
             }
         }
         try {
-            val sortType = sortTypeProvider.getSortType(DataType.CrewMembers)
+            val sortType = sortTypeProvider.getSortType()
             val sortParameter = mapOf(NetworkCrewMember.FIELD_NAME to sortType.value)
             val options = Options(page, DataConstants.PAGE_SIZE, sortParameter)
             val queryBody = QueryBody(options)

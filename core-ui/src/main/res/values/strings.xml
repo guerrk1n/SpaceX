@@ -10,4 +10,6 @@
     <string name="spacex_app_rocket_sort_type_selected">Selected sort type %s</string>
     <string name="spacex_app_sort_by">Sort by: %s</string>
     <string name="spacex_app_select_sort_button_content_description">Tap to select sort type</string>
+    <string name="spacex_app_search_icon_description">Search icon</string>
+    <string name="spacex_app_close_icon_description">Close icon</string>
 </resources>

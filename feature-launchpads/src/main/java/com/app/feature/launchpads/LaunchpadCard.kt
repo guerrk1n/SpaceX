@@ -58,7 +58,7 @@ private fun LaunchpadPhotoWithStatus(launchpad: Launchpad) {
     ) {
         SpaceXCardPhoto(
             modifier = Modifier.height(85.dp),
-            model = launchpad.image.first(),
+            model = launchpad.image,
             contentDescriptionName = launchpad.fullName,
             placeholderRes = R.drawable.ic_launchpad_photo_placeholder
         )

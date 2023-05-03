@@ -5,16 +5,17 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
-import com.app.core.data.providers.DataType
-import com.app.core.data.providers.SortTypeProvider
+import com.app.core.data.providers.search.SearchQueryProvider
+import com.app.core.data.providers.sort.SortTypeProvider
 import com.app.core.data.remotemediators.RocketsRemoteMediator
 import com.app.core.data.util.DataConstants
 import com.app.core.database.SpaceXDatabase
 import com.app.core.database.model.rocket.asExternalDetailModel
 import com.app.core.database.model.rocket.asExternalModel
+import com.app.core.model.DataType
 import com.app.core.model.Rocket
 import com.app.core.model.RocketDetail
-import com.app.core.model.SortType
+import com.app.core.model.sort.RocketSortType
 import com.app.core.network.SpaceXService
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -24,7 +25,8 @@ import javax.inject.Inject
 class RocketsRepositoryImpl @Inject constructor(
     private val spaceXService: SpaceXService,
     private val database: SpaceXDatabase,
-    private val sortTypeProvider: SortTypeProvider,
+    private val sortTypeProvider: SortTypeProvider<RocketSortType>,
+    private val searchQueryProvider: SearchQueryProvider,
 ) : RocketsRepository {
 
     @OptIn(ExperimentalPagingApi::class)
@@ -37,15 +39,16 @@ class RocketsRepositoryImpl @Inject constructor(
             remoteMediator = RocketsRemoteMediator(spaceXService, database, sortTypeProvider),
             pagingSourceFactory = {
                 val sortType = runBlocking { // todo
-                    sortTypeProvider.getSortType(DataType.Rockets)
+                    sortTypeProvider.getSortType()
                 }
+                val query = searchQueryProvider.queryMap[DataType.ROCKETS.name] ?: ""
                 when (sortType) {
-                    SortType.NAME_ASC -> database.rocketDao().getAllAsc()
-                    SortType.NAME_DESC -> database.rocketDao().getAllDesc()
+                    RocketSortType.NAME_ASC -> database.rocketDao().getAllAsc(query)
+                    RocketSortType.NAME_DESC -> database.rocketDao().getAllDesc(query)
                 }
             }
         ).flow.map {
-            it.map { rocketEntity -> rocketEntity.asExternalModel() }
+            it.map { rocketResultEntity -> rocketResultEntity.asExternalModel() }
         }
     }
 
@@ -53,11 +56,15 @@ class RocketsRepositoryImpl @Inject constructor(
         return database.rocketDao().getItemById(id).asExternalDetailModel()
     }
 
-    override fun getRocketSortType(): Flow<SortType> {
-        return sortTypeProvider.getSortTypeFlow(DataType.Rockets)
+    override fun getRocketSortType(): Flow<RocketSortType> {
+        return sortTypeProvider.getSortTypeFlow()
     }
 
-    override suspend fun saveRocketSortType(sortType: SortType) {
-        sortTypeProvider.saveSortType(sortType, DataType.Rockets)
+    override suspend fun saveRocketSortType(sortType: RocketSortType) {
+        sortTypeProvider.saveSortType(sortType)
+    }
+
+    override suspend fun saveSearchQuery(query: String) {
+        searchQueryProvider.queryMap[DataType.ROCKETS.name] = query
     }
 }

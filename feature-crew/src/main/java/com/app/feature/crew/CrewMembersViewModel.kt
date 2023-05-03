@@ -6,7 +6,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.app.core.data.repository.CrewMembersRepository
 import com.app.core.model.CrewMember
-import com.app.core.model.SortType
+import com.app.core.model.sort.CrewMemberSortType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -28,10 +28,10 @@ class CrewMembersViewModel @Inject constructor(
     private val _uiEffects = MutableSharedFlow<CrewMembersUiEffect>()
     val uiEffects = _uiEffects.asSharedFlow()
 
-    val sortType: StateFlow<SortType> = crewMembersRepository.getCrewMembersSortType().stateIn(
+    val sortType: StateFlow<CrewMemberSortType> = crewMembersRepository.getCrewMembersSortType().stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),
-        initialValue = SortType.NAME_ASC
+        initialValue = CrewMemberSortType.NAME_ASC
     )
 
     private val pendingActions = MutableSharedFlow<CrewMembersAction>()
@@ -40,9 +40,8 @@ class CrewMembersViewModel @Inject constructor(
         viewModelScope.launch {
             pendingActions.collect {
                 when (it) {
-                    is CrewMembersAction.ChangeSortType -> {
-                        onSortTypeChanged(it.type)
-                    }
+                    is CrewMembersAction.ChangeSortType -> onSortTypeChanged(it.type)
+                    is CrewMembersAction.ChangeQuery -> onQueryChanged(it.query)
                 }
             }
         }
@@ -54,7 +53,14 @@ class CrewMembersViewModel @Inject constructor(
         }
     }
 
-    private fun onSortTypeChanged(type: SortType) {
+    private fun onQueryChanged(query: String) {
+        viewModelScope.launch {
+            crewMembersRepository.saveSearchQuery(query)
+            submitUiEffect(CrewMembersUiEffect.QueryChanged())
+        }
+    }
+
+    private fun onSortTypeChanged(type: CrewMemberSortType) {
         viewModelScope.launch {
             crewMembersRepository.saveCrewMembersSortType(type)
             submitUiEffect(CrewMembersUiEffect.ChangeSortType())

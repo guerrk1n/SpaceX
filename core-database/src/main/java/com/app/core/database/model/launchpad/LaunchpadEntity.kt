@@ -12,6 +12,7 @@ data class LaunchpadEntity(
     override val id: String,
     @ColumnInfo(FIELD_NAME)
     val name: String,
+    @ColumnInfo(FIELD_FULL_NAME)
     val fullName: String,
     val status: String,
     val locality: String,
@@ -27,6 +28,7 @@ data class LaunchpadEntity(
         const val TABLE_NAME = "launchpad_dbo"
         const val FIELD_ID = "id"
         const val FIELD_NAME = "name"
+        const val FIELD_FULL_NAME = "fullName"
         const val FIELD_CREATED_AT = "createdAt"
     }
 }

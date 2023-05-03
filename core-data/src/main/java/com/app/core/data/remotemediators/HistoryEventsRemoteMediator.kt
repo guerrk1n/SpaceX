@@ -5,12 +5,12 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.room.withTransaction
 import com.app.core.data.model.asEntity
-import com.app.core.data.providers.DataType
-import com.app.core.data.providers.SortTypeProvider
+import com.app.core.data.providers.sort.SortTypeProvider
 import com.app.core.data.util.DataConstants
 import com.app.core.database.SpaceXDatabase
 import com.app.core.database.model.HistoryEventEntity
 import com.app.core.database.model.RemoteKeysEntity
+import com.app.core.model.sort.HistoryEventSortType
 import com.app.core.network.SpaceXService
 import com.app.core.network.model.NetworkHistoryEvent
 import com.app.core.network.model.Options
@@ -23,7 +23,7 @@ import java.io.IOException
 class HistoryEventsRemoteMediator(
     private val spaceXService: SpaceXService,
     private val database: SpaceXDatabase,
-    private val sortTypeProvider: SortTypeProvider,
+    private val sortTypeProvider: SortTypeProvider<HistoryEventSortType>,
 ) : BaseRemoteMediator<HistoryEventEntity>(database.remoteKeysDao()) {
 
     override suspend fun initialize(): InitializeAction {
@@ -57,10 +57,13 @@ class HistoryEventsRemoteMediator(
             }
         }
         try {
-            val sortType = sortTypeProvider.getSortType(DataType.CrewMembers)
-            val sortParameter = mapOf(NetworkHistoryEvent.TITLE_FIELD to sortType.value)
+            val sortType = sortTypeProvider.getSortType()
+            val sortTypeField = when(sortType) {
+                HistoryEventSortType.NAME_ASC, HistoryEventSortType.NAME_DESC -> NetworkHistoryEvent.TITLE_FIELD
+                HistoryEventSortType.DATE_ASC, HistoryEventSortType.DATE_DESC -> NetworkHistoryEvent.DATE_FIELD
+            }
+            val sortParameter = mapOf(sortTypeField to sortType.value)
             val options = Options(page, DataConstants.PAGE_SIZE, sortParameter)
-//            mapOf(ResponseField.eventDateUnix to Constants.Network.SORT_BY_DESC) // TODO sorting by date
             val queryBody = QueryBody(options)
             val apiResponse = spaceXService.getHistoryEvents(queryBody)
             val endOfPaginationReached = page >= apiResponse.totalPages

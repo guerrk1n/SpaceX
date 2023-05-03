@@ -6,7 +6,7 @@ object Dependencies {
     const val timber = "com.jakewharton.timber:timber:5.0.1"
 
     object Kotlin {
-        const val version = "1.8.0"
+        const val version = "1.8.20"
     }
 
     object Hilt {
@@ -23,7 +23,7 @@ object Dependencies {
     }
 
     object Gradle {
-        const val androidBuildPlugin = "com.android.tools.build:gradle:7.4.0"
+        const val androidBuildPlugin = "com.android.tools.build:gradle:7.4.1"
         const val kotlinPlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Kotlin.version}"
 
         object VersionsPlugin {
@@ -48,8 +48,8 @@ object Dependencies {
     }
 
     object Compose {
-        const val version = "1.3.1"
-        const val compiler = "1.4.0"
+        const val version = "1.4.2"
+        const val compiler = "1.4.6"
         const val ui = "androidx.compose.ui:ui:$version"
         const val material = "androidx.compose.material:material:$version"
         const val tooling = "androidx.compose.ui:ui-tooling:$version"

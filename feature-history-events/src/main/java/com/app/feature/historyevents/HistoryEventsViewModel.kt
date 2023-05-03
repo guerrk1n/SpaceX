@@ -6,7 +6,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.app.core.data.repository.HistoryEventsRepository
 import com.app.core.model.HistoryEvent
-import com.app.core.model.SortType
+import com.app.core.model.sort.HistoryEventSortType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -28,10 +28,10 @@ class HistoryEventsViewModel @Inject constructor(
     private val _uiEffects = MutableSharedFlow<HistoryEventsUiEffect>()
     val uiEffects = _uiEffects.asSharedFlow()
 
-    val sortType: StateFlow<SortType> = historyEventsRepository.getHistoryEventSortType().stateIn(
+    val sortType: StateFlow<HistoryEventSortType> = historyEventsRepository.getHistoryEventSortType().stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),
-        initialValue = SortType.NAME_ASC
+        initialValue = HistoryEventSortType.NAME_ASC
     )
 
     private val pendingActions = MutableSharedFlow<HistoryEventsAction>()
@@ -40,9 +40,8 @@ class HistoryEventsViewModel @Inject constructor(
         viewModelScope.launch {
             pendingActions.collect {
                 when (it) {
-                    is HistoryEventsAction.ChangeSortType -> {
-                        onSortTypeChanged(it.type)
-                    }
+                    is HistoryEventsAction.ChangeSortType -> onSortTypeChanged(it.type)
+                    is HistoryEventsAction.ChangeQuery -> onQueryChanged(it.query)
                 }
             }
         }
@@ -54,7 +53,14 @@ class HistoryEventsViewModel @Inject constructor(
         }
     }
 
-    private fun onSortTypeChanged(type: SortType) {
+    private fun onQueryChanged(query: String) {
+        viewModelScope.launch {
+            historyEventsRepository.saveSearchQuery(query)
+            submitUiEffect(HistoryEventsUiEffect.QueryChanged())
+        }
+    }
+
+    private fun onSortTypeChanged(type: HistoryEventSortType) {
         viewModelScope.launch {
             historyEventsRepository.saveHistoryEventSortType(type)
             submitUiEffect(HistoryEventsUiEffect.ChangeSortType())

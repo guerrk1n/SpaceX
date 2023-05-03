@@ -6,4 +6,5 @@
     <string name="spacex_app_error_internet">Internet goes wrong</string>
     <string name="spacex_app_sort_type_name_asc">Name (A-Z)</string>
     <string name="spacex_app_sort_type_name_desc">Name (Z-A)</string>
+    <string name="spacex_app_search_rockets">Search rockets</string>
 </resources>
