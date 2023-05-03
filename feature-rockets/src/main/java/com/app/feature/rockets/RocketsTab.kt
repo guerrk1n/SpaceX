@@ -44,18 +44,25 @@ fun RocketsTab(
         viewModel.submitAction(RocketsAction.ChangeQuery(action.query))
     }
     handleUiEffects(uiEffects, rockets)
-    RocketsContent(rockets, sortType, openRocketDetail, onSortTypeClicked, onQueryChanged)
+    RocketsContent(
+        rockets = rockets,
+        sortType = sortType,
+        openRocketDetail = openRocketDetail,
+        onSortTypeClicked = onSortTypeClicked,
+        onQueryChanged = onQueryChanged,
+    )
 }
 
 @Composable
 private fun RocketsContent(
+    modifier: Modifier = Modifier,
     rockets: LazyPagingItems<Rocket>,
     sortType: State<RocketSortType>,
     openRocketDetail: (String) -> Unit,
     onSortTypeClicked: (RocketsAction.ChangeSortType) -> Unit,
     onQueryChanged: (RocketsAction.ChangeQuery) -> Unit,
 ) {
-    Column {
+    Column(modifier = modifier) {
         SearchField(onQueryChanged = onQueryChanged)
         when (val refreshLoadState = rockets.loadState.refresh) {
             is LoadState.Loading -> LoadingColumn()
@@ -184,7 +191,13 @@ private fun PreviewRocketsTab() {
     val lazyPagingRockets = flowOf(PagingData.from(rockets)).collectAsLazyPagingItems()
     val sortType = remember { mutableStateOf(RocketSortType.NAME_ASC) }
 
-    RocketsContent(lazyPagingRockets, sortType, {}, {}) {}
+    RocketsContent(
+        rockets = lazyPagingRockets,
+        sortType = sortType,
+        openRocketDetail = {},
+        onSortTypeClicked = {},
+        onQueryChanged = {}
+    )
 }
 
 private fun handleUiEffects(uiEffects: State<RocketsUiEffect?>, rockets: LazyPagingItems<Rocket>) {
